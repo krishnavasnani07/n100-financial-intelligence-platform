@@ -10,7 +10,7 @@ n100-financial-intelligence-platform/
 ├── assets/                  # Visual assets, charts, and media
 │
 ├── data/                    # Multi-stage data lake
-│   ├── raw/                 # Raw ingestion layer (CSV, JSON)
+│   ├── raw/                 # Raw ingestion layer (Excel files)
 │   ├── processed/           # Transformed & cleaned data
 │   └── external/            # External lookup and mapping files
 │
@@ -30,19 +30,27 @@ n100-financial-intelligence-platform/
 ├── reports/                 # Analysis and presentation artifacts
 │
 ├── src/                     # Source code package
-│   ├── etl/                 # Ingestion & Transformation pipelines
-│   ├── database/            # Database management and query utilities
-│   ├── utils/               # Shared helper functions
-│   ├── validation/          # Pydantic validation schemas
 │   ├── config/              # Application configuration
+│   │   └── settings.py      # Day 2: Central settings & path resolution
+│   ├── etl/                 # Ingestion & Transformation pipelines
+│   │   ├── loader.py        # Day 2: Generic Excel loader
+│   │   └── normalizer.py    # Day 2: Data normalizers (years/tickers)
+│   ├── utils/               # Shared helper functions
+│   │   ├── logger.py        # Day 2: Custom logging utility
+│   │   └── helpers.py       # Helper functions
+│   ├── validation/          # Pydantic validation schemas
+│   │   └── validator.py     # Validator placeholder
+│   ├── database/            # Database management and query utilities
 │   └── __init__.py          # Package initializer
 │
 ├── tests/                   # Test suite
 │   ├── etl/                 # ETL unit/integration tests
+│   │   ├── test_loader.py   # Day 2: Loader tests
+│   │   └── test_normalizer.py # Day 2: Normalizer tests
 │   ├── validation/          # Data validation tests
 │   └── database/            # Database connection & query tests
 │
-├── logs/                    # Runtime logs
+├── logs/                    # Runtime logs (app.log)
 │
 ├── .env                     # Local environment configurations
 ├── .gitignore               # Version control ignore lists
@@ -99,6 +107,6 @@ make test
 
 ## 🛠️ Tech Stack & Utilities
 
-- **Language:** Python
+- **Language:** Python 3.14+
 - **Database:** SQLite
-- **Libraries:** Pandas, Numpy, Requests, yFinance, Pydantic, Pytest
+- **Libraries:** Pandas, Openpyxl, Pytest, python-dotenv
