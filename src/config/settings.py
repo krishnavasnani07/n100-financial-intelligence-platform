@@ -34,6 +34,16 @@ if not LOG_FILE.is_absolute():
     LOG_FILE = BASE_DIR / LOG_FILE
 
 # Ensure critical directories exist when settings are loaded
-for path in [DATA_DIR, RAW_DATA_DIR, PROCESSED_DATA_DIR, EXTERNAL_DATA_DIR,
-             OUTPUT_DIR, AUDIT_DIR, REPORTS_DIR, VALIDATION_DIR, LOG_FILE.parent, DB_PATH.parent]:
+for path in [
+    DATA_DIR,
+    RAW_DATA_DIR,
+    PROCESSED_DATA_DIR,
+    EXTERNAL_DATA_DIR,
+    OUTPUT_DIR,
+    AUDIT_DIR,
+    REPORTS_DIR,
+    VALIDATION_DIR,
+    LOG_FILE.parent,
+    DB_PATH.parent,
+]:
     path.mkdir(parents=True, exist_ok=True)

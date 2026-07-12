@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 from src.etl.loader import load_excel
 
+
 @pytest.fixture
 def temp_excel_file(tmp_path):
     """
@@ -11,12 +12,13 @@ def temp_excel_file(tmp_path):
     data = {
         "Ticker": ["TCS", "INFY", "M&M"],
         "Year": ["Mar-23", "2023", "Dec-22"],
-        "Value": [100, 200, 300]
+        "Value": [100, 200, 300],
     }
     df = pd.DataFrame(data)
     file_path = tmp_path / "test_data.xlsx"
-    df.to_excel(file_path, index=False, engine='openpyxl')
+    df.to_excel(file_path, index=False, engine="openpyxl")
     return file_path
+
 
 def test_load_excel_success(temp_excel_file):
     """
@@ -29,6 +31,7 @@ def test_load_excel_success(temp_excel_file):
     assert list(df.columns) == ["Ticker", "Year", "Value"]
     assert df.iloc[0]["Ticker"] == "TCS"
 
+
 def test_load_excel_file_not_found():
     """
     Tests that requesting a non-existent file returns None.
@@ -37,12 +40,14 @@ def test_load_excel_file_not_found():
     df = load_excel(non_existent_path)
     assert df is None
 
+
 def test_load_excel_is_directory(tmp_path):
     """
     Tests that passing a directory path instead of a file returns None.
     """
     df = load_excel(tmp_path)
     assert df is None
+
 
 def test_load_excel_real_file_integration():
     """
