@@ -42,14 +42,36 @@ def main():
         print(f"Warnings : {summary['warning_failures']}")
         print("------------------------------\n")
         
-        if summary['success']:
-            print("Validation Completed Successfully\n")
-        else:
-            print("Validation Failed with CRITICAL Errors\n")
-            sys.exit(1)
+        print("==============================")
+        print("SQLITE DATABASE LOADING")
+        print("==============================\n")
+        
+        from src.database.loader import DatabaseLoader
+        from src.database.queries import check_foreign_key_violations, get_table_counts
+
+        db_loader = DatabaseLoader()
+        load_summary = db_loader.load_all(validator.datasets)
+
+        print(f"[+] Data loaded successfully into SQLite!")
+        print(f"    Rows Inserted : {load_summary['total_inserted']}")
+        print(f"    Rows Rejected : {load_summary['total_rejected']}")
+        print(f"    Audit Report  : {load_summary['audit_file']}\n")
+
+        print("--- Verification Check ---")
+        fk_violations = check_foreign_key_violations()
+        print(f"Foreign Key Violations: {len(fk_violations)}")
+        
+        table_counts = get_table_counts()
+        print("\nTable Record Counts:")
+        for tbl, count in table_counts.items():
+            print(f"  {tbl:<20}: {count}")
+        print("------------------------------\n")
+
+        if not summary['success']:
+            print("Validation completed with warnings / critical findings logged to audit CSVs.\n")
             
     except Exception as e:
-        logger.critical(f"Validation pipeline execution failed: {e}", exc_info=True)
+        logger.critical(f"Pipeline execution failed: {e}", exc_info=True)
         print(f"\n[x] CRITICAL PIPELINE ERROR: {e}\n")
         sys.exit(2)
 

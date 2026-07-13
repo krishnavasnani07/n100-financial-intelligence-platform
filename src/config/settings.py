@@ -17,6 +17,8 @@ DB_PATH = Path(os.getenv("DB_PATH", "db/nifty100.db"))
 if not DB_PATH.is_absolute():
     DB_PATH = BASE_DIR / DB_PATH
 
+SCHEMA_PATH = BASE_DIR / "db" / "schema.sql"
+
 DATA_DIR = BASE_DIR / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
