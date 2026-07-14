@@ -160,3 +160,34 @@ python main.py
 ```
 This prints the validation summary indicating PASS/FAIL for each rule and outputs the results to `output/validation/`.
 
+---
+
+## 💾 Sprint 1 - Day 5: Full Data Load & Database Audit
+
+Sprint 1 - Day 5 connects all ETL components (Loader $\rightarrow$ Normalizer $\rightarrow$ Validator $\rightarrow$ SQLite Loader) into a unified production-ready pipeline.
+
+### 📊 Ingested Relational Table Row Counts
+
+| Relational Table | Source Rows Read | DB Inserted Rows | Rejected Rows | Runtime (sec) | FK Enforced |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **companies** | 92 | 92 | 0 | ~0.018s | Primary Key Master |
+| **sectors** | 92 | 92 | 0 | ~0.017s | ✅ Verified |
+| **analysis** | 20 | 16 | 4 | ~0.018s | ✅ Verified |
+| **prosandcons** | 16 | 14 | 2 | ~0.019s | ✅ Verified |
+| **profitandloss** | 1,276 | 1,164 | 112 | ~0.031s | ✅ Verified |
+| **balancesheet** | 1,312 | 1,140 | 172 | ~0.031s | ✅ Verified |
+| **cashflow** | 1,187 | 1,068 | 119 | ~0.024s | ✅ Verified |
+| **documents** | 1,585 | 1,457 | 128 | ~0.025s | ✅ Verified |
+| **stock_prices** | 5,520 | 5,520 | 0 | ~0.047s | ✅ Verified |
+| **peer_groups** | 56 | 56 | 0 | ~0.015s | ✅ Verified |
+| **financial_ratios**| 0 | 0 | 0 | 0s | Reserved (Sprint 2) |
+| **TOTAL** | **12,466** | **10,619** | **537** | **~0.24s** | **0 FK Violations** |
+
+### 🔍 Verification & Audit Integrity
+
+- **Database Audit Report**: Automatically written to `output/audit/load_audit.csv` with table name, rows read, inserted, rejected, execution runtime, and timestamps.
+- **Foreign Key Check (`PRAGMA foreign_key_check;`)**: Executed post-load, returning **0 constraint violations**.
+- **Duplicate Prevention**: Composite key checks `(company_id, year)` return 0 duplicates in `profitandloss`, `balancesheet`, and `cashflow`.
+- **Database Smoke Tests**: All relational queries and joins between `companies` and financial tables pass integrity checks cleanly.
+
+
