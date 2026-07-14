@@ -841,3 +841,44 @@ def validate_dq16_coverage(dfs: Dict[str, pd.DataFrame], report: ValidationRepor
                     issue=f"Insufficient historical coverage: company has only {years_count} years of P&L records (expected >= {validation_config.MIN_HISTORY_YEARS})",
                 )
             )
+
+
+from src.validation.report import Rule
+
+RULE_REGISTRY: Dict[str, Rule] = {
+    "DQ-01": Rule("DQ-01", "Company PK Uniqueness", "CRITICAL", "Verify company IDs in master table are unique"),
+    "DQ-02": Rule("DQ-02", "No Duplicate Company-Year", "CRITICAL", "Ensure no duplicate company_id and year combinations"),
+    "DQ-03": Rule("DQ-03", "Foreign Key Integrity", "CRITICAL", "Validate company_id foreign key references"),
+    "DQ-04": Rule("DQ-04", "Balance Sheet Balance", "WARNING", "Validate total_assets equals total_liabilities"),
+    "DQ-05": Rule("DQ-05", "OPM Cross-Check", "WARNING", "Validate operating profit margin matches calculation"),
+    "DQ-06": Rule("DQ-06", "Positive Sales", "WARNING", "Ensure sales in P&L are positive"),
+    "DQ-07": Rule("DQ-07", "Year Format", "CRITICAL", "Verify year matches YYYY-MM standard format"),
+    "DQ-08": Rule("DQ-08", "Ticker Format", "CRITICAL", "Ensure company ticker meets format and length rules"),
+    "DQ-09": Rule("DQ-09", "Net Cash Flow Check", "WARNING", "Validate net cash flow matches component sum"),
+    "DQ-10": Rule("DQ-10", "Fixed Assets Range", "WARNING", "Ensure fixed assets are non-negative and <= total assets"),
+    "DQ-11": Rule("DQ-11", "Tax Rate Bounds", "WARNING", "Validate tax percentage is within [0, 100]"),
+    "DQ-12": Rule("DQ-12", "Dividend Payout Bounds", "WARNING", "Validate dividend payout range"),
+    "DQ-13": Rule("DQ-13", "URL Format Validation", "WARNING", "Verify company website and document URLs"),
+    "DQ-14": Rule("DQ-14", "EPS Sign Alignment", "WARNING", "Match signs of EPS and Net Profit"),
+    "DQ-15": Rule("DQ-15", "Balance Sheet Sum Check", "WARNING", "Verify asset and liability component sums"),
+    "DQ-16": Rule("DQ-16", "Historical Coverage", "WARNING", "Ensure minimum required years of P&L history"),
+}
+
+# Standalone check aliases for modular execution
+check_dq01 = validate_dq01_company_pk
+check_dq02 = validate_dq02_no_duplicate_company_year
+check_dq03 = validate_dq03_foreign_keys
+check_dq04 = validate_dq04_balancesheet_balance
+check_dq05 = validate_dq05_opm_crosscheck
+check_dq06 = validate_dq06_positive_sales
+check_dq07 = validate_dq07_year_format
+check_dq08 = validate_dq08_ticker_format
+check_dq09 = validate_dq09_net_cash_flow
+check_dq10 = validate_dq10_fixed_assets
+check_dq11 = validate_dq11_tax_rate
+check_dq12 = validate_dq12_dividend_payout
+check_dq13 = validate_dq13_url_validation
+check_dq14 = validate_dq14_eps_sign
+check_dq15 = validate_dq15_balancesheet_info
+check_dq16 = validate_dq16_coverage
+

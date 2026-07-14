@@ -10,6 +10,14 @@ logger = get_logger(__name__)
 
 
 @dataclass
+class Rule:
+    id: str
+    name: str
+    severity: str  # 'CRITICAL' or 'WARNING'
+    description: str
+
+
+@dataclass
 class ValidationFailure:
     rule_id: str
     severity: str  # 'CRITICAL' or 'WARNING'
@@ -39,12 +47,22 @@ class ValidationFailure:
         }
 
 
+@dataclass
+class ValidationResult:
+    passed: bool
+    rule_id: str
+    total_checked: int
+    warnings_count: int
+    errors_count: int
+    execution_time_sec: float
+    failures: List[ValidationFailure]
+
+
 class ValidationReport:
     def __init__(self):
         self.failures: List[ValidationFailure] = []
-        self.rules_checked: Dict[str, int] = (
-            {}
-        )  # rule_id -> number of times checked/records evaluated
+        self.rules_checked: Dict[str, int] = {}
+
 
     def add_failure(self, failure: ValidationFailure):
         self.failures.append(failure)
@@ -99,19 +117,25 @@ class ValidationReport:
             rule_failures[failure.rule_id] = rule_failures.get(failure.rule_id, 0) + 1
 
         try:
+            from src.validation.dq_rules import RULE_REGISTRY
+
             with open(summary_file, mode="w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
-                writer.writerow(["Rule", "Passed", "Failed"])
+                writer.writerow(["rule_id", "rule_name", "severity", "passed", "failed"])
                 # We want to cover all 16 rules from DQ-01 to DQ-16
                 for i in range(1, 17):
                     rule_id = f"DQ-{i:02d}"
                     failures_count = rule_failures.get(rule_id, 0)
                     total_checked = self.rules_checked.get(rule_id, 0)
                     passed_count = max(0, total_checked - failures_count)
-                    writer.writerow([rule_id, passed_count, failures_count])
+                    rule_meta = RULE_REGISTRY.get(rule_id)
+                    rule_name = rule_meta.name if rule_meta else rule_id
+                    severity = rule_meta.severity if rule_meta else "UNKNOWN"
+                    writer.writerow([rule_id, rule_name, severity, passed_count, failures_count])
             logger.info(f"Saved validation summary to {summary_file}")
         except Exception as e:
             logger.error(f"Failed to write validation summary to CSV: {e}")
+
 
         # 3. Save validation_log.txt
         try:
