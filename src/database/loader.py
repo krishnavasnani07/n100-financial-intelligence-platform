@@ -1,8 +1,9 @@
 import csv
-import time
 import datetime
+import shutil
+import time
 from pathlib import Path
-from typing import Dict, Any, List, Tuple
+from typing import Any, Dict, List, Tuple
 import pandas as pd
 
 from src.config import settings
@@ -111,6 +112,7 @@ class DatabaseLoader:
             "rows_inserted": rows_inserted,
             "rows_rejected": rows_rejected,
             "runtime": f"{runtime_sec}s",
+            "runtime_numeric": runtime_sec,
             "timestamp": timestamp,
         }
         self.audit_records.append(audit_entry)
@@ -141,10 +143,65 @@ class DatabaseLoader:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             for record in self.audit_records:
-                writer.writerow(record)
+                filtered_record = {k: record[k] for k in fieldnames}
+                writer.writerow(filtered_record)
 
         logger.info(f"Successfully generated load audit report at {audit_file}")
         return audit_file
+
+    def create_backup(self) -> Path:
+        """
+        Creates a timestamped backup copy of the SQLite database in db/backups/.
+        """
+        backup_dir = self.db_path.parent / "backups"
+        backup_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_filename = f"{self.db_path.stem}_{timestamp}.db"
+        backup_path = backup_dir / backup_filename
+
+        shutil.copy2(self.db_path, backup_path)
+        logger.info(f"Database backup created successfully at {backup_path}")
+        return backup_path
+
+    def compute_performance_metrics(self) -> Dict[str, Any]:
+        """
+        Calculates execution metrics: totals, averages, largest, fastest, slowest tables.
+        """
+        if not self.audit_records:
+            return {}
+
+        total_runtime = sum(r["runtime_numeric"] for r in self.audit_records)
+        avg_runtime = total_runtime / len(self.audit_records)
+
+        largest_table = max(self.audit_records, key=lambda r: r["rows_inserted"])
+        fastest_table = min(self.audit_records, key=lambda r: r["runtime_numeric"])
+        slowest_table = max(self.audit_records, key=lambda r: r["runtime_numeric"])
+
+        metrics = {
+            "total_runtime_sec": round(total_runtime, 4),
+            "avg_table_runtime_sec": round(avg_runtime, 4),
+            "largest_table": {
+                "table": largest_table["table"],
+                "rows_inserted": largest_table["rows_inserted"],
+            },
+            "fastest_load": {
+                "table": fastest_table["table"],
+                "runtime": fastest_table["runtime"],
+            },
+            "slowest_load": {
+                "table": slowest_table["table"],
+                "runtime": slowest_table["runtime"],
+            },
+        }
+
+        logger.info(
+            f"Performance Metrics: Total DB Runtime={metrics['total_runtime_sec']}s, "
+            f"Avg Runtime={metrics['avg_table_runtime_sec']}s, "
+            f"Largest Table='{metrics['largest_table']['table']}' ({metrics['largest_table']['rows_inserted']} rows), "
+            f"Slowest Load='{metrics['slowest_load']['table']}' ({metrics['slowest_load']['runtime']})"
+        )
+
+        return metrics
 
     def load_all(self, normalized_dfs: Dict[str, pd.DataFrame]) -> Dict[str, Any]:
         """
@@ -164,13 +221,22 @@ class DatabaseLoader:
             valid_company_ids = self.load_table(table_name, df, valid_company_ids)
 
         audit_path = self.save_audit_report()
+        backup_path = self.create_backup()
+        metrics = self.compute_performance_metrics()
 
+        total_read = sum(r["rows_read"] for r in self.audit_records)
         total_inserted = sum(r["rows_inserted"] for r in self.audit_records)
         total_rejected = sum(r["rows_rejected"] for r in self.audit_records)
+        tables_loaded = len(self.audit_records)
 
         return {
             "success": True,
+            "tables_loaded": tables_loaded,
+            "total_read": total_read,
             "total_inserted": total_inserted,
             "total_rejected": total_rejected,
             "audit_file": str(audit_path),
+            "backup_file": str(backup_path),
+            "metrics": metrics,
         }
+

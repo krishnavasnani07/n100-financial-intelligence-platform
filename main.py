@@ -1,4 +1,5 @@
 import sys
+import time
 from src.validation.validator import DataValidator
 from src.utils.logger import get_logger
 
@@ -6,6 +7,7 @@ logger = get_logger(__name__)
 
 
 def main():
+    start_pipeline_time = time.time()
     print("=" * 80)
     print("          NIFTY 100 FINANCIAL INTELLIGENCE PLATFORM - DATA VALIDATION          ")
     print("=" * 80)
@@ -55,7 +57,8 @@ def main():
         print(f"[+] Data loaded successfully into SQLite!")
         print(f"    Rows Inserted : {load_summary['total_inserted']}")
         print(f"    Rows Rejected : {load_summary['total_rejected']}")
-        print(f"    Audit Report  : {load_summary['audit_file']}\n")
+        print(f"    Audit Report  : {load_summary['audit_file']}")
+        print(f"    Backup DB     : {load_summary['backup_file']}\n")
 
         print("--- Verification Check ---")
         fk_violations = check_foreign_key_violations()
@@ -66,6 +69,26 @@ def main():
         for tbl, count in table_counts.items():
             print(f"  {tbl:<20}: {count}")
         print("------------------------------\n")
+
+        total_pipeline_runtime = round(time.time() - start_pipeline_time, 2)
+
+        # Print Phase 14 Execution Summary Dashboard
+        print("====================================")
+        print("      ETL EXECUTION SUMMARY         ")
+        print("====================================")
+        print(f"Files Processed      : {len(validator.datasets)}")
+        print(f"Tables Loaded        : {load_summary['tables_loaded']}")
+        print(f"Rows Read            : {load_summary['total_read']}")
+        print(f"Rows Inserted        : {load_summary['total_inserted']}")
+        print(f"Rows Rejected        : {load_summary['total_rejected']}")
+        print("")
+        print(f"Validation Errors    : {summary['critical_failures']}")
+        print(f"FK Violations        : {len(fk_violations)}")
+        print("")
+        print(f"Total Runtime        : {total_pipeline_runtime} sec")
+        print("")
+        print("Database Status      : SUCCESS")
+        print("====================================\n")
 
         if not summary['success']:
             print("Validation completed with warnings / critical findings logged to audit CSVs.\n")
