@@ -204,7 +204,42 @@ Sprint 1 - Day 5 connects all ETL components (Loader $\rightarrow$ Normalizer $\
 | **Foreign Key Violations** | **0** | Verified via `PRAGMA foreign_key_check;` |
 | **Database Backups Generated** | `db/backups/` | Timestamped post-load database copy |
 | **Console Monitoring Dashboard** | Included in `main.py` | Operational executive summary rendered on terminal |
-| **Test Suite Coverage** | **87 / 87 Passed** | Full unit, integration, and recovery test suite passing |
+| **Test Suite Coverage** | **150 / 150 Passed** | Complete unit, integration, and recovery test suite passing |
+| **Sprint 1 Retrospective** | `docs/sprint1_retrospective.md` | Comprehensive retrospective document |
+
+---
+
+## 🔬 Sprint 1 - Day 6 & 7: QA Audit, Exploratory SQL & Sprint Closure
+
+### 🧪 Manual QA Review Audit (Day 6)
+- **Sample Companies Evaluated**: `TCS` (IT), `HDFCBANK` (Banking), `ITC` (FMCG), `TATAMOTORS` (Auto), `SUNPHARMA` (Pharma).
+- **Audit Documentation**: Recorded in `docs/manual_review.md` and summarized in `reports/manual_review_report.md`.
+- **Numeric Precision**: **100% Match** across raw Excel values, normalized dataframes, and SQLite database rows for key fields (Sales, Net Profit, Equity Capital, Total Assets).
+- **Year Coverage Report**: Generated at `output/reports/year_coverage.csv` (91/92 companies have $\ge 5$ historical financial years).
+
+### 🔍 Exploratory SQL Query Suite (Day 7)
+- **Query Suite Location**: `notebooks/exploratory_queries.sql`
+- **10 Core Business Queries**:
+  1. Total master companies count.
+  2. Sector company distribution.
+  3. Financial year record counts.
+  4. Top 10 companies by sales revenue (Mar 2023).
+  5. Companies with negative net profit.
+  6. Companies missing annual report document links.
+  7. Industry sector average debt/borrowings.
+  8. Top 10 companies by Total Assets.
+  9. Aggregated operating, investing, and financing cash flows.
+  10. Year coverage details per company.
+
+---
+
+## 📄 Documentation References
+- **Data Audit & Manual QA**: [`docs/manual_review.md`](docs/manual_review.md)
+- **Year Coverage Analysis**: [`output/reports/year_coverage.csv`](output/reports/year_coverage.csv)
+- **QA Verification Report**: [`reports/manual_review_report.md`](reports/manual_review_report.md)
+- **Sprint 1 Retrospective**: [`docs/sprint1_retrospective.md`](docs/sprint1_retrospective.md)
+- **Exploratory SQL Queries**: [`notebooks/exploratory_queries.sql`](notebooks/exploratory_queries.sql)
+
 
 
 
