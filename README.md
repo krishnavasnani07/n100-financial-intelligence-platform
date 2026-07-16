@@ -231,6 +231,20 @@ Sprint 1 - Day 5 connects all ETL components (Loader $\rightarrow$ Normalizer $\
   9. Aggregated operating, investing, and financing cash flows.
   10. Year coverage details per company.
 
+## 📊 Sprint 2 - Financial Analytics & KPI Computation
+
+### 💰 Day 8: Profitability Ratio Engine (`src/analytics/ratios.py`)
+Implemented modular profitability analytics module with resilient division helper (`safe_divide`), logging system (`logs/ratio_engine.log`), and anomaly logging:
+
+- **Net Profit Margin (NPM)**: $\frac{\text{Net Profit}}{\text{Sales}} \times 100$
+- **Operating Profit Margin (OPM)**: $\frac{\text{Operating Profit}}{\text{Sales}} \times 100$ (includes reported OPM cross-check with warning threshold $>1.0\%$)
+- **Return on Equity (ROE)**: $\frac{\text{Net Profit}}{\text{Equity Capital} + \text{Reserves}} \times 100$
+- **Return on Capital Employed (ROCE)**: $\frac{\text{EBIT}}{\text{Equity} + \text{Reserves} + \text{Borrowings}} \times 100$ (with sector-relative handling for financial institutions)
+- **Return on Assets (ROA)**: $\frac{\text{Net Profit}}{\text{Total Assets}} \times 100$
+
+- **Test Suite**: `tests/kpi/test_profitability.py` (21 passing unit & integration tests)
+- **Ratio Logs**: `logs/ratio_engine.log`
+
 ---
 
 ## 📄 Documentation References
@@ -239,6 +253,8 @@ Sprint 1 - Day 5 connects all ETL components (Loader $\rightarrow$ Normalizer $\
 - **QA Verification Report**: [`reports/manual_review_report.md`](reports/manual_review_report.md)
 - **Sprint 1 Retrospective**: [`docs/sprint1_retrospective.md`](docs/sprint1_retrospective.md)
 - **Exploratory SQL Queries**: [`notebooks/exploratory_queries.sql`](notebooks/exploratory_queries.sql)
+- **Profitability Analytics Engine**: [`src/analytics/ratios.py`](src/analytics/ratios.py)
+
 
 
 
