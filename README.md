@@ -278,6 +278,8 @@ The profitability ratio engine (`src/analytics/ratios.py`) calculates 5 fundamen
 
 ### 📐 KPI Formulations & Benchmark Classification
 
+![Profitability Ratio Distributions](README_ASSETS/profitability_distribution.png)
+
 1. **Net Profit Margin (NPM)**:
    $$\text{NPM} = \frac{\text{Net Profit}}{\text{Sales Revenue}} \times 100$$
    *Classification*: $\ge 15\%$ Excellent | $\ge 10\%$ Good | $\ge 5\%$ Average | $< 5\%$ Weak
