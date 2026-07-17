@@ -1,101 +1,58 @@
 """
-Profitability Ratio Engine for Nifty 100 Financial Intelligence Platform.
-Calculates key profitability metrics: NPM, OPM, ROE, ROCE, and ROA.
-Includes safe division helpers, cross-check anomaly logging, and financial company handling.
+Profitability Ratio Engine for Nifty 100 Financial Intelligence Platform (Enhanced).
+Calculates NPM, OPM, ROE, ROCE, and ROA utilizing RatioCalculator base, ratio_config, and structured RatioResult models.
+Outputs detailed calculation logs (output/ratio_calculation_log.csv), ratio summaries, and performance metrics.
 """
 
 import math
+import time
+import csv
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 import pandas as pd
 
 from src.utils.logger import get_logger
 from src.config.settings import BASE_DIR
+from src.config.ratio_config import (
+    OPM_TOLERANCE,
+    ROE_BENCHMARKS,
+    ROCE_BENCHMARKS,
+    ROA_BENCHMARKS,
+    NPM_BENCHMARKS,
+    OPM_BENCHMARKS,
+    DEFAULT_PRECISION
+)
+from src.analytics.ratio_base import RatioCalculator, RatioResult
 
-# Establish dedicated ratio logger writing to logs/ratio_engine.log
+# Setup dedicated ratio logger
 def _setup_ratio_logger() -> logging.Logger:
     logger = logging.getLogger("ratio_engine")
     logger.setLevel(logging.INFO)
-    
-    # Avoid duplicate handlers
     if not logger.handlers:
         log_dir = BASE_DIR / "logs"
         log_dir.mkdir(parents=True, exist_ok=True)
         log_file = log_dir / "ratio_engine.log"
-        
         file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
-        
-        # Also add console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(formatter)
-        logger.addHandler(console_handler)
-        
     return logger
 
 ratio_logger = _setup_ratio_logger()
 
 
-def safe_divide(
-    numerator: Any,
-    denominator: Any,
-    multiplier: float = 1.0,
-    precision: int = 2
-) -> Optional[float]:
-    """
-    Safely divide two numbers and apply a multiplier (default 1.0 or 100 for percentages).
-    Returns None if numerator/denominator are None, NaN, zero (denominator), or invalid.
+def safe_divide(numerator: Any, denominator: Any, multiplier: float = 1.0, precision: int = DEFAULT_PRECISION) -> Optional[float]:
+    val, _ = RatioCalculator.safe_divide(numerator, denominator, multiplier=multiplier, precision=precision)
+    return val
 
-    Args:
-        numerator: Dividend numeric value.
-        denominator: Divisor numeric value.
-        multiplier: Scaling multiplier (e.g., 100.0 for percentages).
-        precision: Decimal rounding precision.
 
-    Returns:
-        Optional[float]: Computed result rounded to precision, or None.
-    """
-    if numerator is None or denominator is None:
-        return None
-
+def calculate_net_profit_margin(net_profit: Any, sales: Any, precision: int = DEFAULT_PRECISION) -> Optional[float]:
     try:
-        num = float(numerator)
-        den = float(denominator)
-
-        if math.isnan(num) or math.isnan(den) or math.isinf(num) or math.isinf(den):
-            return None
-
-        if den == 0.0:
-            return None
-
-        result = (num / den) * multiplier
-        return round(result, precision)
-
-    except (ValueError, TypeError, OverflowError):
-        return None
-
-
-def calculate_net_profit_margin(
-    net_profit: Any,
-    sales: Any,
-    precision: int = 2
-) -> Optional[float]:
-    """
-    Calculate Net Profit Margin (NPM): (Net Profit / Sales) * 100
-    Returns None if Sales <= 0 or invalid.
-    """
-    try:
-        sales_val = float(sales)
-        if sales_val <= 0:
+        if float(sales) <= 0:
             return None
     except (ValueError, TypeError):
         return None
-
     return safe_divide(net_profit, sales, multiplier=100.0, precision=precision)
 
 
@@ -105,28 +62,11 @@ def calculate_operating_profit_margin(
     reported_opm: Optional[Any] = None,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
-    tolerance: float = 1.0,
-    precision: int = 2
+    tolerance: float = OPM_TOLERANCE,
+    precision: int = DEFAULT_PRECISION
 ) -> Optional[float]:
-    """
-    Calculate Operating Profit Margin (OPM): (Operating Profit / Sales) * 100
-    Cross-checks calculated OPM against reported_opm if provided and logs anomalies.
-
-    Args:
-        operating_profit: Operating profit amount.
-        sales: Sales/Revenue amount.
-        reported_opm: OPM percentage reported in raw source file.
-        company_id: Ticker for logging.
-        year: Year for logging.
-        tolerance: Threshold difference percentage for anomaly logging (default 1.0%).
-        precision: Rounding decimal places.
-
-    Returns:
-        Optional[float]: Calculated OPM percentage or None.
-    """
     try:
-        sales_val = float(sales)
-        if sales_val <= 0:
+        if float(sales) <= 0:
             return None
     except (ValueError, TypeError):
         return None
@@ -140,29 +80,17 @@ def calculate_operating_profit_margin(
                 diff = abs(computed_opm - rep_opm_val)
                 if diff > tolerance:
                     ratio_logger.warning(
-                        f"OPM mismatch for {company_id} ({year}): Expected {rep_opm_val:.2f}%, "
-                        f"Computed {computed_opm:.2f}% (diff={diff:.2f}%)"
+                        f"OPM mismatch for {company_id} ({year}): Expected {rep_opm_val:.2f}%, Computed {computed_opm:.2f}% (diff={diff:.2f}%)"
                     )
                 else:
-                    ratio_logger.info(
-                        f"OPM cross-check matched for {company_id} ({year}): {computed_opm:.2f}%"
-                    )
+                    ratio_logger.info(f"OPM cross-check matched for {company_id} ({year}): {computed_opm:.2f}%")
         except (ValueError, TypeError):
             pass
 
     return computed_opm
 
 
-def calculate_roe(
-    net_profit: Any,
-    equity_capital: Any,
-    reserves: Any,
-    precision: int = 2
-) -> Optional[float]:
-    """
-    Calculate Return on Equity (ROE): (Net Profit / (Equity Capital + Reserves)) * 100
-    Returns None if total equity (Equity Capital + Reserves) <= 0 or invalid.
-    """
+def calculate_roe(net_profit: Any, equity_capital: Any, reserves: Any, precision: int = DEFAULT_PRECISION) -> Optional[float]:
     try:
         eq = float(equity_capital) if equity_capital is not None else 0.0
         res = float(reserves) if reserves is not None else 0.0
@@ -183,25 +111,8 @@ def calculate_roce(
     is_financial: bool = False,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
-    precision: int = 2
+    precision: int = DEFAULT_PRECISION
 ) -> Optional[float]:
-    """
-    Calculate Return on Capital Employed (ROCE):
-    EBIT / (Equity Capital + Reserves + Borrowings) * 100
-
-    Args:
-        ebit_or_op: Operating Profit or EBIT.
-        equity_capital: Equity Capital value.
-        reserves: Reserves & Surplus value.
-        borrowings: Total Borrowings/Debt value.
-        is_financial: Flag indicating if the company is in Financials sector.
-        company_id: Ticker for logging.
-        year: Year for logging.
-        precision: Rounding decimal places.
-
-    Returns:
-        Optional[float]: Calculated ROCE percentage or None.
-    """
     try:
         eq = float(equity_capital) if equity_capital is not None else 0.0
         res = float(reserves) if reserves is not None else 0.0
@@ -215,25 +126,15 @@ def calculate_roce(
 
     if is_financial:
         ratio_logger.info(
-            f"ROCE calculated for financial sector entity {company_id} ({year}) - "
-            f"Requires sector-relative evaluation."
+            f"ROCE calculated for financial sector entity {company_id} ({year}) - Requires sector-relative evaluation."
         )
 
     return safe_divide(ebit_or_op, capital_employed, multiplier=100.0, precision=precision)
 
 
-def calculate_roa(
-    net_profit: Any,
-    total_assets: Any,
-    precision: int = 2
-) -> Optional[float]:
-    """
-    Calculate Return on Assets (ROA): (Net Profit / Total Assets) * 100
-    Returns None if Total Assets <= 0 or invalid.
-    """
+def calculate_roa(net_profit: Any, total_assets: Any, precision: int = DEFAULT_PRECISION) -> Optional[float]:
     try:
-        assets_val = float(total_assets)
-        if assets_val <= 0:
+        if float(total_assets) <= 0:
             return None
     except (ValueError, TypeError):
         return None
@@ -241,13 +142,94 @@ def calculate_roa(
     return safe_divide(net_profit, total_assets, multiplier=100.0, precision=precision)
 
 
-class ProfitabilityEngine:
+class ProfitabilityEngine(RatioCalculator):
     """
-    High-level engine to calculate all 5 profitability ratios for financial records.
+    Enhanced Profitability Analytics Engine.
+    Computes KPIs, returns RatioResult objects, logs to CSV, and generates ratio summary statistics.
     """
 
-    @staticmethod
+    @classmethod
+    def compute_period_ratios(
+        cls,
+        company_id: str,
+        year: str,
+        sales: Any,
+        operating_profit: Any,
+        net_profit: Any,
+        equity_capital: Any,
+        reserves: Any,
+        borrowings: Any,
+        total_assets: Any,
+        reported_opm: Optional[Any] = None,
+        is_financial: bool = False
+    ) -> List[RatioResult]:
+        results: List[RatioResult] = []
+
+        # 1. NPM
+        val_npm, status_npm = cls.safe_divide(net_profit, sales, multiplier=100.0)
+        if sales is not None and float(sales or 0) <= 0:
+            status_npm = "NON_POSITIVE_SALES"
+            val_npm = None
+        results.append(
+            cls.create_result(company_id, year, "NPM", val_npm, status_npm, "Net Profit / Sales * 100", "profitandloss", NPM_BENCHMARKS)
+        )
+
+        # 2. OPM
+        val_opm, status_opm = cls.safe_divide(operating_profit, sales, multiplier=100.0)
+        if sales is not None and float(sales or 0) <= 0:
+            status_opm = "NON_POSITIVE_SALES"
+            val_opm = None
+        if val_opm is not None and reported_opm is not None:
+            try:
+                diff = abs(val_opm - float(reported_opm))
+                if diff > OPM_TOLERANCE:
+                    status_opm = "OPM_MISMATCH"
+                    ratio_logger.warning(f"OPM mismatch for {company_id} ({year}): Expected {reported_opm}%, Computed {val_opm:.2f}%")
+            except (ValueError, TypeError):
+                pass
+        results.append(
+            cls.create_result(company_id, year, "OPM", val_opm, status_opm, "Operating Profit / Sales * 100", "profitandloss", OPM_BENCHMARKS)
+        )
+
+        # 3. ROE
+        eq = float(equity_capital or 0)
+        res = float(reserves or 0)
+        tot_eq = eq + res
+        val_roe, status_roe = cls.safe_divide(net_profit, tot_eq, multiplier=100.0)
+        if tot_eq <= 0:
+            status_roe = "NON_POSITIVE_EQUITY"
+            val_roe = None
+        results.append(
+            cls.create_result(company_id, year, "ROE", val_roe, status_roe, "PAT / (Equity + Reserves) * 100", "profitandloss + balancesheet", ROE_BENCHMARKS)
+        )
+
+        # 4. ROCE
+        borr = float(borrowings or 0)
+        cap_emp = tot_eq + borr
+        val_roce, status_roce = cls.safe_divide(operating_profit, cap_emp, multiplier=100.0)
+        if cap_emp <= 0:
+            status_roce = "NON_POSITIVE_CAPITAL_EMPLOYED"
+            val_roce = None
+        if is_financial:
+            ratio_logger.info(f"ROCE calculated for financial entity {company_id} ({year})")
+        results.append(
+            cls.create_result(company_id, year, "ROCE", val_roce, status_roce, "EBIT / Capital Employed * 100", "profitandloss + balancesheet", ROCE_BENCHMARKS)
+        )
+
+        # 5. ROA
+        val_roa, status_roa = cls.safe_divide(net_profit, total_assets, multiplier=100.0)
+        if total_assets is not None and float(total_assets or 0) <= 0:
+            status_roa = "NON_POSITIVE_ASSETS"
+            val_roa = None
+        results.append(
+            cls.create_result(company_id, year, "ROA", val_roa, status_roa, "PAT / Total Assets * 100", "profitandloss + balancesheet", ROA_BENCHMARKS)
+        )
+
+        return results
+
+    @classmethod
     def compute_all_ratios(
+        cls,
         company_id: str,
         year: str,
         sales: Any,
@@ -260,33 +242,42 @@ class ProfitabilityEngine:
         reported_opm: Optional[Any] = None,
         is_financial: bool = False
     ) -> Dict[str, Optional[float]]:
-        """
-        Compute all 5 profitability ratios for a single period.
-
-        Returns:
-            Dict containing npm, opm, roe, roce, roa.
-        """
-        npm = calculate_net_profit_margin(net_profit, sales)
-        opm = calculate_operating_profit_margin(
-            operating_profit, sales, reported_opm=reported_opm, company_id=company_id, year=year
+        """Legacy compatibility wrapper returning dictionary of ratio values."""
+        rlist = cls.compute_period_ratios(
+            company_id, year, sales, operating_profit, net_profit, equity_capital, reserves, borrowings, total_assets, reported_opm, is_financial
         )
-        roe = calculate_roe(net_profit, equity_capital, reserves)
-        roce = calculate_roce(
-            operating_profit, equity_capital, reserves, borrowings, is_financial=is_financial, company_id=company_id, year=year
-        )
-        roa = calculate_roa(net_profit, total_assets)
+        res_map = {r.ratio_name.lower(): r.value for r in rlist}
+        res_map["company_id"] = company_id
+        res_map["year"] = year
+        return res_map
 
-        ratio_logger.info(
-            f"Calculated Ratios for {company_id} ({year}) -> "
-            f"NPM: {npm}%, OPM: {opm}%, ROE: {roe}%, ROCE: {roce}%, ROA: {roa}%"
-        )
+    @classmethod
+    def export_ratio_audit_and_summary(cls, results: List[RatioResult], output_dir: Optional[Path] = None):
+        """Export calculation audit log CSV and summary statistics CSV."""
+        out_dir = output_dir or (BASE_DIR / "output")
+        out_dir.mkdir(parents=True, exist_ok=True)
 
-        return {
-            "company_id": company_id,
-            "year": year,
-            "npm": npm,
-            "opm": opm,
-            "roe": roe,
-            "roce": roce,
-            "roa": roa,
-        }
+        # 1. Calculation Audit Log
+        log_file = out_dir / "ratio_calculation_log.csv"
+        df_log = pd.DataFrame([r.to_dict() for r in results])
+        df_log.to_csv(log_file, index=False)
+        ratio_logger.info(f"Exported ratio calculation audit log to {log_file}")
+
+        # 2. Ratio Summary Statistics
+        summary_file = out_dir / "ratio_summary.csv"
+        summary_rows = []
+        for ratio_name in ["NPM", "OPM", "ROE", "ROCE", "ROA"]:
+            sub = df_log[df_log["ratio_name"] == ratio_name]
+            vals = sub["value"].dropna()
+            summary_rows.append({
+                "KPI": ratio_name,
+                "Total_Evaluated": len(sub),
+                "Valid_Count": len(vals),
+                "Null_Count": len(sub) - len(vals),
+                "Average": round(vals.mean(), 2) if not vals.empty else None,
+                "Min": round(vals.min(), 2) if not vals.empty else None,
+                "Max": round(vals.max(), 2) if not vals.empty else None,
+            })
+        df_summary = pd.DataFrame(summary_rows)
+        df_summary.to_csv(summary_file, index=False)
+        ratio_logger.info(f"Exported ratio summary statistics to {summary_file}")
