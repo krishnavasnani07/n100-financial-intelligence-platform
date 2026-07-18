@@ -14,6 +14,10 @@ This document serves as the authoritative formula reference manual for the Nifty
 | **ROE** | Return on Equity | $\frac{\text{Net Profit}}{\text{Equity Capital} + \text{Reserves}} \times 100$ | `profitandloss` + `balancesheet` | Returns `None` if Total Equity $\le 0$ | $\ge 20\%$ (Excellent) |
 | **ROCE** | Return on Capital Employed | $\frac{\text{EBIT}}{\text{Equity} + \text{Reserves} + \text{Borrowings}} \times 100$ | `profitandloss` + `balancesheet` | Returns `None` if Capital $\le 0$; flags Financial sector entities | $\ge 20\%$ (Excellent) |
 | **ROA** | Return on Assets | $\frac{\text{Net Profit}}{\text{Total Assets}} \times 100$ | `profitandloss` + `balancesheet` | Returns `None` if Total Assets $\le 0$ | $\ge 15\%$ (Excellent) |
+| **D/E** | Debt-to-Equity | $\frac{\text{Borrowings}}{\text{Equity Capital} + \text{Reserves}}$ | `balancesheet` | Borrowings $=0 \rightarrow 0$; Equity $\le 0 \rightarrow \text{None}$; High Leverage Flag if $> 5.0$ (Non-Financials) | $\le 0.5$ (Healthy) |
+| **ICR** | Interest Coverage Ratio | $\frac{\text{Operating Profit} + \text{Other Income}}{\text{Interest Expense}}$ | `profitandloss` | Interest $=0 \rightarrow \text{None} + \text{"Debt Free"}$; Warning Flag if $< 1.5$ | $\ge 5.0$ (Strong) |
+| **Net Debt** | Net Debt | $\text{Borrowings} - \text{Investments}$ | `balancesheet` | Negative values allowed (indicates net cash / liquid surplus) | $\le 0$ (Ideal) |
+| **Asset Turnover** | Asset Turnover | $\frac{\text{Sales}}{\text{Total Assets}}$ | `profitandloss` + `balancesheet` | Returns `None` if Total Assets $\le 0$ | $\ge 1.5$ (Excellent) |
 
 ---
 
@@ -48,3 +52,28 @@ This document serves as the authoritative formula reference manual for the Nifty
 - **Formula**:
   $$\text{ROA} = \frac{\text{Net Profit}}{\text{Total Assets}} \times 100$$
 - **Edge Cases**: Returns `None` if Total Assets $\le 0$.
+
+### 6. Debt-to-Equity (D/E)
+- **Business Purpose**: Measures financial leverage and solvency risk relative to equity capital.
+- **Formula**:
+  $$\text{D/E} = \frac{\text{Borrowings}}{\text{Equity Capital} + \text{Reserves}}$$
+- **Edge Cases**: Returns `0` if borrowings equal zero. Returns `None` if equity capital + reserves $\le 0$. Triggers `high_leverage_flag = True` if D/E $> 5.0$ for non-financial companies.
+
+### 7. Interest Coverage Ratio (ICR)
+- **Business Purpose**: Evaluates the company's ability to comfortably service its interest obligations from operational earnings.
+- **Formula**:
+  $$\text{ICR} = \frac{\text{Operating Profit} + \text{Other Income}}{\text{Interest Expense}}$$
+- **Edge Cases**: Interest $= 0$ suppresses ICR calculation to `None` and assigns `icr_label = "Debt Free"`. Triggers `icr_warning = True` if ICR $< 1.5$.
+
+### 8. Net Debt
+- **Business Purpose**: Measures net debt liability taking into account liquid investment assets that could offset debt.
+- **Formula**:
+  $$\text{Net Debt} = \text{Borrowings} - \text{Investments}$$
+- **Edge Cases**: Negative Net Debt is valid and unadjusted, indicating a cash-surplus balance sheet.
+
+### 9. Asset Turnover
+- **Business Purpose**: Evaluates the efficiency of asset utilization in generating top-line sales revenue.
+- **Formula**:
+  $$\text{Asset Turnover} = \frac{\text{Sales Revenue}}{\text{Total Assets}}$$
+- **Edge Cases**: Returns `None` if Total Assets $\le 0$.
+

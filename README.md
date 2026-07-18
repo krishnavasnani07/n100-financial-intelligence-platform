@@ -15,7 +15,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-3.14-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Pandas](https://img.shields.io/badge/Pandas-2.0+-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-[![pytest](https://img.shields.io/badge/Tests-174%20Passed-2EA44F?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![pytest](https://img.shields.io/badge/Tests-194%20Passed-2EA44F?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 **An end-to-end, production-grade financial data engineering pipeline, data quality validation framework, and financial KPI analytics engine built for Nifty 100 companies.**
@@ -36,7 +36,7 @@ The **Nifty 100 Financial Intelligence Platform** is designed to provide institu
 1. **Automating Multi-Source Excel Ingestion**: Parsing and loading raw Excel filings across 12 distinct datasets into structured dataframes.
 2. **Enforcing Strict Data Quality**: Executing 16 automated Data Quality (DQ) checks to prevent corrupted, duplicated, or unlinked records from entering storage.
 3. **Relational Database Population**: Ingesting clean datasets into an ACID-compliant SQLite relational schema (`db/nifty100.db`) enforcing Foreign Keys (`PRAGMA foreign_keys = ON;`) and WAL journaling.
-4. **Automating KPI Computations**: Computing core profitability ratios (NPM, OPM, ROE, ROCE, ROA), applying financial benchmark classifications, cross-checking anomalies, and exporting audit logs (`ratio_calculation_log.csv` & `ratio_summary.csv`).
+4. **Automating KPI Computations**: Computing core profitability, leverage, and efficiency ratios (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover), applying financial benchmark classifications, cross-checking anomalies, and exporting audit logs (`ratio_calculation_log.csv` & `ratio_summary.csv`).
 
 ---
 
@@ -49,9 +49,10 @@ The **Nifty 100 Financial Intelligence Platform** is designed to provide institu
 | **Validation** | **16 DQ Check Suite** | Validates primary keys, unique constraints, FK integrity, balance sheet equilibrium, tax rates, URLs, and coverage | ✅ Production Ready |
 | **Database** | **SQLite Relational Engine** | Enforces FK constraints, composite unique indexes, transactional rollbacks, and automated backups (`db/backups/`) | ✅ Production Ready |
 | **Audit** | **Load & KPI Audit System** | Exports timestamped execution summaries (`output/audit/load_audit.csv`) and calculation logs | ✅ Production Ready |
-| **Analytics** | **Profitability Ratio Engine** | Computes NPM, OPM, ROE, ROCE, and ROA with benchmark classifications and anomaly warnings | ✅ Production Ready |
+| **Analytics** | **Profitability & Leverage Engine** | Computes NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, and Asset Turnover with flags & audit logs | ✅ Production Ready |
 | **Resilience** | **Safe Division & Error Recovery** | Safe mathematical helpers (`safe_divide`), transaction rollback handling, and fallback error handling | ✅ Production Ready |
-| **Testing** | **Comprehensive Pytest Suite** | 174 automated unit, integration, recovery, and mock-file tests with 100% pass rate | ✅ Production Ready |
+| **Testing** | **Comprehensive Pytest Suite** | 194 automated unit, integration, recovery, and mock-file tests with 100% pass rate | ✅ Production Ready |
+
 
 ---
 
@@ -99,9 +100,9 @@ Version Control       : Git & GitHub Actions Ready
                                             │
                                             ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              PROFITABILITY RATIO ENGINE                                 │
-│             src/analytics/ratios.py (NPM, OPM, ROE, ROCE, ROA Computation)              │
-│             Outputs: ratio_calculation_log.csv, ratio_summary.csv, ratio_engine.log    │
+│                           PROFITABILITY & LEVERAGE RATIO ENGINES                       │
+│     src/analytics/ratios.py (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover) │
+│     Outputs: ratio_calculation_log.csv, ratio_summary.csv, leverage_ratio_log.csv           │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,7 +144,9 @@ n100-financial-intelligence-platform/
 │   ├── reports/             # year_coverage.csv coverage analysis
 │   ├── validation/          # Data quality failure & summary CSV reports
 │   ├── ratio_calculation_log.csv # Itemized KPI computation audit trail
-│   └── ratio_summary.csv    # Aggregated KPI statistics (Avg, Min, Max, Nulls)
+│   ├── ratio_summary.csv    # Aggregated KPI statistics (Avg, Min, Max, Nulls)
+│   ├── leverage_ratio_calculation_log.csv # Itemized leverage KPI audit trail
+│   └── leverage_ratio_summary.csv    # Aggregated leverage KPI statistics
 │
 ├── reports/                 # Quality assurance verification reports
 │   └── manual_review_report.md # Day 6 QA verification summary report
@@ -152,7 +155,7 @@ n100-financial-intelligence-platform/
 │   ├── analytics/           # KPI calculation engines
 │   │   ├── __init__.py
 │   │   ├── ratio_base.py    # RatioCalculator base class & RatioResult dataclass
-│   │   └── ratios.py        # Profitability ratio engine (NPM, OPM, ROE, ROCE, ROA)
+│   │   └── ratios.py        # Profitability & Leverage ratio engines
 │   ├── config/              # Central application configuration
 │   │   ├── settings.py      # Environment variables & path resolution
 │   │   └── ratio_config.py  # KPI benchmarks, tolerances, and formula versions
@@ -175,7 +178,7 @@ n100-financial-intelligence-platform/
 ├── tests/                   # Pytest automation test suite
 │   ├── database/            # Connection, schema, FK enforcement & recovery tests
 │   ├── etl/                 # Excel loader & string normalizer tests
-│   ├── kpi/                 # Profitability ratio & RatioCalculator tests
+│   ├── kpi/                 # Profitability & Leverage ratio tests
 │   └── validation/          # DQ rule unit, integration, and mock file tests
 │
 ├── .env                     # Local environment configuration
@@ -239,8 +242,9 @@ CREATE TABLE balancesheet (
 | **Sprint 1 - Day 6** | QA Spot Check | 5-company multi-sector manual audit, year coverage CSV | ✅ Completed |
 | **Sprint 1 - Day 7** | SQL & Retrospective | 10 business SQL queries, `sprint1_retrospective.md` | ✅ Completed |
 | **Sprint 2 - Day 8** | Profitability Ratios | `ratios.py`, `RatioCalculator`, NPM/OPM/ROE/ROCE/ROA, ratio audit CSVs | ✅ Completed |
-| **Sprint 2 - Day 9** | Leverage & Efficiency | Debt-to-Equity, Interest Coverage, Asset Turnover | ⏳ Upcoming |
+| **Sprint 2 - Day 9** | Leverage & Efficiency Engine | Debt-to-Equity, Interest Coverage, Net Debt, Asset Turnover, Flags & Unit Tests | ✅ Completed |
 | **Sprint 2 - Day 10**| Cash Flow & Growth KPIs | FCF, CAGR, Dividend Payout, Valuation Ratios | ⏳ Upcoming |
+
 
 ---
 
@@ -274,7 +278,7 @@ The platform executes **16 automated Data Quality rules** before loading into SQ
 
 ## 💰 Sprint 2: Financial KPI Analytics Engine
 
-The profitability ratio engine (`src/analytics/ratios.py`) calculates 5 fundamental financial metrics utilizing the `RatioCalculator` base class:
+The financial analytics engine (`src/analytics/ratios.py`) computes 9 fundamental profitability, leverage, and efficiency metrics utilizing the `RatioCalculator` base class across `ProfitabilityEngine` and `LeverageEngine`:
 
 ### 📐 KPI Formulations & Benchmark Classification
 
@@ -300,6 +304,22 @@ The profitability ratio engine (`src/analytics/ratios.py`) calculates 5 fundamen
    $$\text{ROA} = \frac{\text{Net Profit}}{\text{Total Assets}} \times 100$$
    *Classification*: $\ge 15\%$ Excellent | $\ge 10\%$ Good | $\ge 5\%$ Average | $< 5\%$ Weak
 
+6. **Debt-to-Equity (D/E)**:
+   $$\text{D/E} = \frac{\text{Borrowings}}{\text{Equity Capital} + \text{Reserves}}$$
+   *Edge Cases & Flags*: Returns `0.0` if borrowings equal 0; returns `None` if total equity $\le 0$. Sets `high_leverage_flag = True` if D/E $> 5.0$ (Non-Financials).
+
+7. **Interest Coverage Ratio (ICR)**:
+   $$\text{ICR} = \frac{\text{Operating Profit} + \text{Other Income}}{\text{Interest Expense}}$$
+   *Edge Cases & Flags*: Suppresses to `None` if interest equals 0 and assigns `icr_label = "Debt Free"`. Sets `icr_warning = True` if ICR $< 1.5$.
+
+8. **Net Debt**:
+   $$\text{Net Debt} = \text{Borrowings} - \text{Investments}$$
+   *Unadjusted Negative Values*: Negative net debt is valid and indicates a net cash surplus position.
+
+9. **Asset Turnover**:
+   $$\text{Asset Turnover} = \frac{\text{Sales Revenue}}{\text{Total Assets}}$$
+   *Edge Cases*: Returns `None` if Total Assets $\le 0$.
+
 ---
 
 ## 📊 Output Audit Reports
@@ -308,14 +328,16 @@ Executing the pipeline populates structured CSV reports under `output/`:
 
 - **`output/audit/load_audit.csv`**: Database ingestion summary (Rows Read, Inserted, Rejected, Execution Time).
 - **`output/validation/validation_summary.csv`**: High-level pass/fail summary for each DQ check.
-- **`output/ratio_calculation_log.csv`**: Itemized calculation log for every computed KPI (Company, Year, Ratio, Value, Status, Formula, Benchmark).
-- **`output/ratio_summary.csv`**: Statistical summary per KPI (Evaluated Count, Valid Count, Null Count, Average, Min, Max).
+- **`output/ratio_calculation_log.csv`**: Itemized calculation log for profitability KPIs.
+- **`output/ratio_summary.csv`**: Statistical summary per profitability KPI.
+- **`output/leverage_ratio_calculation_log.csv`**: Itemized calculation log for leverage & efficiency KPIs.
+- **`output/leverage_ratio_summary.csv`**: Statistical summary per leverage & efficiency KPI.
 
 ---
 
 ## 🧪 Test Suite & Quality Assurance
 
-The repository features **174 automated unit, integration, and recovery tests** with 100% pass rate:
+The repository features **194 automated unit, integration, and recovery tests** with 100% pass rate:
 
 ```bash
 python -m pytest tests/ -v
@@ -327,9 +349,9 @@ python -m pytest tests/ -v
 tests/database/           : 13 Tests (Connections, schemas, FK enforcement, transaction rollbacks)
 tests/etl/                : 76 Tests (ExcelLoader error handling, ticker & year normalizers)
 tests/validation/         : 61 Tests (16 Data Quality rules, validator integration, mock file edge cases)
-tests/kpi/                : 24 Tests (RatioCalculator, safe_divide, NPM, OPM, ROE, ROCE, ROA, batch CSV exports)
+tests/kpi/                : 44 Tests (RatioCalculator, safe_divide, NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover, flags, CSV exports)
 --------------------------------------------------------------------------------------------------------
-TOTAL                     : 174 PASSED (100% Pass Rate)
+TOTAL                     : 194 PASSED (100% Pass Rate)
 ```
 
 ---

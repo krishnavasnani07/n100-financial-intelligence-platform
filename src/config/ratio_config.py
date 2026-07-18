@@ -42,3 +42,26 @@ OPM_BENCHMARKS: Dict[str, float] = {
     "GOOD": 15.0,
     "AVERAGE": 10.0,
 }
+
+# Leverage & Efficiency Benchmarks & Thresholds
+HIGH_LEVERAGE_THRESHOLD = 5.0
+ICR_WARNING_THRESHOLD = 1.5
+
+DEBT_TO_EQUITY_BENCHMARKS: Dict[str, float] = {
+    "EXCELLENT": 0.5,
+    "GOOD": 1.0,
+    "AVERAGE": 2.0,
+}
+
+ICR_BENCHMARKS: Dict[str, float] = {
+    "EXCELLENT": 5.0,
+    "GOOD": 2.0,
+    "AVERAGE": 1.5,
+}
+
+ASSET_TURNOVER_BENCHMARKS: Dict[str, float] = {
+    "EXCELLENT": 1.5,
+    "GOOD": 1.0,
+    "AVERAGE": 0.5,
+}
+

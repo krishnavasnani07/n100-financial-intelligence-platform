@@ -21,7 +21,12 @@ from src.config.ratio_config import (
     ROA_BENCHMARKS,
     NPM_BENCHMARKS,
     OPM_BENCHMARKS,
-    DEFAULT_PRECISION
+    DEFAULT_PRECISION,
+    HIGH_LEVERAGE_THRESHOLD,
+    ICR_WARNING_THRESHOLD,
+    DEBT_TO_EQUITY_BENCHMARKS,
+    ICR_BENCHMARKS,
+    ASSET_TURNOVER_BENCHMARKS
 )
 from src.analytics.ratio_base import RatioCalculator, RatioResult
 
@@ -140,6 +145,126 @@ def calculate_roa(net_profit: Any, total_assets: Any, precision: int = DEFAULT_P
         return None
 
     return safe_divide(net_profit, total_assets, multiplier=100.0, precision=precision)
+
+
+def calculate_debt_to_equity(
+    borrowings: Any,
+    equity_capital: Any,
+    reserves: Any,
+    company_id: str = "UNKNOWN",
+    year: str = "UNKNOWN",
+    precision: int = DEFAULT_PRECISION
+) -> Optional[float]:
+    try:
+        eq = float(equity_capital) if equity_capital is not None else 0.0
+        res = float(reserves) if reserves is not None else 0.0
+        tot_eq = eq + res
+        if tot_eq <= 0:
+            return None
+
+        borr = float(borrowings) if borrowings is not None else 0.0
+        if borr == 0:
+            ratio_logger.info(f"Calculated Debt-to-Equity {company_id} {year} 0.0")
+            return 0.0
+
+        de_val = safe_divide(borr, tot_eq, multiplier=1.0, precision=precision)
+        if de_val is not None:
+            ratio_logger.info(f"Calculated Debt-to-Equity {company_id} {year} {de_val:.2f}")
+        return de_val
+    except (ValueError, TypeError):
+        return None
+
+
+def calculate_high_leverage_flag(
+    de_ratio: Optional[float],
+    is_financial: bool = False,
+    threshold: float = HIGH_LEVERAGE_THRESHOLD,
+    company_id: str = "UNKNOWN"
+) -> bool:
+    if de_ratio is None or is_financial:
+        return False
+    if de_ratio > threshold:
+        ratio_logger.warning(f"High Leverage {company_id} D/E = {de_ratio:.1f}")
+        return True
+    return False
+
+
+def calculate_interest_coverage(
+    operating_profit: Any,
+    interest: Any,
+    other_income: Any = 0,
+    precision: int = DEFAULT_PRECISION
+) -> Optional[float]:
+    try:
+        intr = float(interest) if interest is not None else None
+        if intr is None or intr == 0:
+            ratio_logger.info("Debt Free Company ICR skipped")
+            return None
+        if intr < 0:
+            return None
+
+        op = float(operating_profit) if operating_profit is not None else 0.0
+        oth = float(other_income) if other_income is not None else 0.0
+        tot_inc = op + oth
+        return safe_divide(tot_inc, intr, multiplier=1.0, precision=precision)
+    except (ValueError, TypeError):
+        return None
+
+
+def calculate_icr_warning(
+    icr_ratio: Optional[float],
+    threshold: float = ICR_WARNING_THRESHOLD
+) -> bool:
+    if icr_ratio is None:
+        return False
+    return icr_ratio < threshold
+
+
+def calculate_icr_label(interest: Any, icr_ratio: Optional[float] = None) -> Optional[str]:
+    try:
+        if interest is not None and float(interest) == 0:
+            return "Debt Free"
+    except (ValueError, TypeError):
+        pass
+
+    if icr_ratio is not None:
+        if icr_ratio >= 5.0:
+            return "Strong"
+        elif icr_ratio >= 2.0:
+            return "Healthy"
+        elif icr_ratio >= 1.5:
+            return "Watch"
+        else:
+            return "Risky"
+    return None
+
+
+def calculate_net_debt(
+    borrowings: Any,
+    investments: Any,
+    precision: int = DEFAULT_PRECISION
+) -> Optional[float]:
+    try:
+        borr = float(borrowings) if borrowings is not None else 0.0
+        inv = float(investments) if investments is not None else 0.0
+        return round(borr - inv, precision)
+    except (ValueError, TypeError):
+        return None
+
+
+def calculate_asset_turnover(
+    sales: Any,
+    total_assets: Any,
+    precision: int = DEFAULT_PRECISION
+) -> Optional[float]:
+    try:
+        ta = float(total_assets) if total_assets is not None else 0.0
+        if ta <= 0:
+            return None
+        s = float(sales) if sales is not None else 0.0
+        return safe_divide(s, ta, multiplier=1.0, precision=precision)
+    except (ValueError, TypeError):
+        return None
 
 
 class ProfitabilityEngine(RatioCalculator):
@@ -281,3 +406,151 @@ class ProfitabilityEngine(RatioCalculator):
         df_summary = pd.DataFrame(summary_rows)
         df_summary.to_csv(summary_file, index=False)
         ratio_logger.info(f"Exported ratio summary statistics to {summary_file}")
+
+
+class LeverageEngine(RatioCalculator):
+    """
+    Enhanced Leverage & Efficiency Analytics Engine.
+    Computes D/E, ICR, Net Debt, Asset Turnover, high leverage flags, and ICR warning flags.
+    """
+
+    @classmethod
+    def compute_period_ratios(
+        cls,
+        company_id: str,
+        year: str,
+        borrowings: Any,
+        equity_capital: Any,
+        reserves: Any,
+        operating_profit: Any,
+        interest: Any,
+        investments: Any,
+        sales: Any,
+        total_assets: Any,
+        other_income: Any = 0,
+        is_financial: bool = False
+    ) -> List[RatioResult]:
+        results: List[RatioResult] = []
+
+        # 1. Debt-to-Equity
+        de_val = calculate_debt_to_equity(borrowings, equity_capital, reserves, company_id=company_id, year=year)
+        eq = float(equity_capital or 0)
+        res = float(reserves or 0)
+        tot_eq = eq + res
+        status_de = "VALID"
+        if tot_eq <= 0:
+            status_de = "NON_POSITIVE_EQUITY"
+        elif de_val == 0.0:
+            status_de = "DEBT_FREE"
+
+        results.append(
+            cls.create_result(
+                company_id, year, "D/E", de_val, status_de,
+                "Borrowings / (Equity + Reserves)", "balancesheet", DEBT_TO_EQUITY_BENCHMARKS
+            )
+        )
+
+        # 2. Interest Coverage Ratio
+        icr_val = calculate_interest_coverage(operating_profit, interest, other_income=other_income)
+        status_icr = "VALID"
+        try:
+            if interest is not None and float(interest) == 0:
+                status_icr = "DEBT_FREE"
+            elif interest is not None and float(interest) < 0:
+                status_icr = "NEGATIVE_INTEREST"
+        except (ValueError, TypeError):
+            status_icr = "INVALID_INPUT"
+
+        results.append(
+            cls.create_result(
+                company_id, year, "ICR", icr_val, status_icr,
+                "(Operating Profit + Other Income) / Interest", "profitandloss", ICR_BENCHMARKS
+            )
+        )
+
+        # 3. Net Debt
+        net_debt_val = calculate_net_debt(borrowings, investments)
+        status_nd = "VALID" if net_debt_val is not None else "INVALID_INPUT"
+        results.append(
+            cls.create_result(
+                company_id, year, "NET_DEBT", net_debt_val, status_nd,
+                "Borrowings - Investments", "balancesheet", None
+            )
+        )
+
+        # 4. Asset Turnover
+        at_val = calculate_asset_turnover(sales, total_assets)
+        status_at = "VALID"
+        if total_assets is not None and float(total_assets or 0) <= 0:
+            status_at = "NON_POSITIVE_ASSETS"
+
+        results.append(
+            cls.create_result(
+                company_id, year, "ASSET_TURNOVER", at_val, status_at,
+                "Sales / Total Assets", "profitandloss + balancesheet", ASSET_TURNOVER_BENCHMARKS
+            )
+        )
+
+        return results
+
+    @classmethod
+    def compute_all_ratios(
+        cls,
+        company_id: str,
+        year: str,
+        borrowings: Any,
+        equity_capital: Any,
+        reserves: Any,
+        operating_profit: Any,
+        interest: Any,
+        investments: Any,
+        sales: Any,
+        total_assets: Any,
+        other_income: Any = 0,
+        is_financial: bool = False
+    ) -> Dict[str, Any]:
+        rlist = cls.compute_period_ratios(
+            company_id, year, borrowings, equity_capital, reserves,
+            operating_profit, interest, investments, sales, total_assets, other_income, is_financial
+        )
+        res_map = {r.ratio_name.lower(): r.value for r in rlist}
+        de_val = res_map.get("d/e")
+        icr_val = res_map.get("icr")
+
+        res_map["high_leverage_flag"] = calculate_high_leverage_flag(de_val, is_financial=is_financial, company_id=company_id)
+        res_map["icr_warning"] = calculate_icr_warning(icr_val)
+        res_map["icr_label"] = calculate_icr_label(interest, icr_val)
+        res_map["company_id"] = company_id
+        res_map["year"] = year
+
+        return res_map
+
+    @classmethod
+    def export_ratio_audit_and_summary(cls, results: List[RatioResult], output_dir: Optional[Path] = None):
+        """Export calculation audit log CSV and summary statistics CSV for leverage engine."""
+        out_dir = output_dir or (BASE_DIR / "output")
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        log_file = out_dir / "leverage_ratio_calculation_log.csv"
+        df_log = pd.DataFrame([r.to_dict() for r in results])
+        df_log.to_csv(log_file, index=False)
+        ratio_logger.info(f"Exported leverage ratio calculation audit log to {log_file}")
+
+        summary_file = out_dir / "leverage_ratio_summary.csv"
+        summary_rows = []
+        for ratio_name in ["D/E", "ICR", "NET_DEBT", "ASSET_TURNOVER"]:
+            sub = df_log[df_log["ratio_name"] == ratio_name]
+            vals = sub["value"].dropna()
+            summary_rows.append({
+                "KPI": ratio_name,
+                "Total_Evaluated": len(sub),
+                "Valid_Count": len(vals),
+                "Null_Count": len(sub) - len(vals),
+                "Average": round(vals.mean(), 2) if not vals.empty else None,
+                "Min": round(vals.min(), 2) if not vals.empty else None,
+                "Max": round(vals.max(), 2) if not vals.empty else None,
+            })
+        df_summary = pd.DataFrame(summary_rows)
+        df_summary.to_csv(summary_file, index=False)
+        ratio_logger.info(f"Exported leverage ratio summary statistics to {summary_file}")
+
