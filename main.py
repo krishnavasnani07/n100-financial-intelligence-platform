@@ -128,6 +128,28 @@ def main():
         print(f"    Itemized Ratio Audit Log : output/ratio_calculation_log.csv")
         print(f"    KPI Summary Statistics   : output/ratio_summary.csv\n")
 
+        print("==============================")
+        print("GROWTH ANALYTICS (CAGR) ENGINE")
+        print("==============================\n")
+
+        from src.analytics.cagr import CAGREngine
+
+        conn_cagr = sqlite3.connect(db_path)
+        query_pl = "SELECT company_id, year, sales, net_profit, eps FROM profitandloss"
+        df_pl_all = pd.read_sql(query_pl, conn_cagr)
+        conn_cagr.close()
+
+        all_cagr_results = []
+        for cid in df_pl_all["company_id"].unique():
+            df_comp = df_pl_all[df_pl_all["company_id"] == cid]
+            cagr_res = CAGREngine.compute_company_cagr(cid, df_comp)
+            all_cagr_results.extend(cagr_res)
+
+        CAGREngine.export_growth_reports(all_cagr_results)
+        print(f"[+] Computed Growth CAGR metrics for {len(df_pl_all['company_id'].unique())} companies ({len(all_cagr_results)} CAGR evaluations)!")
+        print(f"    Growth Summary Table : output/growth_summary.csv")
+        print(f"    CAGR Flag Statistics : output/cagr_statistics.csv\n")
+
         # Print Phase 14 Execution Summary Dashboard
         print("====================================")
         print("      ETL EXECUTION SUMMARY         ")
@@ -138,6 +160,7 @@ def main():
         print(f"Rows Inserted        : {load_summary['total_inserted']}")
         print(f"Rows Rejected        : {load_summary['total_rejected']}")
         print(f"KPI Ratios Evaluated : {len(all_ratio_results)}")
+        print(f"Growth CAGR Evaluated: {len(all_cagr_results)}")
         print("")
         print(f"Validation Errors    : {summary['critical_failures']}")
         print(f"FK Violations        : {len(fk_violations)}")

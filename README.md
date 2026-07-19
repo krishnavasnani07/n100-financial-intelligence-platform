@@ -49,9 +49,10 @@ The **Nifty 100 Financial Intelligence Platform** is designed to provide institu
 | **Validation** | **16 DQ Check Suite** | Validates primary keys, unique constraints, FK integrity, balance sheet equilibrium, tax rates, URLs, and coverage | ✅ Production Ready |
 | **Database** | **SQLite Relational Engine** | Enforces FK constraints, composite unique indexes, transactional rollbacks, and automated backups (`db/backups/`) | ✅ Production Ready |
 | **Audit** | **Load & KPI Audit System** | Exports timestamped execution summaries (`output/audit/load_audit.csv`) and calculation logs | ✅ Production Ready |
-| **Analytics** | **Profitability & Leverage Engine** | Computes NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, and Asset Turnover with flags & audit logs | ✅ Production Ready |
+| **Analytics** | **Profitability & Solvency Engine** | Computes NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, and Asset Turnover with flags & audit logs | ✅ Production Ready |
+| **Growth Engine**| **Reusable CAGR Analytics** | Computes 3Y, 5Y, 10Y Revenue, PAT, & EPS CAGR handling 6 edge cases and growth classification | ✅ Production Ready |
 | **Resilience** | **Safe Division & Error Recovery** | Safe mathematical helpers (`safe_divide`), transaction rollback handling, and fallback error handling | ✅ Production Ready |
-| **Testing** | **Comprehensive Pytest Suite** | 194 automated unit, integration, recovery, and mock-file tests with 100% pass rate | ✅ Production Ready |
+| **Testing** | **Comprehensive Pytest Suite** | 208 automated unit, integration, recovery, and mock-file tests with 100% pass rate | ✅ Production Ready |
 
 
 ---
@@ -62,7 +63,7 @@ The **Nifty 100 Financial Intelligence Platform** is designed to provide institu
 Language              : Python 3.14+
 Relational Storage    : SQLite 3.14 (WAL Mode, Foreign Key Constraints Enforced)
 Data Processing       : Pandas, Openpyxl, NumPy
-Configuration         : Python-Dotenv, Custom Central Settings Engine
+Configuration         : Central Ratio & Growth Config (ratio_config.py & growth_config.py)
 Testing Framework     : Pytest 9.1+
 Logging Engine        : Standard Logging + Dedicated Ratio Engine Logger (logs/ratio_engine.log)
 Version Control       : Git & GitHub Actions Ready
@@ -100,9 +101,10 @@ Version Control       : Git & GitHub Actions Ready
                                             │
                                             ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                           PROFITABILITY & LEVERAGE RATIO ENGINES                       │
+│                       PROFITABILITY, LEVERAGE & GROWTH RATIO ENGINES                     │
 │     src/analytics/ratios.py (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover) │
-│     Outputs: ratio_calculation_log.csv, ratio_summary.csv, leverage_ratio_log.csv           │
+│     src/analytics/cagr.py (Revenue, PAT, EPS 3Y/5Y/10Y CAGR Engine & Edge Cases)       │
+│     Outputs: ratio_calculation_log.csv, leverage_ratio_log.csv, growth_summary.csv    │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -146,7 +148,9 @@ n100-financial-intelligence-platform/
 │   ├── ratio_calculation_log.csv # Itemized KPI computation audit trail
 │   ├── ratio_summary.csv    # Aggregated KPI statistics (Avg, Min, Max, Nulls)
 │   ├── leverage_ratio_calculation_log.csv # Itemized leverage KPI audit trail
-│   └── leverage_ratio_summary.csv    # Aggregated leverage KPI statistics
+│   ├── leverage_ratio_summary.csv # Aggregated leverage KPI statistics
+│   ├── growth_summary.csv   # Company multi-period Revenue/PAT/EPS CAGR summary & labels
+│   └── cagr_statistics.csv  # Edge-case flag count statistics breakdown
 │
 ├── reports/                 # Quality assurance verification reports
 │   └── manual_review_report.md # Day 6 QA verification summary report
@@ -155,10 +159,12 @@ n100-financial-intelligence-platform/
 │   ├── analytics/           # KPI calculation engines
 │   │   ├── __init__.py
 │   │   ├── ratio_base.py    # RatioCalculator base class & RatioResult dataclass
-│   │   └── ratios.py        # Profitability & Leverage ratio engines
+│   │   ├── ratios.py        # Profitability & Leverage ratio engines
+│   │   └── cagr.py          # Generic CAGR Growth Analytics Engine & Edge Cases
 │   ├── config/              # Central application configuration
 │   │   ├── settings.py      # Environment variables & path resolution
-│   │   └── ratio_config.py  # KPI benchmarks, tolerances, and formula versions
+│   │   ├── ratio_config.py  # KPI benchmarks, tolerances, and formula versions
+│   │   └── growth_config.py # CAGR time windows, metrics, flags, & classification tiers
 │   ├── database/            # Database loaders & connection context managers
 │   │   ├── connection.py    # Connection factory & FK pragma enforcement
 │   │   ├── loader.py        # Relational DatabaseLoader engine
@@ -178,7 +184,7 @@ n100-financial-intelligence-platform/
 ├── tests/                   # Pytest automation test suite
 │   ├── database/            # Connection, schema, FK enforcement & recovery tests
 │   ├── etl/                 # Excel loader & string normalizer tests
-│   ├── kpi/                 # Profitability & Leverage ratio tests
+│   ├── kpi/                 # Profitability, Leverage, and CAGR ratio tests
 │   └── validation/          # DQ rule unit, integration, and mock file tests
 │
 ├── .env                     # Local environment configuration
@@ -243,7 +249,7 @@ CREATE TABLE balancesheet (
 | **Sprint 1 - Day 7** | SQL & Retrospective | 10 business SQL queries, `sprint1_retrospective.md` | ✅ Completed |
 | **Sprint 2 - Day 8** | Profitability Ratios | `ratios.py`, `RatioCalculator`, NPM/OPM/ROE/ROCE/ROA, ratio audit CSVs | ✅ Completed |
 | **Sprint 2 - Day 9** | Leverage & Efficiency Engine | Debt-to-Equity, Interest Coverage, Net Debt, Asset Turnover, Flags & Unit Tests | ✅ Completed |
-| **Sprint 2 - Day 10**| Cash Flow & Growth KPIs | FCF, CAGR, Dividend Payout, Valuation Ratios | ⏳ Upcoming |
+| **Sprint 2 - Day 10**| CAGR Growth Analytics | Generic `calculate_cagr`, Revenue/PAT/EPS 3Y/5Y/10Y, 6 Edge Cases, Reports & Tests | ✅ Completed |
 
 
 ---
@@ -320,6 +326,11 @@ The financial analytics engine (`src/analytics/ratios.py`) computes 9 fundamenta
    $$\text{Asset Turnover} = \frac{\text{Sales Revenue}}{\text{Total Assets}}$$
    *Edge Cases*: Returns `None` if Total Assets $\le 0$.
 
+10. **Compound Annual Growth Rate (CAGR) Engine**:
+    $$\text{CAGR} = \left[\left(\frac{\text{End Value}}{\text{Start Value}}\right)^{\frac{1}{\text{Years}}} - 1\right] \times 100$$
+    *Edge Case Flags*: Handled `VALID` (positive->positive), `DECLINE_TO_LOSS`, `TURNAROUND`, `BOTH_NEGATIVE`, `ZERO_BASE`, and `INSUFFICIENT`.
+    *Growth Tiers*: High Growth (>20%), Strong Growth (10-20%), Moderate (5-10%), Slow (0-5%), Declining (<0%).
+
 ---
 
 ## 📊 Output Audit Reports
@@ -332,12 +343,14 @@ Executing the pipeline populates structured CSV reports under `output/`:
 - **`output/ratio_summary.csv`**: Statistical summary per profitability KPI.
 - **`output/leverage_ratio_calculation_log.csv`**: Itemized calculation log for leverage & efficiency KPIs.
 - **`output/leverage_ratio_summary.csv`**: Statistical summary per leverage & efficiency KPI.
+- **`output/growth_summary.csv`**: Multi-period (3Y, 5Y, 10Y) Revenue, PAT, and EPS CAGR metrics & growth labels.
+- **`output/cagr_statistics.csv`**: Count breakdown of CAGR edge case flags across all companies.
 
 ---
 
 ## 🧪 Test Suite & Quality Assurance
 
-The repository features **194 automated unit, integration, and recovery tests** with 100% pass rate:
+The repository features **208 automated unit, integration, and recovery tests** with 100% pass rate:
 
 ```bash
 python -m pytest tests/ -v
@@ -349,9 +362,9 @@ python -m pytest tests/ -v
 tests/database/           : 13 Tests (Connections, schemas, FK enforcement, transaction rollbacks)
 tests/etl/                : 76 Tests (ExcelLoader error handling, ticker & year normalizers)
 tests/validation/         : 61 Tests (16 Data Quality rules, validator integration, mock file edge cases)
-tests/kpi/                : 44 Tests (RatioCalculator, safe_divide, NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover, flags, CSV exports)
+tests/kpi/                : 58 Tests (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover, Revenue/PAT/EPS CAGR 3Y/5Y/10Y, edge cases, growth labels, CSV exports)
 --------------------------------------------------------------------------------------------------------
-TOTAL                     : 194 PASSED (100% Pass Rate)
+TOTAL                     : 208 PASSED (100% Pass Rate)
 ```
 
 ---

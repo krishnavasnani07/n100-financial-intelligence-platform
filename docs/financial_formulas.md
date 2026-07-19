@@ -18,6 +18,9 @@ This document serves as the authoritative formula reference manual for the Nifty
 | **ICR** | Interest Coverage Ratio | $\frac{\text{Operating Profit} + \text{Other Income}}{\text{Interest Expense}}$ | `profitandloss` | Interest $=0 \rightarrow \text{None} + \text{"Debt Free"}$; Warning Flag if $< 1.5$ | $\ge 5.0$ (Strong) |
 | **Net Debt** | Net Debt | $\text{Borrowings} - \text{Investments}$ | `balancesheet` | Negative values allowed (indicates net cash / liquid surplus) | $\le 0$ (Ideal) |
 | **Asset Turnover** | Asset Turnover | $\frac{\text{Sales}}{\text{Total Assets}}$ | `profitandloss` + `balancesheet` | Returns `None` if Total Assets $\le 0$ | $\ge 1.5$ (Excellent) |
+| **Revenue CAGR** | Revenue Growth Rate | $\left[\left(\frac{\text{Sales}_T}{\text{Sales}_0}\right)^{\frac{1}{T}} - 1\right] \times 100$ | `profitandloss` | 6 Financial Edge Cases (Zero base, turnaround, decline to loss, etc.) | $> 10\%$ (Strong Growth) |
+| **PAT CAGR** | Net Profit Growth Rate | $\left[\left(\frac{\text{PAT}_T}{\text{PAT}_0}\right)^{\frac{1}{T}} - 1\right] \times 100$ | `profitandloss` | 6 Financial Edge Cases (Zero base, turnaround, decline to loss, etc.) | $> 10\%$ (Strong Growth) |
+| **EPS CAGR** | EPS Growth Rate | $\left[\left(\frac{\text{EPS}_T}{\text{EPS}_0}\right)^{\frac{1}{T}} - 1\right] \times 100$ | `profitandloss` | 6 Financial Edge Cases (Zero base, turnaround, decline to loss, etc.) | $> 10\%$ (Strong Growth) |
 
 ---
 
@@ -76,4 +79,26 @@ This document serves as the authoritative formula reference manual for the Nifty
 - **Formula**:
   $$\text{Asset Turnover} = \frac{\text{Sales Revenue}}{\text{Total Assets}}$$
 - **Edge Cases**: Returns `None` if Total Assets $\le 0$.
+
+### 10. Compound Annual Growth Rate (CAGR) Engine
+- **Business Purpose**: Evaluates smoothed annual growth rate of financial metrics (Revenue, PAT, EPS) over 3-year, 5-year, and 10-year time windows.
+- **Formula**:
+  $$\text{CAGR} = \left[\left(\frac{\text{End Value}}{\text{Start Value}}\right)^{\frac{1}{\text{Years}}} - 1\right] \times 100$$
+
+- **Financial Edge Cases Handling**:
+  1. **Positive $\rightarrow$ Positive**: Normal calculation. Returns CAGR %, Flag: `VALID`.
+  2. **Positive $\rightarrow$ Negative / Zero**: Company moved from profit/revenue to loss or zero. Returns `None`, Flag: `DECLINE_TO_LOSS`.
+  3. **Negative $\rightarrow$ Positive**: Loss-making company turned profitable. Formula generates mathematically invalid/misleading negative CAGR. Returns `None`, Flag: `TURNAROUND`.
+  4. **Negative $\rightarrow$ Negative / Zero**: Loss persisted across periods. Returns `None`, Flag: `BOTH_NEGATIVE`.
+  5. **Zero Base**: Initial base value was zero ($0 \rightarrow X$). Division by zero. Returns `None`, Flag: `ZERO_BASE`.
+  6. **Insufficient Data**: Missing historical year record or non-positive year period. Returns `None`, Flag: `INSUFFICIENT`.
+
+- **Growth Tiers Classification**:
+  - $> 20\%$: **High Growth**
+  - $10\% - 20\%$: **Strong Growth**
+  - $5\% - 10\%$: **Moderate**
+  - $0\% - 5\%$: **Slow**
+  - $< 0\%$: **Declining**
+  - Edge Cases / Suppressed: **N/A**
+
 
