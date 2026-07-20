@@ -150,6 +150,42 @@ def main():
         print(f"    Growth Summary Table : output/growth_summary.csv")
         print(f"    CAGR Flag Statistics : output/cagr_statistics.csv\n")
 
+        print("==============================")
+        print("CASH FLOW ANALYTICS ENGINE")
+        print("==============================\n")
+
+        from src.analytics.cashflow_kpis import CashFlowEngine
+
+        conn_cf = sqlite3.connect(db_path)
+        query_cf = """
+            SELECT 
+                cf.company_id,
+                cf.year,
+                cf.operating_activity,
+                cf.investing_activity,
+                cf.financing_activity,
+                pl.sales,
+                pl.operating_profit,
+                pl.net_profit
+            FROM cashflow cf
+            LEFT JOIN profitandloss pl ON cf.company_id = pl.company_id AND cf.year = pl.year
+            ORDER BY cf.company_id, cf.year
+        """
+        df_cf_all = pd.read_sql(query_cf, conn_cf)
+        conn_cf.close()
+
+        all_cashflow_results = []
+        for cid in df_cf_all["company_id"].unique():
+            df_comp = df_cf_all[df_cf_all["company_id"] == cid]
+            cf_res = CashFlowEngine.compute_company_cashflow_kpis(cid, df_comp)
+            all_cashflow_results.extend(cf_res)
+
+        CashFlowEngine.export_cashflow_reports(all_cashflow_results)
+        print(f"[+] Computed Cash Flow KPIs & Capital Allocation for {len(df_cf_all['company_id'].unique())} companies ({len(all_cashflow_results)} period evaluations)!")
+        print(f"    Capital Allocation Matrix : output/capital_allocation.csv")
+        print(f"    Cash Flow KPI Summary     : output/cashflow_summary.csv")
+        print(f"    Capital Pattern Metrics   : output/capital_pattern_statistics.csv\n")
+
         # Print Phase 14 Execution Summary Dashboard
         print("====================================")
         print("      ETL EXECUTION SUMMARY         ")
@@ -161,6 +197,7 @@ def main():
         print(f"Rows Rejected        : {load_summary['total_rejected']}")
         print(f"KPI Ratios Evaluated : {len(all_ratio_results)}")
         print(f"Growth CAGR Evaluated: {len(all_cagr_results)}")
+        print(f"Cash Flow Evaluated  : {len(all_cashflow_results)}")
         print("")
         print(f"Validation Errors    : {summary['critical_failures']}")
         print(f"FK Violations        : {len(fk_violations)}")

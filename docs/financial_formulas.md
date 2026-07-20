@@ -21,6 +21,11 @@ This document serves as the authoritative formula reference manual for the Nifty
 | **Revenue CAGR** | Revenue Growth Rate | $\left[\left(\frac{\text{Sales}_T}{\text{Sales}_0}\right)^{\frac{1}{T}} - 1\right] \times 100$ | `profitandloss` | 6 Financial Edge Cases (Zero base, turnaround, decline to loss, etc.) | $> 10\%$ (Strong Growth) |
 | **PAT CAGR** | Net Profit Growth Rate | $\left[\left(\frac{\text{PAT}_T}{\text{PAT}_0}\right)^{\frac{1}{T}} - 1\right] \times 100$ | `profitandloss` | 6 Financial Edge Cases (Zero base, turnaround, decline to loss, etc.) | $> 10\%$ (Strong Growth) |
 | **EPS CAGR** | EPS Growth Rate | $\left[\left(\frac{\text{EPS}_T}{\text{EPS}_0}\right)^{\frac{1}{T}} - 1\right] \times 100$ | `profitandloss` | 6 Financial Edge Cases (Zero base, turnaround, decline to loss, etc.) | $> 10\%$ (Strong Growth) |
+| **FCF** | Free Cash Flow | $\text{CFO} + \text{CFI}$ | `cashflow` | CFI is negative; negative FCF valid and unadjusted | $> 0$ (Ideal) |
+| **CFO Quality** | CFO Quality Score | $\frac{\text{CFO}}{\text{PAT}}$ (5-yr Avg) | `cashflow` + `profitandloss` | Returns `None` if PAT $\le 0$ | $> 1.0$ (High Quality) |
+| **CapEx Intensity** | CapEx Intensity | $\frac{|\text{CFI}|}{\text{Sales}} \times 100$ | `cashflow` + `profitandloss` | Returns `None` if Sales $\le 0$ | $< 3\%$ (Asset Light) |
+| **FCF Conversion** | FCF Conversion Ratio | $\frac{\text{FCF}}{\text{Operating Profit}}$ | `cashflow` + `profitandloss` | Returns `None` if Operating Profit $\le 0$ | $> 0.8$ (High Conversion) |
+| **Capital Allocation** | Capital Allocation Pattern | Sign Matrix $(\text{CFO}, \text{CFI}, \text{CFF})$ | `cashflow` + `profitandloss` | 8 distinct allocation archetypes (Reinvestor, Shareholder Returns, etc.) | N/A (Categorical) |
 
 ---
 
@@ -100,5 +105,47 @@ This document serves as the authoritative formula reference manual for the Nifty
   - $0\% - 5\%$: **Slow**
   - $< 0\%$: **Declining**
   - Edge Cases / Suppressed: **N/A**
+
+### 11. Cash Flow Analytics & Capital Allocation Engine
+- **Business Purpose**: Analyzes cash generation, cash quality, capital intensity, cash conversion efficiency, and classifies corporate capital allocation patterns across 8 distinct business archetypes.
+
+#### A. Free Cash Flow (FCF)
+- **Formula**: $\text{FCF} = \text{Operating Cash Flow (CFO)} + \text{Investing Cash Flow (CFI)}$
+- **Notes**: Investing cash flow is typically negative (CapEx/investments). Negative FCF is completely valid and unadjusted.
+
+#### B. CFO Quality Score
+- **Formula**: $\text{CFO Quality} = \frac{\text{Operating Cash Flow (CFO)}}{\text{Net Profit (PAT)}}$ (averaged over 5 years).
+- **Classification**:
+  - $> 1.0$: **High Quality** (Strong cash conversion of reported accounting profits)
+  - $0.5 - 1.0$: **Moderate**
+  - $< 0.5$: **Accrual Risk** (Earnings supported primarily by non-cash working capital accruals)
+- **Edge Cases**: Suppressed to `None` if Net Profit $\le 0$.
+
+#### C. CapEx Intensity
+- **Formula**: $\text{CapEx Intensity (\%)} = \frac{|\text{Investing Cash Flow (CFI)}|}{\text{Sales}} \times 100$
+- **Classification**:
+  - $< 3\%$: **Asset Light**
+  - $3\% - 8\%$: **Moderate**
+  - $> 8\%$: **Capital Intensive**
+- **Edge Cases**: Suppressed to `None` if Sales $\le 0$.
+
+#### D. FCF Conversion Ratio
+- **Formula**: $\text{FCF Conversion} = \frac{\text{Free Cash Flow (FCF)}}{\text{Operating Profit}}$
+- **Edge Cases**: Suppressed to `None` if Operating Profit $\le 0$.
+
+#### E. Capital Allocation Classifier (8 Patterns)
+- **Methodology**: Evaluates the mathematical signs $(+, -)$ of Operating Cash Flow ($\text{CFO}$), Investing Cash Flow ($\text{CFI}$), and Financing Cash Flow ($\text{CFF}$).
+
+| CFO Sign | CFI Sign | CFF Sign | Pattern Label | Business Interpretation |
+| :---: | :---: | :---: | :--- | :--- |
+| $+$ | $-$ | $-$ | **Reinvestor** | Cash from operations reinvested in growth with balance returned to debt/equity (CFO/PAT $\le 1.0$) |
+| $+$ | $-$ | $-$ | **Shareholder Returns** | High CFO quality (CFO/PAT $> 1.0$) with heavy capital return via dividends/buybacks/debt reduction |
+| $+$ | $+$ | $-$ | **Liquidating Assets** | Operating cash and asset sale proceeds used to reduce debt or return capital |
+| $-$ | $+$ | $+$ | **Distress Signal** | Operating cash burn compensated by asset liquidation and external financing |
+| $-$ | $-$ | $+$ | **Growth Funded by Debt** | Operating cash deficit and capital expenditures funded by debt/equity capital |
+| $+$ | $+$ | $+$ | **Cash Accumulator** | Operations, asset sales, and financing inflows accumulated in liquid reserves |
+| $-$ | $-$ | $-$ | **Pre-Revenue** | Early-stage/R&D cash burn across operations, capital investments, and financing outflows |
+| $+$ | $-$ | $+$ | **Mixed** | Positive operating cash flow combined with external debt/equity capital raising and investment |
+
 
 

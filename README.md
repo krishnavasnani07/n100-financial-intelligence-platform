@@ -15,7 +15,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-3.14-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Pandas](https://img.shields.io/badge/Pandas-2.0+-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-[![pytest](https://img.shields.io/badge/Tests-194%20Passed-2EA44F?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![pytest](https://img.shields.io/badge/Tests-234%20Passed-2EA44F?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 **An end-to-end, production-grade financial data engineering pipeline, data quality validation framework, and financial KPI analytics engine built for Nifty 100 companies.**
@@ -36,7 +36,7 @@ The **Nifty 100 Financial Intelligence Platform** is designed to provide institu
 1. **Automating Multi-Source Excel Ingestion**: Parsing and loading raw Excel filings across 12 distinct datasets into structured dataframes.
 2. **Enforcing Strict Data Quality**: Executing 16 automated Data Quality (DQ) checks to prevent corrupted, duplicated, or unlinked records from entering storage.
 3. **Relational Database Population**: Ingesting clean datasets into an ACID-compliant SQLite relational schema (`db/nifty100.db`) enforcing Foreign Keys (`PRAGMA foreign_keys = ON;`) and WAL journaling.
-4. **Automating KPI Computations**: Computing core profitability, leverage, and efficiency ratios (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover), applying financial benchmark classifications, cross-checking anomalies, and exporting audit logs (`ratio_calculation_log.csv` & `ratio_summary.csv`).
+4. **Automating KPI Computations**: Computing core profitability, leverage, efficiency, growth, and cash flow ratios (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover, FCF, CFO Quality, CapEx Intensity, FCF Conversion, Capital Allocation Patterns), applying financial benchmark classifications, cross-checking anomalies, and exporting audit logs (`ratio_calculation_log.csv`, `capital_allocation.csv` & `cashflow_summary.csv`).
 
 ---
 
@@ -51,8 +51,9 @@ The **Nifty 100 Financial Intelligence Platform** is designed to provide institu
 | **Audit** | **Load & KPI Audit System** | Exports timestamped execution summaries (`output/audit/load_audit.csv`) and calculation logs | ✅ Production Ready |
 | **Analytics** | **Profitability & Solvency Engine** | Computes NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, and Asset Turnover with flags & audit logs | ✅ Production Ready |
 | **Growth Engine**| **Reusable CAGR Analytics** | Computes 3Y, 5Y, 10Y Revenue, PAT, & EPS CAGR handling 6 edge cases and growth classification | ✅ Production Ready |
+| **Cash Flow** | **Cash Flow & Capital Allocation** | Computes FCF, 5Y CFO Quality, CapEx Intensity, FCF Conversion & 8 Capital Allocation Patterns | ✅ Production Ready |
 | **Resilience** | **Safe Division & Error Recovery** | Safe mathematical helpers (`safe_divide`), transaction rollback handling, and fallback error handling | ✅ Production Ready |
-| **Testing** | **Comprehensive Pytest Suite** | 208 automated unit, integration, recovery, and mock-file tests with 100% pass rate | ✅ Production Ready |
+| **Testing** | **Comprehensive Pytest Suite** | 234 automated unit, integration, recovery, and mock-file tests with 100% pass rate | ✅ Production Ready |
 
 
 ---
@@ -101,10 +102,11 @@ Version Control       : Git & GitHub Actions Ready
                                             │
                                             ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                       PROFITABILITY, LEVERAGE & GROWTH RATIO ENGINES                     │
+│                    PROFITABILITY, LEVERAGE, GROWTH & CASH FLOW ENGINES                  │
 │     src/analytics/ratios.py (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover) │
 │     src/analytics/cagr.py (Revenue, PAT, EPS 3Y/5Y/10Y CAGR Engine & Edge Cases)       │
-│     Outputs: ratio_calculation_log.csv, leverage_ratio_log.csv, growth_summary.csv    │
+│     src/analytics/cashflow_kpis.py (FCF, CFO Quality, CapEx Intensity, Allocation Engine) │
+│     Outputs: ratio_calculation_log.csv, capital_allocation.csv, cashflow_summary.csv     │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -139,7 +141,8 @@ n100-financial-intelligence-platform/
 │   └── ratio_engine.log     # Dedicated KPI ratio calculation log
 │
 ├── notebooks/               # EDA & SQL queries
-│   └── exploratory_queries.sql # 10 business SQL exploratory queries
+│   ├── exploratory_queries.sql # 10 business SQL exploratory queries
+│   └── cashflow_analysis.ipynb # Cash Flow & Capital Allocation visual analysis
 │
 ├── output/                  # Audit & analytics CSV exports
 │   ├── audit/               # load_audit.csv database ingestion metrics
@@ -150,7 +153,10 @@ n100-financial-intelligence-platform/
 │   ├── leverage_ratio_calculation_log.csv # Itemized leverage KPI audit trail
 │   ├── leverage_ratio_summary.csv # Aggregated leverage KPI statistics
 │   ├── growth_summary.csv   # Company multi-period Revenue/PAT/EPS CAGR summary & labels
-│   └── cagr_statistics.csv  # Edge-case flag count statistics breakdown
+│   ├── cagr_statistics.csv  # Edge-case flag count statistics breakdown
+│   ├── capital_allocation.csv # Capital allocation 8-pattern matrix (CFO/CFI/CFF)
+│   ├── cashflow_summary.csv # Comprehensive Cash Flow KPI evaluation summary
+│   └── capital_pattern_statistics.csv # Capital allocation pattern distribution metrics
 │
 ├── reports/                 # Quality assurance verification reports
 │   └── manual_review_report.md # Day 6 QA verification summary report
@@ -160,11 +166,13 @@ n100-financial-intelligence-platform/
 │   │   ├── __init__.py
 │   │   ├── ratio_base.py    # RatioCalculator base class & RatioResult dataclass
 │   │   ├── ratios.py        # Profitability & Leverage ratio engines
-│   │   └── cagr.py          # Generic CAGR Growth Analytics Engine & Edge Cases
+│   │   ├── cagr.py          # Generic CAGR Growth Analytics Engine & Edge Cases
+│   │   └── cashflow_kpis.py # Cash Flow Analytics & Capital Allocation Classifier
 │   ├── config/              # Central application configuration
 │   │   ├── settings.py      # Environment variables & path resolution
 │   │   ├── ratio_config.py  # KPI benchmarks, tolerances, and formula versions
-│   │   └── growth_config.py # CAGR time windows, metrics, flags, & classification tiers
+│   │   ├── growth_config.py # CAGR time windows, metrics, flags, & classification tiers
+│   │   └── cashflow_config.py # CFO Quality, CapEx Intensity, & Capital Allocation maps
 │   ├── database/            # Database loaders & connection context managers
 │   │   ├── connection.py    # Connection factory & FK pragma enforcement
 │   │   ├── loader.py        # Relational DatabaseLoader engine
@@ -184,7 +192,7 @@ n100-financial-intelligence-platform/
 ├── tests/                   # Pytest automation test suite
 │   ├── database/            # Connection, schema, FK enforcement & recovery tests
 │   ├── etl/                 # Excel loader & string normalizer tests
-│   ├── kpi/                 # Profitability, Leverage, and CAGR ratio tests
+│   ├── kpi/                 # Profitability, Leverage, CAGR, and Cash Flow ratio tests
 │   └── validation/          # DQ rule unit, integration, and mock file tests
 │
 ├── .env                     # Local environment configuration
@@ -250,6 +258,7 @@ CREATE TABLE balancesheet (
 | **Sprint 2 - Day 8** | Profitability Ratios | `ratios.py`, `RatioCalculator`, NPM/OPM/ROE/ROCE/ROA, ratio audit CSVs | ✅ Completed |
 | **Sprint 2 - Day 9** | Leverage & Efficiency Engine | Debt-to-Equity, Interest Coverage, Net Debt, Asset Turnover, Flags & Unit Tests | ✅ Completed |
 | **Sprint 2 - Day 10**| CAGR Growth Analytics | Generic `calculate_cagr`, Revenue/PAT/EPS 3Y/5Y/10Y, 6 Edge Cases, Reports & Tests | ✅ Completed |
+| **Sprint 2 - Day 11**| Cash Flow & Allocation Engine | FCF, 5Y CFO Quality, CapEx Intensity, FCF Conversion, 8 Capital Allocation Patterns, Notebook & CSVs | ✅ Completed |
 
 
 ---
@@ -284,7 +293,7 @@ The platform executes **16 automated Data Quality rules** before loading into SQ
 
 ## 💰 Sprint 2: Financial KPI Analytics Engine
 
-The financial analytics engine (`src/analytics/ratios.py`) computes 9 fundamental profitability, leverage, and efficiency metrics utilizing the `RatioCalculator` base class across `ProfitabilityEngine` and `LeverageEngine`:
+The financial analytics engine (`src/analytics/ratios.py`, `cagr.py`, `cashflow_kpis.py`) computes fundamental profitability, leverage, efficiency, growth, and cash flow metrics:
 
 ### 📐 KPI Formulations & Benchmark Classification
 
@@ -331,6 +340,13 @@ The financial analytics engine (`src/analytics/ratios.py`) computes 9 fundamenta
     *Edge Case Flags*: Handled `VALID` (positive->positive), `DECLINE_TO_LOSS`, `TURNAROUND`, `BOTH_NEGATIVE`, `ZERO_BASE`, and `INSUFFICIENT`.
     *Growth Tiers*: High Growth (>20%), Strong Growth (10-20%), Moderate (5-10%), Slow (0-5%), Declining (<0%).
 
+11. **Cash Flow Analytics & Capital Allocation Engine**:
+    - **Free Cash Flow (FCF)**: $\text{CFO} + \text{CFI}$ (Negative FCF is valid and unadjusted).
+    - **CFO Quality Score**: $\frac{\text{CFO}}{\text{PAT}}$ (5-Year Average). High (>1.0), Moderate (0.5–1.0), Accrual Risk (<0.5). Suppressed if PAT $\le 0$.
+    - **CapEx Intensity**: $\frac{|\text{CFI}|}{\text{Sales}} \times 100$. Asset Light (<3%), Moderate (3–8%), Capital Intensive (>8%). Suppressed if Sales $\le 0$.
+    - **FCF Conversion**: $\frac{\text{FCF}}{\text{Operating Profit}}$. Suppressed if Operating Profit $\le 0$.
+    - **Capital Allocation Classifier (8 Patterns)**: Evaluates sign matrix $(\text{CFO}, \text{CFI}, \text{CFF})$ to categorize business allocation into Reinvestor, Shareholder Returns, Liquidating Assets, Distress Signal, Growth Funded by Debt, Cash Accumulator, Pre-Revenue, or Mixed.
+
 ---
 
 ## 📊 Output Audit Reports
@@ -345,12 +361,15 @@ Executing the pipeline populates structured CSV reports under `output/`:
 - **`output/leverage_ratio_summary.csv`**: Statistical summary per leverage & efficiency KPI.
 - **`output/growth_summary.csv`**: Multi-period (3Y, 5Y, 10Y) Revenue, PAT, and EPS CAGR metrics & growth labels.
 - **`output/cagr_statistics.csv`**: Count breakdown of CAGR edge case flags across all companies.
+- **`output/capital_allocation.csv`**: Matrix of company-year cash flow sign patterns and allocation labels.
+- **`output/cashflow_summary.csv`**: Comprehensive Cash Flow KPI metrics (FCF, CFO Quality 5Y, CapEx Intensity, FCF Conversion).
+- **`output/capital_pattern_statistics.csv`**: Distribution metrics of 8 capital allocation patterns across Nifty 100 entities.
 
 ---
 
 ## 🧪 Test Suite & Quality Assurance
 
-The repository features **208 automated unit, integration, and recovery tests** with 100% pass rate:
+The repository features **234 automated unit, integration, and recovery tests** with 100% pass rate:
 
 ```bash
 python -m pytest tests/ -v
@@ -362,9 +381,9 @@ python -m pytest tests/ -v
 tests/database/           : 13 Tests (Connections, schemas, FK enforcement, transaction rollbacks)
 tests/etl/                : 76 Tests (ExcelLoader error handling, ticker & year normalizers)
 tests/validation/         : 61 Tests (16 Data Quality rules, validator integration, mock file edge cases)
-tests/kpi/                : 58 Tests (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover, Revenue/PAT/EPS CAGR 3Y/5Y/10Y, edge cases, growth labels, CSV exports)
+tests/kpi/                : 84 Tests (NPM, OPM, ROE, ROCE, ROA, D/E, ICR, Net Debt, Asset Turnover, Revenue/PAT/EPS CAGR 3Y/5Y/10Y, FCF, 5Y CFO Quality, CapEx Intensity, FCF Conversion, 8 Pattern Classifier, CSV exports)
 --------------------------------------------------------------------------------------------------------
-TOTAL                     : 208 PASSED (100% Pass Rate)
+TOTAL                     : 234 PASSED (100% Pass Rate)
 ```
 
 ---
