@@ -186,6 +186,16 @@ def main():
         print(f"    Cash Flow KPI Summary     : output/cashflow_summary.csv")
         print(f"    Capital Pattern Metrics   : output/capital_pattern_statistics.csv\n")
 
+        print("====================================")
+        print(" POPULATING FINANCIAL RATIOS TABLE  ")
+        print("====================================\n")
+
+        from src.analytics.populate_financial_ratios import populate_ratios_pipeline
+
+        df_final_ratios = populate_ratios_pipeline(db_path)
+        print(f"[+] Populated financial_ratios SQLite table with {len(df_final_ratios)} records!")
+        print(f"    Exported CSV : output/financial_ratios.csv\n")
+
         # Print Phase 14 Execution Summary Dashboard
         print("====================================")
         print("      ETL EXECUTION SUMMARY         ")
@@ -198,11 +208,12 @@ def main():
         print(f"KPI Ratios Evaluated : {len(all_ratio_results)}")
         print(f"Growth CAGR Evaluated: {len(all_cagr_results)}")
         print(f"Cash Flow Evaluated  : {len(all_cashflow_results)}")
+        print(f"Ratios Inserted (DB) : {len(df_final_ratios)}")
         print("")
         print(f"Validation Errors    : {summary['critical_failures']}")
         print(f"FK Violations        : {len(fk_violations)}")
         print("")
-        print(f"Total Runtime        : {total_pipeline_runtime} sec")
+        print(f"Total Runtime        : {round(time.time() - start_pipeline_time, 2)} sec")
         print("")
         print("Database Status      : SUCCESS")
         print("====================================\n")

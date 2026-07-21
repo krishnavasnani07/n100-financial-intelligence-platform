@@ -162,12 +162,14 @@ CREATE TABLE peer_groups (
 
 -- 11. Financial Ratios Table (Sprint 2 Analytics Engine Target)
 CREATE TABLE financial_ratios (
-    id INTEGER,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     company_id TEXT NOT NULL,
     year TEXT NOT NULL,
     net_profit_margin_pct REAL,
     operating_profit_margin_pct REAL,
     return_on_equity_pct REAL,
+    return_on_capital_employed_pct REAL,
+    return_on_assets_pct REAL,
     debt_to_equity REAL,
     interest_coverage REAL,
     asset_turnover REAL,
@@ -178,10 +180,15 @@ CREATE TABLE financial_ratios (
     dividend_payout_ratio_pct REAL,
     total_debt_cr REAL,
     cash_from_operations_cr REAL,
+    revenue_cagr_5yr REAL,
+    pat_cagr_5yr REAL,
+    eps_cagr_5yr REAL,
+    composite_quality_score REAL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (company_id, year),
+    UNIQUE (company_id, year),
     FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 );
+
 
 -- Index Definitions for Query Optimization & High-Performance Joins
 CREATE INDEX idx_sectors_company_id ON sectors(company_id);
