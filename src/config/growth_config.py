@@ -1,5 +1,5 @@
 """
-Growth Analytics Engine Configuration (Sprint 2 - Day 10).
+Growth Analytics Engine Configuration.
 Defines supported CAGR time windows, metric keys, edge-case flag constants, 
 growth classification thresholds, and output formatting precision.
 """

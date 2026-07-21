@@ -196,7 +196,7 @@ def main():
         print(f"[+] Populated financial_ratios SQLite table with {len(df_final_ratios)} records!")
         print(f"    Exported CSV : output/financial_ratios.csv\n")
 
-        # Print Phase 14 Execution Summary Dashboard
+        # Print Execution Summary Dashboard
         print("====================================")
         print("      ETL EXECUTION SUMMARY         ")
         print("====================================")

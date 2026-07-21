@@ -1,5 +1,5 @@
 """
-Ratio Engine Configuration & Benchmark Standards (Sprint 2).
+Ratio Engine Configuration & Benchmark Standards.
 Centralizes thresholds, tolerances, formula versions, and benchmark classifications.
 """
 

@@ -1,5 +1,5 @@
 """
-Automated Financial Ratio Spot-Check Verification Engine (Sprint 2 - Phase 13).
+Automated Financial Ratio Spot-Check Verification Script.
 Validates calculated SQLite KPIs against raw Excel source data for sample companies across sectors.
 Exports detailed verification audit report to output/reports/ratio_spot_check.csv.
 """

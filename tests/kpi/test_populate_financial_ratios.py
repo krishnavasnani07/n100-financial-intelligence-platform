@@ -1,5 +1,5 @@
 """
-Unit and Integration Tests for Financial Ratio Population Engine (Sprint 2 - Day 12).
+Unit and Integration Tests for Financial Ratio Population Pipeline.
 """
 
 import sqlite3

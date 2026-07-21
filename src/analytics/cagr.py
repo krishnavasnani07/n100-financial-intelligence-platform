@@ -1,7 +1,7 @@
 """
-Growth Analytics Engine - Compound Annual Growth Rate (CAGR) Engine (Sprint 2 - Day 10).
+Growth Analytics Engine - Compound Annual Growth Rate (CAGR) Engine.
 
-Provides a generic, reusable CAGR engine to compute Revenue, PAT, and EPS growth
+Provides a reusable CAGR engine to compute Revenue, PAT, and EPS growth
 across 3-year, 5-year, and 10-year windows while handling financial edge cases gracefully:
 1. Positive -> Positive: Returns calculated CAGR (%) with status VALID.
 2. Positive -> Negative / Zero: Returns None with status DECLINE_TO_LOSS.

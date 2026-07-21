@@ -1,6 +1,6 @@
 """
-Cash Flow Analytics Engine Configuration (Sprint 2 - Day 11).
-Defines thresholds for CFO Quality, CapEx Intensity, and Pattern Mappings for Capital Allocation.
+Cash Flow Analytics Engine Configuration.
+Defines thresholds for CFO Quality, CapEx Intensity, and Capital Allocation patterns.
 """
 
 from typing import Dict, Tuple

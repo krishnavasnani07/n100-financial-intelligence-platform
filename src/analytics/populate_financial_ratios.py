@@ -1,5 +1,5 @@
 """
-Financial Ratio Population Engine (Sprint 2 - Day 12).
+Financial Ratio Population Pipeline.
 
 Integrates Profitability, Leverage, CAGR, and Cash Flow analytics engines
 to populate the `financial_ratios` SQLite database table and generate `output/financial_ratios.csv`.

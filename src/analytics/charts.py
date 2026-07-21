@@ -1,5 +1,5 @@
 """
-Automated Financial Ratio Visual Distribution Generator (Sprint 2 - Phase 16).
+Financial Ratio Distribution Generator.
 Generates multi-panel histogram and outlier distribution charts for evaluated KPIs.
 Saves visual artifacts to reports/profitability_distribution.png and README_ASSETS/.
 """
@@ -61,7 +61,7 @@ def generate_profitability_charts(csv_log_path: Path, output_dir: Path) -> Path:
     # Filter reasonable bounds for combined boxplot
     df_box = df_clean[df_clean["ratio_name"].isin(ratios)].copy()
     df_box = df_box[(df_box["value"] >= -50) & (df_box["value"] <= 150)]
-    sns.boxplot(data=df_box, x="ratio_name", y="value", ax=ax_box, palette="muted")
+    sns.boxplot(data=df_box, x="ratio_name", y="value", ax=ax_box, hue="ratio_name", palette="muted", legend=False)
     ax_box.set_title("Cross-KPI Outlier & Quartile Range Comparison", fontsize=13, fontweight="bold")
     ax_box.set_xlabel("KPI Metric", fontsize=11)
     ax_box.set_ylabel("Percentage (%)", fontsize=11)

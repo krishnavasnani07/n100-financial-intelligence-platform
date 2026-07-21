@@ -1,5 +1,5 @@
 """
-Generic Ratio Base Class & Data Models (Sprint 2).
+Generic Ratio Base Class & Data Models.
 Provides reusable division, validation, benchmarking, and structured RatioResult models.
 """
 

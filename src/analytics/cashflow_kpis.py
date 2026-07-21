@@ -1,8 +1,7 @@
 """
-Cash Flow Analytics Engine for Nifty 100 Financial Intelligence Platform (Sprint 2 - Day 11).
+Cash Flow Analytics Engine for Nifty 100 Financial Intelligence Platform.
 Computes Free Cash Flow (FCF), CFO Quality Score, CapEx Intensity, FCF Conversion,
-and Capital Allocation Classification (8 Patterns).
-Outputs capital_allocation.csv, cashflow_summary.csv, and capital_pattern_statistics.csv.
+and Capital Allocation Classification.
 """
 
 import math
