@@ -115,7 +115,7 @@ def filter_companies(data: Optional[Union[pd.DataFrame, str, Path]], config: Opt
                 continue
             if debt_series is None:
                 continue
-            debt_value = _coerce_float(debt_series.iloc[idx])
+            debt_value = _coerce_float(debt_series.loc[idx])
             if debt_value is not None and debt_value > max_debt_to_equity:
                 debt_mask.at[idx] = False
         mask &= debt_mask
@@ -158,7 +158,7 @@ def filter_companies(data: Optional[Union[pd.DataFrame, str, Path]], config: Opt
                 continue
             if icr_series is None:
                 continue
-            icr_value = _coerce_float(icr_series.iloc[idx])
+            icr_value = _coerce_float(icr_series.loc[idx])
             if icr_value is not None and icr_value < min_interest_coverage:
                 interest_mask.at[idx] = False
         mask &= interest_mask
@@ -182,6 +182,14 @@ def filter_companies(data: Optional[Union[pd.DataFrame, str, Path]], config: Opt
     min_sales = _get_threshold("min_sales")
     if min_sales is not None:
         _apply_numeric_filter(["sales", "revenue"], min_sales, "ge")
+
+    max_dividend_payout = _get_threshold("max_dividend_payout")
+    if max_dividend_payout is not None:
+        _apply_numeric_filter(["dividend_payout_ratio_pct", "dividend_payout"], max_dividend_payout, "le")
+
+    min_revenue_cagr_3yr = _get_threshold("min_revenue_cagr_3yr")
+    if min_revenue_cagr_3yr is not None:
+        _apply_numeric_filter(["revenue_cagr_3yr", "rev_cagr_3yr"], min_revenue_cagr_3yr, "ge")
 
     filtered = frame.loc[mask].copy()
     if "composite_quality_score" in filtered.columns:
