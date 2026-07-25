@@ -50,99 +50,12 @@ def load_screener_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
     """
     Loads raw database data, joins sectoral and price information,
     performs dynamic calculations (PE, PB, 3Y CAGR, YoY D/E change),
-    and filters to the latest year for each company.
+    calculates sector-relative composite quality scores and ranks,
+    and returns the latest year for each company.
     """
-    db_file = db_path or DB_PATH
-    conn = sqlite3.connect(db_file)
-    try:
-        # Join financial_ratios with sectors (for sector) and profitandloss (for sales and interest)
-        query = """
-        SELECT 
-            fr.*,
-            s.broad_sector as sector,
-            pl.sales as sales,
-            pl.interest as interest
-        FROM financial_ratios fr
-        LEFT JOIN sectors s ON fr.company_id = s.company_id
-        LEFT JOIN profitandloss pl ON fr.company_id = pl.company_id AND fr.year = pl.year
-        """
-        df = pd.read_sql_query(query, conn)
-
-        # Load stock prices to compute P/E and P/B dynamically
-        query_prices = "SELECT company_id, date as price_date, close_price FROM stock_prices"
-        df_prices = pd.read_sql_query(query_prices, conn)
-    finally:
-        conn.close()
-
-    # Map financial year end to price date (matching monthly stock prices)
-    df["price_date"] = df["year"].apply(map_year_to_price_date)
-    df = pd.merge(df, df_prices, on=["company_id", "price_date"], how="left")
-
-    # Compute P/E and P/B
-    def safe_div(num: Any, denom: Any) -> Optional[float]:
-        try:
-            n = float(num)
-            d = float(denom)
-            if d <= 0 or pd.isnull(n) or pd.isnull(d):
-                return None
-            return round(n / d, 2)
-        except (ValueError, TypeError):
-            return None
-
-    df["pe"] = df.apply(lambda r: safe_div(r.get("close_price"), r.get("earnings_per_share")), axis=1)
-    df["pb"] = df.apply(lambda r: safe_div(r.get("close_price"), r.get("book_value_per_share")), axis=1)
-
-    # Calculate dividend_yield dynamically
-    def calc_div_yield(row: pd.Series) -> float:
-        payout = row.get("dividend_payout_ratio_pct")
-        eps = row.get("earnings_per_share")
-        price = row.get("close_price")
-        if payout is None or eps is None or price is None or price <= 0:
-            return 0.0
-        return round((payout * eps) / price, 2)
-
-    df["dividend_yield"] = df.apply(calc_div_yield, axis=1)
-
-    # Compute icr_label
-    df["icr_label"] = df.apply(
-        lambda r: calculate_icr_label(r.get("interest"), r.get("interest_coverage")),
-        axis=1
-    )
-
-    # Sort to perform historical calculations (YoY Debt and 3Y Revenue CAGR)
-    df["year_int"] = df["year"].apply(extract_year_int)
-    df = df.dropna(subset=["year_int"]).sort_values(by=["company_id", "year_int"]).copy()
-
-    # YoY D/E declining comparison
-    df["prev_de"] = df.groupby("company_id")["debt_to_equity"].shift(1)
-    
-    # Handle declining YoY (both must be not null and current < previous)
-    def is_de_declining(row: pd.Series) -> bool:
-        cur = row.get("debt_to_equity")
-        prev = row.get("prev_de")
-        if cur is None or prev is None or pd.isnull(cur) or pd.isnull(prev):
-            return False
-        return float(cur) < float(prev)
-
-    df["de_declining_yoy"] = df.apply(is_de_declining, axis=1)
-
-    # 3Y Revenue CAGR
-    df["sales_3y_ago"] = df.groupby("company_id")["sales"].shift(3)
-    
-    def row_cagr_3y(row: pd.Series) -> Optional[float]:
-        start = row.get("sales_3y_ago")
-        end = row.get("sales")
-        if pd.isnull(start) or pd.isnull(end) or start is None or end is None:
-            return None
-        val, flag = calculate_cagr(start, end, 3, company_id=str(row.get("company_id")), metric_name="Revenue_3Y")
-        return val if flag == "VALID" else None
-
-    df["revenue_cagr_3yr"] = df.apply(row_cagr_3y, axis=1)
-
-    # Keep only the latest year for each company (sorting descending first)
-    df_latest = df.sort_values(by="year_int", ascending=False).drop_duplicates(subset=["company_id"], keep="first").copy()
-    
-    return df_latest.sort_values(by="company_id").reset_index(drop=True)
+    from src.screener.ranking import calculate_rankings
+    df_ranked = calculate_rankings(db_path)
+    return df_ranked.sort_values(by="company_id").reset_index(drop=True)
 
 
 # Preset Screeners
