@@ -190,6 +190,29 @@ CREATE TABLE financial_ratios (
 );
 
 
+-- 12. Users Table for Authentication
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    role TEXT NOT NULL CHECK (role IN ('Admin', 'Analyst', 'Viewer')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 13. Watchlists Table for User Favorites
+CREATE TABLE watchlists (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    company_id TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
+    UNIQUE (user_id, company_id)
+);
+
+CREATE INDEX idx_watchlists_user_id ON watchlists(user_id);
+
+
 -- Index Definitions for Query Optimization & High-Performance Joins
 CREATE INDEX idx_sectors_company_id ON sectors(company_id);
 CREATE INDEX idx_sectors_broad_sector ON sectors(broad_sector);

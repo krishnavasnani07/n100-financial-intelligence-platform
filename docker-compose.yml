@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - ENV=production
+      - DB_PATH=db/nifty100.db
+    volumes:
+      - ./db:/app/db
+      - ./output:/app/output
+    restart: always
+
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - DB_PATH=db/nifty100.db
+    volumes:
+      - ./db:/app/db
+      - ./output:/app/output
+    command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+    restart: always
