@@ -1,0 +1,29 @@
+Company,Sector,Peer Rank,Composite Score
+BHARTIARTL,Communication Services,1,50.0
+NAUKRI,Communication Services,2,35.0
+MOTHERSON,Consumer Discretionary,12,23.29
+TVSMOTOR,Consumer Discretionary,13,19.59
+M&M,Consumer Discretionary,14,10.76
+TATACONSUM,Consumer Staples,5,43.05
+DABUR,Consumer Staples,6,28.07
+GODREJCP,Consumer Staples,7,18.9
+JSWENERGY,Energy,12,30.22
+NHPC,Energy,13,29.82
+TATAPOWER,Energy,14,29.33
+SHRIRAMFIN,Financials,21,32.63
+ICICIPRULI,Financials,22,29.45
+INDUSINDBK,Financials,23,28.3
+SUNPHARMA,Healthcare,4,48.56
+APOLLOHOSP,Healthcare,5,38.94
+DIVISLAB,Healthcare,6,36.36
+HAVELLS,Industrials,8,32.51
+GRASIM,Industrials,9,27.57
+BHEL,Industrials,10,17.9
+LTIM,Information Technology,3,54.45
+INFY,Information Technology,4,47.54
+TECHM,Information Technology,5,23.89
+JINDALSTEL,Materials,7,26.08
+JSWSTEEL,Materials,8,21.36
+TATASTEEL,Materials,9,20.52
+LODHA,Real Estate,1,45.0
+DLF,Real Estate,2,40.0
