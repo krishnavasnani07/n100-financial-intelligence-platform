@@ -7,6 +7,9 @@ import sqlite3
 import pandas as pd
 import yaml
 
+from src.screener.utilities import coerce_float
+from src.screener.filters import apply_numeric_filter, apply_debt_filter, apply_interest_filter
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 CONFIG_PATH = BASE_DIR / "config" / "screener_config.yaml"
 
@@ -17,24 +20,6 @@ def load_screener_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         config = yaml.safe_load(handle) or {}
     return config if isinstance(config, dict) else {}
-
-
-def _coerce_float(value: Any) -> Optional[float]:
-    if value is None:
-        return None
-    try:
-        if isinstance(value, str) and value.strip() == "":
-            return None
-        return float(value)
-    except (TypeError, ValueError):
-        return None
-
-
-def _get_series(frame: pd.DataFrame, aliases: list[str]) -> Optional[pd.Series]:
-    for alias in aliases:
-        if alias in frame.columns:
-            return frame[alias]
-    return None
 
 
 def load_financial_ratios_dataframe(source: Optional[Union[str, Path, pd.DataFrame]] = None) -> pd.DataFrame:
@@ -80,116 +65,28 @@ def filter_companies(data: Optional[Union[pd.DataFrame, str, Path]], config: Opt
         raw_value = thresholds.get(name)
         if raw_value is None:
             return default
-        return _coerce_float(raw_value)
+        return coerce_float(raw_value)
 
     mask = pd.Series(True, index=frame.index)
 
-    def _apply_numeric_filter(column_aliases: list[str], threshold: Optional[float], mode: str = "ge") -> None:
-        nonlocal mask
-        if threshold is None:
-            return
-        series = _get_series(frame, column_aliases)
-        if series is None:
-            return
-        values = series.apply(_coerce_float)
-        if mode == "ge":
-            mask &= values.ge(threshold)
-        elif mode == "le":
-            mask &= values.le(threshold)
-        elif mode == "gt":
-            mask &= values.gt(threshold)
-        elif mode == "lt":
-            mask &= values.lt(threshold)
-
-    min_roe = _get_threshold("min_roe")
-    if min_roe is not None:
-        _apply_numeric_filter(["return_on_equity_pct", "roe"], min_roe, "ge")
-
-    max_debt_to_equity = _get_threshold("max_debt_to_equity")
-    if max_debt_to_equity is not None:
-        debt_mask = pd.Series(True, index=frame.index)
-        debt_series = _get_series(frame, ["debt_to_equity", "de_ratio", "de_to_equity"])
-        for idx, value in frame.iterrows():
-            sector = str(value.get("sector", "")).strip().lower()
-            if sector == "financials":
-                continue
-            if debt_series is None:
-                continue
-            debt_value = _coerce_float(debt_series.loc[idx])
-            if debt_value is not None and debt_value > max_debt_to_equity:
-                debt_mask.at[idx] = False
-        mask &= debt_mask
-
-    min_fcf = _get_threshold("min_fcf")
-    if min_fcf is not None:
-        _apply_numeric_filter(["free_cash_flow_cr", "fcf"], min_fcf, "ge")
-
-    min_revenue_cagr_5yr = _get_threshold("min_revenue_cagr_5yr")
-    if min_revenue_cagr_5yr is not None:
-        _apply_numeric_filter(["revenue_cagr_5yr", "rev_cagr_5yr"], min_revenue_cagr_5yr, "ge")
-
-    min_pat_cagr_5yr = _get_threshold("min_pat_cagr_5yr")
-    if min_pat_cagr_5yr is not None:
-        _apply_numeric_filter(["pat_cagr_5yr", "pat_cagr"], min_pat_cagr_5yr, "ge")
-
-    min_operating_profit_margin = _get_threshold("min_operating_profit_margin")
-    if min_operating_profit_margin is not None:
-        _apply_numeric_filter(["operating_profit_margin_pct", "opm_pct", "operating_profit_margin"], min_operating_profit_margin, "ge")
-
-    max_pe = _get_threshold("max_pe")
-    if max_pe is not None:
-        _apply_numeric_filter(["pe", "price_to_earnings", "p_e"], max_pe, "le")
-
-    max_pb = _get_threshold("max_pb")
-    if max_pb is not None:
-        _apply_numeric_filter(["pb", "price_to_book", "p_b"], max_pb, "le")
-
-    min_dividend_yield = _get_threshold("min_dividend_yield")
-    if min_dividend_yield is not None:
-        _apply_numeric_filter(["dividend_yield", "dividend_yield_pct", "dividend_payout_ratio_pct"], min_dividend_yield, "ge")
-
-    min_interest_coverage = _get_threshold("min_interest_coverage")
-    if min_interest_coverage is not None:
-        interest_mask = pd.Series(True, index=frame.index)
-        icr_series = _get_series(frame, ["interest_coverage", "icr", "interest_coverage_ratio"])
-        for idx, value in frame.iterrows():
-            label = str(value.get("icr_label", "")).strip().lower()
-            if label == "debt free":
-                continue
-            if icr_series is None:
-                continue
-            icr_value = _coerce_float(icr_series.loc[idx])
-            if icr_value is not None and icr_value < min_interest_coverage:
-                interest_mask.at[idx] = False
-        mask &= interest_mask
-
-    min_market_cap = _get_threshold("min_market_cap")
-    if min_market_cap is not None:
-        _apply_numeric_filter(["market_cap", "market_value"], min_market_cap, "ge")
-
-    min_net_profit = _get_threshold("min_net_profit")
-    if min_net_profit is not None:
-        _apply_numeric_filter(["net_profit"], min_net_profit, "ge")
-
-    min_eps_cagr_5yr = _get_threshold("min_eps_cagr_5yr")
-    if min_eps_cagr_5yr is not None:
-        _apply_numeric_filter(["eps_cagr_5yr", "eps_cagr"], min_eps_cagr_5yr, "ge")
-
-    min_asset_turnover = _get_threshold("min_asset_turnover")
-    if min_asset_turnover is not None:
-        _apply_numeric_filter(["asset_turnover"], min_asset_turnover, "ge")
-
-    min_sales = _get_threshold("min_sales")
-    if min_sales is not None:
-        _apply_numeric_filter(["sales", "revenue"], min_sales, "ge")
-
-    max_dividend_payout = _get_threshold("max_dividend_payout")
-    if max_dividend_payout is not None:
-        _apply_numeric_filter(["dividend_payout_ratio_pct", "dividend_payout"], max_dividend_payout, "le")
-
-    min_revenue_cagr_3yr = _get_threshold("min_revenue_cagr_3yr")
-    if min_revenue_cagr_3yr is not None:
-        _apply_numeric_filter(["revenue_cagr_3yr", "rev_cagr_3yr"], min_revenue_cagr_3yr, "ge")
+    # Apply all numeric filters
+    mask = apply_numeric_filter(frame, ["return_on_equity_pct", "roe"], _get_threshold("min_roe"), "ge", mask)
+    mask = apply_debt_filter(frame, _get_threshold("max_debt_to_equity"), mask)
+    mask = apply_numeric_filter(frame, ["free_cash_flow_cr", "fcf"], _get_threshold("min_fcf"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["revenue_cagr_5yr", "rev_cagr_5yr"], _get_threshold("min_revenue_cagr_5yr"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["pat_cagr_5yr", "pat_cagr"], _get_threshold("min_pat_cagr_5yr"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["operating_profit_margin_pct", "opm_pct", "operating_profit_margin"], _get_threshold("min_operating_profit_margin"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["pe", "price_to_earnings", "p_e"], _get_threshold("max_pe"), "le", mask)
+    mask = apply_numeric_filter(frame, ["pb", "price_to_book", "p_b"], _get_threshold("max_pb"), "le", mask)
+    mask = apply_numeric_filter(frame, ["dividend_yield", "dividend_yield_pct", "dividend_payout_ratio_pct"], _get_threshold("min_dividend_yield"), "ge", mask)
+    mask = apply_interest_filter(frame, _get_threshold("min_interest_coverage"), mask)
+    mask = apply_numeric_filter(frame, ["market_cap", "market_value"], _get_threshold("min_market_cap"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["net_profit"], _get_threshold("min_net_profit"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["eps_cagr_5yr", "eps_cagr"], _get_threshold("min_eps_cagr_5yr"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["asset_turnover"], _get_threshold("min_asset_turnover"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["sales", "revenue"], _get_threshold("min_sales"), "ge", mask)
+    mask = apply_numeric_filter(frame, ["dividend_payout_ratio_pct", "dividend_payout"], _get_threshold("max_dividend_payout"), "le", mask)
+    mask = apply_numeric_filter(frame, ["revenue_cagr_3yr", "rev_cagr_3yr"], _get_threshold("min_revenue_cagr_3yr"), "ge", mask)
 
     filtered = frame.loc[mask].copy()
     if "composite_quality_score" in filtered.columns:
