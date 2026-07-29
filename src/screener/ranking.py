@@ -38,6 +38,8 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
         SELECT 
             fr.*,
             s.broad_sector as sector,
+            s.sub_sector,
+            s.index_weight_pct,
             pl.sales as sales,
             pl.interest as interest,
             pl.net_profit as net_profit
