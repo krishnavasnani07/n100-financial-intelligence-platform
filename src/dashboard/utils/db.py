@@ -125,3 +125,16 @@ def get_valuation() -> pd.DataFrame:
         st.stop()
     finally:
         conn.close()
+
+@st.cache_data(ttl=600)
+def get_documents() -> pd.DataFrame:
+    """Fetches all annual reports and documents."""
+    conn = get_connection()
+    try:
+        df = pd.read_sql_query("SELECT * FROM documents", conn)
+        return df
+    except sqlite3.Error:
+        st.error("Unable to load data.")
+        st.stop()
+    finally:
+        conn.close()
