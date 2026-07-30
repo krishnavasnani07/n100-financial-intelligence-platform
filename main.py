@@ -196,6 +196,17 @@ def main():
         print(f"[+] Populated financial_ratios SQLite table with {len(df_final_ratios)} records!")
         print(f"    Exported CSV : output/financial_ratios.csv\n")
 
+        print("====================================")
+        print("       VALUATION ENGINE             ")
+        print("====================================\n")
+
+        from src.analytics.valuation import run_valuation_pipeline
+
+        df_valuation = run_valuation_pipeline(db_path)
+        print(f"[+] Computed valuation metrics for {len(df_valuation)} companies!")
+        print(f"    Valuation Summary Excel : output/valuation_summary.xlsx")
+        print(f"    Valuation Flags CSV     : output/valuation_flags.csv\n")
+
         # Print Execution Summary Dashboard
         print("====================================")
         print("      ETL EXECUTION SUMMARY         ")
@@ -209,6 +220,7 @@ def main():
         print(f"Growth CAGR Evaluated: {len(all_cagr_results)}")
         print(f"Cash Flow Evaluated  : {len(all_cashflow_results)}")
         print(f"Ratios Inserted (DB) : {len(df_final_ratios)}")
+        print(f"Valuation Evaluated  : {len(df_valuation)}")
         print("")
         print(f"Validation Errors    : {summary['critical_failures']}")
         print(f"FK Violations        : {len(fk_violations)}")
