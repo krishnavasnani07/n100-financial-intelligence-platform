@@ -1,13 +1,13 @@
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Generator
 from src.config import settings
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
-def get_connection(db_path: Path | str = None) -> sqlite3.Connection:
+def get_connection(db_path: Path | str | None = None) -> sqlite3.Connection:
     """
     Creates and returns a connection to the SQLite database.
     Explicitly enables foreign key constraint enforcement.
@@ -32,7 +32,7 @@ def get_connection(db_path: Path | str = None) -> sqlite3.Connection:
 
 
 @contextmanager
-def get_db(db_path: Path | str = None):
+def get_db(db_path: Path | str | None = None) -> Generator[sqlite3.Connection, None, None]:
     """
     Context manager for database connections that automatically handles
     commit and rollback on exceptions.
@@ -49,7 +49,9 @@ def get_db(db_path: Path | str = None):
         conn.close()
 
 
-def init_db(db_path: Path | str = None, schema_path: Path | str = None) -> None:
+def init_db(
+    db_path: Path | str | None = None, schema_path: Path | str | None = None
+) -> None:
     """
     Initializes the database by executing schema.sql statements.
     """

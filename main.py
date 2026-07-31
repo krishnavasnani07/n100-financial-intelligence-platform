@@ -79,9 +79,9 @@ def main():
         import sqlite3
         import pandas as pd
         from src.analytics.ratios import ProfitabilityEngine
-        from src.config.settings import BASE_DIR
+        from src.config.settings import DB_PATH
 
-        db_path = BASE_DIR / "db" / "nifty100.db"
+        db_path = DB_PATH
         conn = sqlite3.connect(db_path)
 
         query = """

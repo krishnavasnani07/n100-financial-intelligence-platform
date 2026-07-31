@@ -58,11 +58,14 @@ Institutional terminals charge tens of thousands of dollars, whereas retail stoc
 
 ## 🚀 3. Key Features (Evidence-Backed)
 
-*   **12-Source Ingest Engine**: Automatically parses multi-tab raw corporate Excel files, detecting row/column offsets and cleaning string whitespace.
-*   **16-Rule Data Quality (DQ) Validator**: Run prior to database loads, categorizing errors into **5 Blocker rules** (rejections to prevent corruption) and **11 Warning rules** (logged anomalies).
-*   **ACID Relational Storage**: SQLite backend enforcing referential integrity (`PRAGMA foreign_keys = ON`), Write-Ahead Logging (WAL) for concurrent read performance, and database backups.
-*   **Custom Financial Math Engine**: Computes profitability, solvency, capital allocation signs, and multi-period CAGRs while handling 6 mathematical edge cases (e.g., negative bases or turnaround years) without breaking.
-*   **Multi-Page Streamlit Dashboard**: Responsive UI featuring side-by-side comparison, preset analyst screeners, sector distribution maps, and automated PDF equity report generation.
+*   **Multi-Page Streamlit Dashboard**: 8 comprehensive, independent financial analytics pages routed through a native sidebar navigation menu.
+*   **Interactive Plotly Visualizations**: High-fidelity, hover-responsive charts including sector bubble plots, 10-year YoY growth trends, and capital allocation treemaps.
+*   **Cached Database Layer**: Connection caching (`@st.cache_data`) and SQLite Write-Ahead Logging (WAL) mode enabling sub-millisecond query responses and page load speeds under 1.2 seconds.
+*   **Institutional Valuation Engine**: Automated valuation pipeline computing FCF Yields and Sector Median P/E multiples to flag stocks under `Discount` or `Caution` categories.
+*   **Responsive Multi-Slider Filtering**: Instant screener updates using custom presets that automatically populate 10 sliding filters via Streamlit session states.
+*   **Automated Excel & CSV Exports**: Reusable download widgets for dynamic screeners, alongside structured openpyxl reports compiling relative valuations.
+*   **Data Ingestion & 16-Rule DQ Validator**: Reads raw corporate filings, runs 16 data validation checks, and records rejections/warnings in structured audits before DB loading.
+*   **Custom Financial Math Engines**: Computes profitability (DuPont, ROE/ROCE), CAGR growth curves, and cash flow structures with built-in mathematical edge-case guards.
 
 ---
 
@@ -159,7 +162,14 @@ n100-financial-intelligence-platform/
 ├── scripts/                 # Ingestion and automation scripts
 ├── src/                     # Core Application Source Code
 │   ├── analytics/           # Ratios, CAGR, cash flow, and valuation engines
+│   │   └── valuation.py     # Valuation and relative P/E analysis engine
 │   ├── config/              # Centralized environment settings
+│   ├── dashboard/           # Multi-Page Streamlit App and layout modules
+│   │   ├── app.py           # Dashboard routing and initialization entrypoint
+│   │   ├── pages/           # 8 independent analytical dashboard screens
+│   │   ├── components/      # Reusable UI widgets and Plotly chart renderers
+│   │   ├── utils/           # Data loading and cached DB connector helpers
+│   │   └── assets/          # Dark-mode styling stylesheets (styles.css)
 │   ├── database/            # Database loaders and queries
 │   ├── etl/                 # Parsing and normalization scripts
 │   ├── peer_analysis/       # Peer ranks and sector averages
@@ -258,7 +268,7 @@ The platform executes a sequential ETL and quality validation process before dat
     ![ETL Command Line Ingestion Output](README_ASSETS/cli_execution.png)
 2.  **Start the Streamlit Analytics Dashboard**:
     ```bash
-    streamlit run app.py
+    streamlit run src/dashboard/app.py
     ```
     *Access the dashboard locally in your browser at `http://localhost:8501`.*
 
@@ -299,15 +309,37 @@ The frontend is a local multi-page Streamlit web app displaying live financial d
 
 The application is broken down into **8 comprehensive, independent pages** allowing granular research:
 
-| 🏠 01 Executive Overview | 👤 02 Side-by-Side Comparison |
-| :---: | :---: |
-| ![Home](README_ASSETS/01_home.png) | ![Profile](README_ASSETS/02_profile.png) |
-| 🔍 03 Predefined Screeners | 📊 04 Sector Analysis |
-| ![Screener](README_ASSETS/03_screener.png) | ![Peers](README_ASSETS/04_peers.png) |
-| 📈 05 AI-Powered Research | 🏭 06 Custom Portfolio Risk |
-| ![Trends](README_ASSETS/05_trends.png) | ![Sector](README_ASSETS/06_sectors.png) |
-| 💰 07 3-Year Projections | 📄 08 Export Reports (Inside AI Page) |
-| ![Capital](README_ASSETS/07_capital.png) | ![Reports](README_ASSETS/08_reports.png) |
+### 🏠 1. Executive Home (`01_home.png`)
+![Executive Home](README_ASSETS/01_home.png)
+*Provides high-level market summaries, sector distribution treemaps, and quality-score rankings across the Nifty 100 universe.*
+
+### 🏢 2. Company Profile (`02_profile.png`)
+![Company Profile](README_ASSETS/02_profile.png)
+*Displays a deep-dive financial profile for a selected company, detailing profitability margins, DuPont analysis, leverage metrics, and user watchlists.*
+
+### 🔍 3. Investment Screener (`03_screener.png`)
+![Investment Screener](README_ASSETS/03_screener.png)
+*Includes 10 interactive sliders and 6 predefined investment strategy presets (e.g., Value Pick, Dividend Champion) with real-time filtration and CSV export.*
+
+### 👥 4. Peer Comparison (`04_peers.png`)
+![Peer Comparison](README_ASSETS/04_peers.png)
+*Enables head-to-head financial ratio comparisons and sector peer benchmarking using interactive, normalized radar charts.*
+
+### 📈 5. Trend Analysis (`05_trends.png`)
+![Trend Analysis](README_ASSETS/05_trends.png)
+*Plots 10-year historical trajectory charts for individual corporate financials (sales, profits, assets) alongside Year-over-Year (YoY) percentage changes.*
+
+### 🏭 6. Sector Analytics (`06_sectors.png`)
+![Sector Analytics](README_ASSETS/06_sectors.png)
+*Visualizes industry structures through interactive bubble plots comparing revenue and ROE, with bubble sizes scaled by NSE index weights.*
+
+### 💰 7. Capital Allocation (`07_capital.png`)
+![Capital Allocation](README_ASSETS/07_capital.png)
+*Classifies companies into strategic categories (e.g., Debt-Free, Capital Efficient, Dividend Leaders) and presents them in a nested hierarchical tree map.*
+
+### 📄 8. Reports Browser (`08_reports.png`)
+![Reports Browser](README_ASSETS/08_reports.png)
+*Allows analysts to search, view, and directly download PDF copies of corporate annual reports and financial filings stored locally.*
 
 ---
 

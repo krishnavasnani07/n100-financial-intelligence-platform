@@ -45,16 +45,7 @@ except Exception as e:
     console_handler.stream.write(f"CRITICAL: Failed to initialize file log handler at {LOG_FILE}: {e}\n")
 
 
-def extract_year_int(yr_val: Any) -> Optional[int]:
-    """Extract 4-digit calendar year integer from year string or integer."""
-    if not yr_val or pd.isnull(yr_val):
-        return None
-    val_str = str(yr_val).strip()
-    if val_str.upper() == "TTM":
-        return None
-    import re
-    m = re.search(r"\b(19\d\d|20\d\d)\b", val_str)
-    return int(m.group(1)) if m else None
+from src.utils.helpers import extract_year_int
 
 
 def load_market_cap(filepath: Optional[Path] = None) -> pd.DataFrame:

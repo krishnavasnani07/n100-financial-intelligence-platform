@@ -1,10 +1,11 @@
+from typing import Any
 import re
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
-def normalize_year(val) -> str | None:
+def normalize_year(val: Any) -> str | None:
     """
     Standardizes a raw year/date input to the YYYY-MM format.
 
@@ -101,7 +102,7 @@ def normalize_year(val) -> str | None:
     return None
 
 
-def normalize_ticker(val) -> str | None:
+def normalize_ticker(val: Any) -> str | None:
     """
     Standardizes a ticker symbol.
 

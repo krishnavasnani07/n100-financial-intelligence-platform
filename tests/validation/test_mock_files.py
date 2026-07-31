@@ -9,7 +9,7 @@ from src.validation.dq_rules import (
 )
 from src.etl.loader import load_excel
 
-test_data_dir = Path("tests/data")
+test_data_dir = Path(__file__).resolve().parent.parent / "data"
 
 
 def test_mock_duplicate_companies():
