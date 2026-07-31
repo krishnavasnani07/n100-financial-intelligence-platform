@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="100%" height="100%">
+  <defs>
+    <!-- Connector bullet -->
+    <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4">
+      <circle cx="5" cy="5" r="3" fill="#94a3b8" />
+    </marker>
+  </defs>
+
+  <style>
+    .bg { fill: #0b0f19; }
+    .table-box { fill: #1e293b; stroke: #334155; stroke-width: 1.5; rx: 8px; }
+    .table-header-green { fill: #10b981; rx: 8px 8px 0px 0px; }
+    .table-header-blue { fill: #38bdf8; rx: 8px 8px 0px 0px; }
+    .table-header-amber { fill: #f59e0b; rx: 8px 8px 0px 0px; }
+    
+    .table-title { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 700; fill: #0f172a; }
+    .col-name { font-family: 'Consolas', 'Courier New', monospace; font-size: 11px; fill: #e2e8f0; }
+    .col-type { font-family: 'Consolas', 'Courier New', monospace; font-size: 11px; fill: #64748b; text-anchor: end; }
+    .col-pk { font-family: 'Consolas', 'Courier New', monospace; font-size: 11px; fill: #f59e0b; font-weight: bold; }
+    .col-fk { font-family: 'Consolas', 'Courier New', monospace; font-size: 11px; fill: #38bdf8; }
+    
+    .header-title { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 22px; font-weight: 800; fill: #ffffff; letter-spacing: -0.02em; }
+    .header-desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 12px; fill: #6b7280; }
+    
+    .rel-line { fill: none; stroke: #475569; stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .rel-label { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 10px; fill: #64748b; font-weight: bold; }
+  </style>
+
+  <rect width="1000" height="650" class="bg" />
+
+  <!-- Header -->
+  <text x="40" y="50" class="header-title">SQLite Relational Database Schema</text>
+  <text x="40" y="70" class="header-desc">Schema entity-relationships, primary keys, foreign keys, and indexes</text>
+
+  <!-- TABLE: companies (Core parent) -->
+  <g transform="translate(40, 120)">
+    <rect width="240" height="150" class="table-box" />
+    <rect width="240" height="30" class="table-header-green" />
+    <text x="15" y="20" class="table-title">companies</text>
+    
+    <!-- columns -->
+    <text x="15" y="55" class="col-pk">🔑 ticker</text>
+    <text x="225" y="55" class="col-type">TEXT (PK)</text>
+    
+    <text x="15" y="75" class="col-name">  name</text>
+    <text x="225" y="75" class="col-type">TEXT</text>
+    
+    <text x="15" y="95" class="col-name">  sector</text>
+    <text x="225" y="95" class="col-type">TEXT</text>
+
+    <text x="15" y="115" class="col-name">  industry</text>
+    <text x="225" y="115" class="col-type">TEXT</text>
+    
+    <text x="15" y="135" class="col-name">🔍 Index: idx_companies_sector</text>
+    <text x="225" y="135" class="col-type"></text>
+  </g>
+
+  <!-- TABLE: financial_records -->
+  <g transform="translate(380, 120)">
+    <rect width="260" height="310" class="table-box" />
+    <rect width="260" height="30" class="table-header-blue" />
+    <text x="15" y="20" class="table-title">financial_records</text>
+    
+    <!-- columns -->
+    <text x="15" y="55" class="col-pk">🔑 ticker</text>
+    <text x="245" y="55" class="col-type">TEXT (PK, FK)</text>
+    
+    <text x="15" y="75" class="col-pk">🔑 calendar_year</text>
+    <text x="245" y="75" class="col-type">INTEGER (PK)</text>
+    
+    <text x="15" y="95" class="col-name">  revenue</text>
+    <text x="245" y="95" class="col-type">REAL</text>
+    
+    <text x="15" y="115" class="col-name">  operating_profit</text>
+    <text x="245" y="115" class="col-type">REAL</text>
+    
+    <text x="15" y="135" class="col-name">  net_income</text>
+    <text x="245" y="135" class="col-type">REAL</text>
+    
+    <text x="15" y="155" class="col-name">  eps</text>
+    <text x="245" y="155" class="col-type">REAL</text>
+    
+    <text x="15" y="175" class="col-name">  total_assets</text>
+    <text x="245" y="175" class="col-type">REAL</text>
+    
+    <text x="15" y="195" class="col-name">  total_debt</text>
+    <text x="245" y="195" class="col-type">REAL</text>
+
+    <text x="15" y="215" class="col-name">  operating_cash_flow</text>
+    <text x="245" y="215" class="col-type">REAL</text>
+
+    <text x="15" y="235" class="col-name">  free_cash_flow</text>
+    <text x="245" y="235" class="col-type">REAL</text>
+    
+    <text x="15" y="255" class="col-name">  ebitda</text>
+    <text x="245" y="255" class="col-type">REAL</text>
+    
+    <text x="15" y="280" class="col-name">🔍 Index: idx_fin_rec_comp</text>
+    <text x="245" y="280" class="col-type">(Composite)</text>
+    
+    <text x="15" y="298" class="col-name">🛡️ Constraint: total_assets &gt;= 0</text>
+    <text x="245" y="298" class="col-type"></text>
+  </g>
+
+  <!-- TABLE: financial_ratios -->
+  <g transform="translate(720, 120)">
+    <rect width="240" height="230" class="table-box" />
+    <rect width="240" height="30" class="table-header-blue" />
+    <text x="15" y="20" class="table-title">financial_ratios</text>
+    
+    <!-- columns -->
+    <text x="15" y="55" class="col-pk">🔑 ticker</text>
+    <text x="225" y="55" class="col-type">TEXT (PK, FK)</text>
+    
+    <text x="15" y="75" class="col-pk">🔑 calendar_year</text>
+    <text x="225" y="75" class="col-type">INTEGER (PK)</text>
+    
+    <text x="15" y="95" class="col-name">  roe</text>
+    <text x="225" y="95" class="col-type">REAL</text>
+    
+    <text x="15" y="115" class="col-name">  roce</text>
+    <text x="225" y="115" class="col-type">REAL</text>
+    
+    <text x="15" y="135" class="col-name">  net_margin</text>
+    <text x="225" y="135" class="col-type">REAL</text>
+    
+    <text x="15" y="155" class="col-name">  debt_to_equity</text>
+    <text x="225" y="155" class="col-type">REAL</text>
+
+    <text x="15" y="175" class="col-name">  interest_coverage</text>
+    <text x="225" y="175" class="col-type">REAL</text>
+
+    <text x="15" y="195" class="col-name">  asset_turnover</text>
+    <text x="225" y="195" class="col-type">REAL</text>
+  </g>
+
+  <!-- TABLE: growth_summary -->
+  <g transform="translate(40, 360)">
+    <rect width="240" height="170" class="table-box" />
+    <rect width="240" height="30" class="table-header-amber" />
+    <text x="15" y="20" class="table-title">growth_summary</text>
+    
+    <!-- columns -->
+    <text x="15" y="55" class="col-pk">🔑 ticker</text>
+    <text x="225" y="55" class="col-type">TEXT (PK, FK)</text>
+    
+    <text x="15" y="75" class="col-name">  revenue_cagr_3y</text>
+    <text x="225" y="75" class="col-type">REAL</text>
+    
+    <text x="15" y="95" class="col-name">  net_income_cagr_3y</text>
+    <text x="225" y="95" class="col-type">REAL</text>
+    
+    <text x="15" y="115" class="col-name">  eps_cagr_3y</text>
+    <text x="225" y="115" class="col-type">REAL</text>
+
+    <text x="15" y="135" class="col-name">  cagr_growth_rating</text>
+    <text x="225" y="135" class="col-type">TEXT</text>
+  </g>
+
+  <!-- TABLE: capital_allocation -->
+  <g transform="translate(720, 390)">
+    <rect width="240" height="190" class="table-box" />
+    <rect width="240" height="30" class="table-header-amber" />
+    <text x="15" y="20" class="table-title">capital_allocation</text>
+    
+    <!-- columns -->
+    <text x="15" y="55" class="col-pk">🔑 ticker</text>
+    <text x="225" y="55" class="col-type">TEXT (PK, FK)</text>
+    
+    <text x="15" y="75" class="col-name">  avg_fcf_conversion</text>
+    <text x="225" y="75" class="col-type">REAL</text>
+    
+    <text x="15" y="95" class="col-name">  avg_capex_intensity</text>
+    <text x="225" y="95" class="col-type">REAL</text>
+    
+    <text x="15" y="115" class="col-name">  reinvestment_rate</text>
+    <text x="225" y="115" class="col-type">REAL</text>
+
+    <text x="15" y="135" class="col-name">  allocation_strategy</text>
+    <text x="225" y="135" class="col-type">TEXT</text>
+  </g>
+
+  <!-- Relationships lines -->
+  <!-- companies.ticker -> financial_records.ticker -->
+  <path d="M 280 150 L 380 150" class="rel-line" marker-start="url(#dot)" />
+  <text x="330" y="142" class="rel-label">1 : N</text>
+
+  <!-- companies.ticker -> financial_ratios.ticker -->
+  <path d="M 280 180 L 330 180 L 330 80 L 840 80 L 840 120" class="rel-line" marker-start="url(#dot)" />
+  <text x="585" y="72" class="rel-label">1 : N</text>
+
+  <!-- companies.ticker -> growth_summary.ticker -->
+  <path d="M 120 270 L 120 360" class="rel-line" marker-start="url(#dot)" />
+  <text x="128" y="320" class="rel-label">1 : 1</text>
+
+  <!-- companies.ticker -> capital_allocation.ticker -->
+  <path d="M 260 270 L 260 520 L 720 520" class="rel-line" marker-start="url(#dot)" />
+  <text x="490" y="512" class="rel-label">1 : 1</text>
+
+</svg>

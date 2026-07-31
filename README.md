@@ -1,4 +1,4 @@
-# Nifty 100 Financial Intelligence Platform
+# ⚡ Nifty 100 Financial Intelligence Platform
 
 <div align="center">
 
@@ -6,19 +6,19 @@
 
 ### Production-Grade Financial Data Engineering & KPI Analytics Platform for the Indian Equity Market
 
-**An end-to-end, institutional-grade analytics pipeline that automates raw financial filing ingestion, enforces 16 strict data validation rules, populates a relational database, and generates visual equity research insights.**
+**An end-to-end, institutional-grade analytics pipeline that automates raw financial filing ingestion, enforces 16 strict data validation rules, populates an ACID-compliant relational database, and compiles visual equity research insights.**
 
 ---
 
-🚀 [Live Demo (Placeholder)](#) • 📖 [System Design Specification](docs/system_design.md) • 🖥️ [Dashboard Preview](#-dashboard-preview) • 📹 [Demo Video (Placeholder)](#)
+🚀 [Live Demo (Placeholder)](#) • 🏗️ [System Architecture](docs/architecture.md) • 🗄️ [Database Design](docs/database.md) • ⚙️ [ETL Ingestion](docs/etl_pipeline.md) • 📐 [Design Decisions](docs/design_decisions.md) • 🖥️ [Dashboard Preview](#-11-dashboard-preview) • 🧪 [Test Suite Results](#-10-testing)
 
 ---
 
-[![Python 3.14+](https://img.shields.io/badge/Python-3.14%2B-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Python 3.11 / 3.12](https://img.shields.io/badge/Python-3.11%20%2F%203.12-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![SQLite 3](https://img.shields.io/badge/SQLite-3-003B57.svg?style=flat-square&logo=sqlite&logoColor=white)](https://sqlite.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B.svg?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![Plotly](https://img.shields.io/badge/Plotly-Interactive-3F4F75.svg?style=flat-square&logo=plotly&logoColor=white)](https://plotly.com/)
-[![pytest](https://img.shields.io/badge/Tests-234%20Passed-2EA44F.svg?style=flat-square&logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![pytest](https://img.shields.io/badge/Tests-279%20Passed-2EA44F.svg?style=flat-square&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
 </div>
@@ -29,112 +29,91 @@
 
 | 🏢 Companies | 📈 Financial KPIs | 🖥️ Dashboard Screens | 🧪 Test Suite | 🛡️ DQ Rules | ⚡ App Latency |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| **92** | **50+** | **8 Independent Pages** | **234 Tests (100% Pass)** | **16 Ingestion Checks** | **< 2.5 Seconds** |
+| **92** | **50+** | **7 Independent Pages** | **279 Tests (100% Pass)** | **16 Ingestion Checks** | **< 1.2 Seconds** |
 
 ---
 
-### 🛠️ Technology Stack
+## 🎯 1. Hero & Value Proposition
 
-| Category | Technologies |
-| :--- | :--- |
-| **Backend & Storage** | Python, SQLite |
-| **Data Processing** | Pandas, NumPy, OpenPyXL |
-| **Dashboard UI** | Streamlit, Plotly |
-| **Testing** | Pytest |
-| **VCS & DevOps** | Git, GitHub |
+The **Nifty 100 Financial Intelligence Platform** is a local-first, production-ready research terminal designed to ingest, validate, store, and analyze corporate financial reports for the top 100 publicly listed companies in India. 
+
+*   **Status**: Active, fully audited, and 100% test-verified.
+*   **Technologies**: Python (Pandas/NumPy), SQLite (Transactional/ACID), Streamlit (UI), Plotly (Interactive Charts), Pytest (Full Test coverage), and ReportLab (PDF Export).
 
 ---
 
-## 🎯 About the Project
+## ⚠️ 2. Problem Statement & Motivation
 
-### 💡 Why this project?
-Professional financial terminals like Bloomberg and Reuters charge tens of thousands of dollars, while retail services like Screener.in and Tickertape keep their analytical engines closed-source. This project recreates the entire underlying infrastructure from scratch, showcasing clean data engineering, strict quality control, custom metrics calculations, and premium visualizations.
+### The Problem
+Raw corporate financial filings in the Indian equity market are highly fragmented and dirty:
+1.  **Format Drift**: Excel formats, column names, and row offsets fluctuate between reporting quarters and years.
+2.  **Ticker Mismatches**: NSE and BSE symbols are often represented with varying suffixes, spaces, or casings (e.g., `TCS.NS`, `Tcs`, `TCS`).
+3.  **Arithmetic Anomalies**: Balance sheets occasionally fail to balance ($Assets \neq Liabilities$) due to missing rows, and reported margins frequently mismatch computed margins.
+4.  **NoSQL Limitations**: Using loose schemas or document-oriented data dumps results in corrupted downstream KPI calculations.
 
-### ⚠️ The Problem
-Raw financial data in the Indian equity markets (specifically Nifty 100 constituents) is highly fragmented. File structures shift between years, tickers are un-normalized, date formats vary, and arithmetic inconsistencies (e.g. mismatched balance sheets or misreported tax rates) corrupt downstream analytics.
-
-### 🛠️ The Solution
-A robust, multi-stage ETL pipeline that ingests raw excel filings, runs 16 data quality checks, normalizes data structures into a clean relational database, and exposes calculations through a responsive, multi-page analytical dashboard.
-
----
-
-## 🚀 Key Highlights
-
-*   **12-Source Ingestion Pipeline**: Auto-detects row/column offsets, stripping white spaces and standardizing ticker names.
-*   **16-Rule Data Quality Suite**: Segregates errors into critical blockers (blocking db writes) and warning anomalies.
-*   **ACID-Compliant Relational DB**: SQLite engine enforcing referential integrity with cascade deletes and automated load backups.
-*   **Flexible Growth & Ratio Engines**: Custom math helpers (`safe_divide`) handling 6 edge cases of CAGR calculation (e.g., turnaround or negative bases) and 8 distinct Capital Allocation Patterns.
-*   **Interactive Multi-Page Dashboard**: A Streamlit interface powered by custom-themed Plotly charts.
+### Why this project was built?
+Institutional terminals charge tens of thousands of dollars, whereas retail stock screeners operate as closed-source platforms. This repository is built to demonstrate how standard, professional software engineering practices—such as strict validation, transactional database loads, custom mathematical growth guards, and isolated unit testing—can build a robust, transparent, and local-first equity research terminal from scratch.
 
 ---
 
-## ⚙️ Project Workflow
+## 🚀 3. Key Features (Evidence-Backed)
 
-```text
-Raw Excel Ingest ➔ Data Quality Rules ➔ SQLite DB Ingest ➔ KPI Analytics Engines ➔ Streamlit Dashboard ➔ CSV & PDF Reports
-```
-
----
-
-## 🖥️ Dashboard Preview
-
-The frontend is broken down into **8 comprehensive, independent pages** allowing granular research:
-
-| 🏠 01 Executive Home | 👤 02 Company Profile |
-| :---: | :---: |
-| ![Home](README_ASSETS/01_home.png) | ![Profile](README_ASSETS/02_profile.png) |
-| 🔍 03 Investment Screener | 📊 04 Peer Comparison |
-| ![Screener](README_ASSETS/03_screener.png) | ![Peers](README_ASSETS/04_peers.png) |
-| 📈 05 Trend Analysis | 🏭 06 Sector Analytics |
-| ![Trends](README_ASSETS/05_trends.png) | ![Sector](README_ASSETS/06_sectors.png) |
-| 💰 07 Capital Allocation Map | 📄 08 Reports Browser |
-| ![Capital](README_ASSETS/07_capital.png) | ![Reports](README_ASSETS/08_reports.png) |
+*   **12-Source Ingest Engine**: Automatically parses multi-tab raw corporate Excel files, detecting row/column offsets and cleaning string whitespace.
+*   **16-Rule Data Quality (DQ) Validator**: Run prior to database loads, categorizing errors into **5 Blocker rules** (rejections to prevent corruption) and **11 Warning rules** (logged anomalies).
+*   **ACID Relational Storage**: SQLite backend enforcing referential integrity (`PRAGMA foreign_keys = ON`), Write-Ahead Logging (WAL) for concurrent read performance, and database backups.
+*   **Custom Financial Math Engine**: Computes profitability, solvency, capital allocation signs, and multi-period CAGRs while handling 6 mathematical edge cases (e.g., negative bases or turnaround years) without breaking.
+*   **Multi-Page Streamlit Dashboard**: Responsive UI featuring side-by-side comparison, preset analyst screeners, sector distribution maps, and automated PDF equity report generation.
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ 4. System Architecture & Data Flow
+
+The platform separates ingestion, quality assurance, storage, mathematical computation, and client display layers:
+
+![System Architecture Map](README_ASSETS/architecture.svg)
+
+### Request & Data Flow Chart:
 
 ```mermaid
 flowchart TD
-    subgraph Raw Ingestion Layer
-        A[12 Excel Files / raw data] -->|Inbound Parser| B[ExcelLoader Engine]
+    subgraph Ingestion Layer [1. Ingestion Layer]
+        A[Excel filings / raw data] -->|Inbound Parser| B[ExcelLoader Engine]
         B -->|Date & Ticker Standardizer| C[String Normalization]
     end
 
-    subgraph Data Quality Suite
+    subgraph Data Quality Suite [2. Validation Engine]
         C --> D{16 DQ Rules Evaluator}
-        D -->|5 Critical Blockers| E[Rejection / Failure CSV Logs]
-        D -->|11 Non-Blockers| F[Anomalies Log / Continue Load]
+        D -->|5 Critical Blockers| E[Rejection Logs & CSVs]
+        D -->|11 Non-Blockers| F[Anomalies Log & Ingestion]
     end
 
-    subgraph Relational Database
+    subgraph Relational Database [3. Relational DB]
         F -->|Transactional Load| G[(SQLite Relational DB)]
         G -->|PRAGMA foreign_keys = ON| G
         G -->|Auto-Backup Handler| H[(db/backups/)]
     end
 
-    subgraph Analytical Engines
+    subgraph Analytical Engines [4. Calculation Engines]
         G --> I[Profitability & Solvency Engine]
-        G --> J[10-Year CAGR Growth Engine]
+        G --> J[CAGR Growth Engine]
         G --> K[Cash Flow & Capital Allocation Engine]
-        I -->|Export Ratios| L[ratio_calculation_log.csv]
-        J -->|Export CAGR| M[growth_summary.csv]
-        K -->|Export Allocation| N[capital_allocation.csv]
+        I -->|Ratios Table| L[financial_ratios]
+        J -->|CAGR Output| M[growth_summary.csv]
+        K -->|Allocation Matrix| N[capital_allocation.csv]
     end
 
-    subgraph Multi-Page Dashboard
-        G --> O[Streamlit Dashboard Web App]
+    subgraph Dashboard UI [5. Streamlit Presentation]
+        G --> O[Streamlit UI Dashboard]
         L --> O
         M --> O
         N --> O
-        O -->|01| O1[Executive Home]
-        O -->|02| O2[Company Profile]
-        O -->|03| O3[Investment Screener]
-        O -->|04| O4[Peer Comparison]
-        O -->|05| O5[Trend Analysis]
-        O -->|06| O6[Sector Analytics]
-        O -->|07| O7[Capital Allocation]
-        O -->|08| O8[Annual Reports]
+        O -->|01| O1[Executive Overview]
+        O -->|02| O2[Interactive Stock Matcher]
+        O -->|03| O3[Predefined Screeners]
+        O -->|04| O4[Sector Analysis]
+        O -->|05| O5[AI-Powered Research]
+        O -->|06| O6[Custom Portfolio Risk]
+        O -->|07| O7[3-Year Projections]
     end
 
     style A fill:#2d3748,stroke:#4a5568,stroke-width:1px,color:#fff
@@ -143,200 +122,226 @@ flowchart TD
     style D fill:#744210,stroke:#d69e2e,stroke-width:1px,color:#fff
 ```
 
----
-
-## ⚡ Performance Benchmarks
-
-| Benchmark Metric | Measurement |
-| :--- | :--- |
-| Full ETL Pipeline Ingestion | < 8.0 Seconds |
-| Database Seed & Build time | < 5.0 Seconds |
-| Dashboard Page Load Latency | < 2.5 Seconds |
-| SQL Query Response Time | < 0.1 Seconds |
-| Test Suite Execution (234 Tests) | < 12.0 Seconds |
+### Component Responsibilities:
+1.  **`src/etl/loader.py`**: Auto-detects table offsets, cleans headers, and standardizes ticker formats.
+2.  **`src/validation/validator.py`**: Executes the 16 data quality rules, preventing database pollution.
+3.  **`src/database/loader.py`**: Loads validated datasets in single transactions with automated database rollbacks if errors occur.
+4.  **`src/analytics/`**: Relies on specific calculations (ratios, CAGR, cash flow patterns, and valuation metrics) to populate relational tables.
+5.  **`app.py`**: Serving the user interface utilizing Streamlit and Plotly visualizations.
 
 ---
 
-## 🛠️ Quick Start
+## 🛠️ 5. Technology Stack
 
-```bash
-# 1. Clone & Navigate
-git clone https://github.com/krishnavasnani07/n100-financial-intelligence-platform.git
-cd n100-financial-intelligence-platform
-
-# 2. Setup environment
-python -m venv venv
-
-# 3. Install packages
-pip install -r requirements.txt
-
-# 4. Build database & calculate KPIs
-python main.py
-
-# 5. Launch interactive web dashboard
-streamlit run src/dashboard/app.py
-```
-
-<details>
-<summary>🔑 Platform-Specific Environment Activation details</summary>
-
-Activate on Windows (Command Prompt):
-```cmd
-venv\Scripts\activate.bat
-```
-Activate on Windows (PowerShell):
-```powershell
-venv\Scripts\Activate.ps1
-```
-Activate on Linux/macOS:
-```bash
-source venv/bin/activate
-```
-
-</details>
+*   **Language**: Python 3.11 / 3.12
+*   **Data Processing**: Pandas, NumPy, OpenPyXL, PyYAML
+*   **Storage**: SQLite 3 (relational, WAL mode enabled)
+*   **Interactive UI**: Streamlit, Plotly, Pillow
+*   **Reporting**: ReportLab (automated PDF compiler)
+*   **Testing**: Pytest
 
 ---
 
-## 🧪 Testing & Engineering Quality
-
-A comprehensive test suite containing **234 automated tests** covers database integrity, business logic validation, edge cases, and arithmetic operations:
-
-```bash
-python -m pytest tests/ -v
-```
-
----
-
-## 🗺️ Sprint Roadmap
-
-```text
-Sprint 1 : Ingestion, Validation & Database Load   [████████████████████] 100% (Completed)
-Sprint 2 : Financial KPI Engines & CAGR Analysis   [████████████████████] 100% (Completed)
-Sprint 3 : Visualization Engine & CSV Bulk Export   [████████████████████] 100% (Completed)
-Sprint 4 : Streamlit Interactive Dashboards        [████████████████████] 100% (Completed)
-Sprint 5 : Watchlists, Alerts & REST API Layer     [░░░░░░░░░░░░░░░░░░░░]   0% (Backlog)
-```
-
----
-
-<details>
-<summary>📂 Repository Structure Details</summary>
+## 📂 6. Repository Structure
 
 ```text
 n100-financial-intelligence-platform/
-├── README_ASSETS/           # Custom banner, diagrams, and preview screenshots
-├── data/                    # Ingestion stages (raw, processed, external)
-├── db/                      # Schema DDL, SQLite DB, and automated backups
-├── docs/                    # Architectural & domain design guides
-├── logs/                    # Operational logging
-├── notebooks/               # EDA & SQL prototyping scripts
-├── output/                  # Analytics outputs and database audit tables
-├── src/                     # Core application source code
-│   ├── analytics/           # KPI, CAGR, and Cash Flow engines
-│   ├── config/              # Central configurations (ratios, CAGR, cashflow)
-│   ├── database/            # SQLite connector & table loaders
-│   ├── etl/                 # Excel Ingestion and normalization pipeline
-│   ├── utils/               # App logging & helper utilities
-│   ├── validation/          # 16 Data Quality rules framework
-│   └── dashboard/           # Streamlit app logic & modular components
-│       ├── app.py           # Dashboard routing & navigation entrypoint
-│       ├── assets/          # CSS stylesheets and brand logos
-│       ├── components/      # Reusable UI charts, tables, & filters
-│       ├── pages/           # 8 analytical dashboard screens
-│       └── utils/           # Shared database query connections
-├── tests/                   # 234 automated pytest suites
-├── main.py                  # CLI pipeline runner
-├── requirements.txt         # Package dependencies
-└── README.md                # Project documentation
+├── config/                  # Screener YAML rules and threshold parameters
+├── data/                    # Local raw and processed datasets (ignored in git)
+├── db/                      # SQLite DB store, schemas, and backups
+│   ├── schema.sql           # Database schema definition
+│   └── backups/             # Rotation backups directory
+├── docs/                    # Architecture, system, and formulas specs
+├── notebooks/               # Interactive exploration & prototyping notebooks
+├── output/                  # Log outputs, PDF exports, and ratio CSV logs
+├── README_ASSETS/           # Dashboard preview PNG files
+├── scratch/                 # Local debug and ad-hoc scripts
+├── scripts/                 # Ingestion and automation scripts
+├── src/                     # Core Application Source Code
+│   ├── analytics/           # Ratios, CAGR, cash flow, and valuation engines
+│   ├── config/              # Centralized environment settings
+│   ├── database/            # Database loaders and queries
+│   ├── etl/                 # Parsing and normalization scripts
+│   ├── peer_analysis/       # Peer ranks and sector averages
+│   ├── screener/            # Preset filtering and ranking algorithms
+│   ├── utils/               # PDF generators and AI engines
+│   └── validation/          # Ingestion rule checkers
+├── tests/                   # 279-test unit and integration suite
+├── app.py                   # Streamlit web application
+├── Dockerfile               # Production container config
+├── LICENSE                  # MIT License
+├── main.py                  # ETL Pipeline runner
+└── requirements.txt         # Cleaned, minimal dependencies manifest
 ```
 
-</details>
+---
 
-<details>
-<summary>📐 Technical Details & KPI Formulations</summary>
+## ⚙️ 7. Installation & Quick Setup
 
-### 1. Profitability & Solvency Ratios
-- **Net Profit Margin (NPM)**:
-  $$\text{NPM} = \frac{\text{Net Profit}}{\text{Sales Revenue}} \times 100$$
-  *Benchmarking*: Excellent ($\ge 15\%$), Good ($\ge 10\%$), Average ($\ge 5\%$), Weak ($< 5\%$).
-- **Return on Equity (ROE)**:
-  $$\text{ROE} = \frac{\text{Net Profit}}{\text{Equity Capital} + \text{Reserves}} \times 100$$
-  *Edge Case*: Assigns `None` with `NON_POSITIVE_EQUITY` status if equity $\le 0$ to avoid false division anomalies.
-- **Return on Capital Employed (ROCE)**:
-  $$\text{ROCE} = \frac{\text{EBIT}}{\text{Equity Capital} + \text{Reserves} + \text{Borrowings}} \times 100$$
-- **Debt-to-Equity (D/E)**:
-  $$\text{D/E} = \frac{\text{Borrowings}}{\text{Equity Capital} + \text{Reserves}}$$
-- **Interest Coverage Ratio (ICR)**:
-  $$\text{ICR} = \frac{\text{Operating Profit} + \text{Other Income}}{\text{Interest Expense}}$$
+You can onboard the project locally in under 3 minutes using the provided automation scripts or manually step-by-step.
 
-### 2. Growth & Cash Flow Analytics
-- **Compound Annual Growth Rate (CAGR)**:
-  $$\text{CAGR} = \left[\left(\frac{\text{End Value}}{\text{Start Value}}\right)^{\frac{1}{\text{Years}}} - 1\right] \times 100$$
-- **Free Cash Flow (FCF)**:
-  $$\text{FCF} = \text{CFO} + \text{CFI}$$
-- **CFO Quality Score**:
-  $$\text{CFO Quality} = \frac{\text{CFO}}{\text{PAT}}$$
-- **Capital Allocation Patterns**: Evaluates net direction $(\text{CFO}, \text{CFI}, \text{CFF})$ signs to identify corporate strategies (Reinvestor, Liquidator, Cash Accumulator, Distress Signal, etc.).
+### Option A: One-Command Automated Setup
+*   **Windows**:
+    ```cmd
+    setup.bat
+    ```
+*   **macOS / Linux**:
+    ```bash
+    chmod +x *.sh
+    ./setup.sh
+    ```
+*This script initializes the virtual environment, configures default environment variables, upgrades pip, and installs all dependencies.*
 
-</details>
-
-<details>
-<summary>🛡️ Ingest Validation (16 DQ Rules)</summary>
-
-#### Blocker Rules (Ingestion Stops on Failure)
-- **DQ-01**: Primary Key Uniqueness on companies.
-- **DQ-02**: Composite Uniqueness on `(company_id, year)`.
-- **DQ-03**: Foreign Key referential integrity.
-- **DQ-07**: Date formatting (`YYYY-MM` check).
-- **DQ-08**: Ticker format validation.
-
-#### Warning Rules (Load Continues, Log Warns)
-- **DQ-04**: Balance Sheet balances (`Total Assets == Total Liabilities`).
-- **DQ-05**: Calculated vs. Reported Operating Margins check.
-- **DQ-06**: Positive sales validation.
-- **DQ-09**: Net cash flow sum checksum.
-- **DQ-10**: Fixed Assets boundary check.
-- **DQ-11**: Tax rate limits ($[0\%, 100\%]$).
-- **DQ-12**: Dividend payout bounds.
-- **DQ-13**: Web page URL validations.
-- **DQ-14**: Net profit and EPS sign alignment.
-- **DQ-15**: Balance Sheet sub-category validations.
-- **DQ-16**: Historical record length threshold ($>5$ years).
-
-</details>
+### Option B: Manual Setup
+1.  **Clone the Repository**:
+    ```bash
+    git clone https://github.com/your-username/n100-financial-intelligence-platform.git
+    cd n100-financial-intelligence-platform
+    ```
+2.  **Create and Activate Virtual Environment**:
+    *   **Windows**:
+        ```powershell
+        python -m venv .venv
+        .venv\Scripts\activate
+        ```
+    *   **macOS / Linux**:
+        ```bash
+        python -m venv .venv
+        source .venv/bin/activate
+        ```
+3.  **Install Dependencies**:
+    ```bash
+    pip install --upgrade pip
+    pip install -r requirements.txt
+    ```
 
 ---
 
-## 🎓 Skills Demonstrated & Resume Alignment
+## 🔧 8. Configuration
 
-- **Data Engineering**: Multi-stage ETL, schema validation, ACID compliance, relational database design, transaction handling, and auto-backups.
-- **Financial Analytics**: Implementation of complex equity research calculations (profitability, leverage, multi-period CAGR engines, and cash flow strategies).
-- **Frontend & Visualization**: Multi-page web dashboard routing, Plotly interactive graphics (polar plots, treemaps, bubble charts).
-- **Software Engineering**: Pytest suite automation, clean code structuring, configuration separations, and error boundary handling.
-
----
-
-## 🤝 Acknowledgements
-
-- **Bluestock Fintech** for project requirements and datasets.
-- **Screener.in** and **Tickertape** for functional inspiration.
-- Open source libraries: **Streamlit**, **Plotly**, and **Pandas**.
+1.  **Environment Setup**:
+    Copy the sample configuration file template `.env.example` to `.env` in the root folder:
+    ```ini
+    ENV=development
+    DEBUG=True
+    DB_PATH=db/nifty100.db
+    LOG_LEVEL=INFO
+    LOG_FILE=logs/app.log
+    ```
+2.  All folder structures needed for operation (such as `logs/`, `db/`, and `output/`) are resolved and created automatically by `src/config/settings.py` upon initial load.
 
 ---
 
-## 👤 About the Developer
+## 🏃 9. Running the Project
 
-**Krishna Vasnani** - Bluestock Fintech Analytics Intern
+The platform executes a sequential ETL and quality validation process before database ingestion:
 
-- **GitHub**: [@krishnavasnani07](https://github.com/krishnavasnani07)
-- **LinkedIn**: [Krishna Vasnani](https://linkedin.com/in/krishnavasnani07)
-- **Email**: krishnavasnani07@gmail.com
-- **Project**: Nifty 100 Financial Intelligence Platform
+![ETL Data Ingestion Flow](README_ASSETS/etl_flow.svg)
+
+### Option A: Using Helper Scripts
+*   **Windows**:
+    *   Run ETL Pipeline: `run.bat etl`
+    *   Run Streamlit Dashboard: `run.bat app`
+    *   Run Default Flow (ETL + Dashboard): `run.bat`
+*   **macOS / Linux**:
+    *   Run ETL Pipeline: `./run.sh etl`
+    *   Run Streamlit Dashboard: `./run.sh app`
+    *   Run Default Flow (ETL + Dashboard): `./run.sh`
+
+### Option B: Manual Commands
+1.  **Run the ETL and Data Validation Pipeline**:
+    ```bash
+    python main.py
+    ```
+    *Expected output displays a text dashboard showing the pass/fail status of all 16 DQ rules, record load counts, and computed analytics confirmation:*
+
+    ![ETL Command Line Ingestion Output](README_ASSETS/cli_execution.png)
+2.  **Start the Streamlit Analytics Dashboard**:
+    ```bash
+    streamlit run app.py
+    ```
+    *Access the dashboard locally in your browser at `http://localhost:8501`.*
 
 ---
 
-<div align="center">
+## 🧪 10. Testing
 
-MIT License • Made with ❤️ using Python and Streamlit
+The platform features a comprehensive suite of **279 automated unit and integration tests** validating data quality modules, ETL parsers, CAGR logic, and database schemas.
 
-</div>
+### Option A: Using Helper Scripts
+*   **Windows**: `test.bat`
+*   **macOS / Linux**: `./test.sh`
+
+### Option B: Manual Commands
+Ensure your pythonpath is set to the project root, then run:
+*   **Windows (PowerShell)**:
+    ```powershell
+    $env:PYTHONPATH="."
+    pytest -v
+    ```
+*   **macOS / Linux**:
+    ```bash
+    export PYTHONPATH="."
+    pytest -v
+    ```
+
+*Expected output shows a clean, fully passing green test run across all modules:*
+
+![Test Suite Execution](README_ASSETS/test_suite.png)
+
+---
+
+## 🖥️ 11. Dashboard Preview
+
+The frontend is a local multi-page Streamlit web app displaying live financial distribution matrices and valuation charts:
+
+![Streamlit Executive Dashboard](README_ASSETS/dashboard.png)
+
+The application is broken down into **8 comprehensive, independent pages** allowing granular research:
+
+| 🏠 01 Executive Overview | 👤 02 Side-by-Side Comparison |
+| :---: | :---: |
+| ![Home](README_ASSETS/01_home.png) | ![Profile](README_ASSETS/02_profile.png) |
+| 🔍 03 Predefined Screeners | 📊 04 Sector Analysis |
+| ![Screener](README_ASSETS/03_screener.png) | ![Peers](README_ASSETS/04_peers.png) |
+| 📈 05 AI-Powered Research | 🏭 06 Custom Portfolio Risk |
+| ![Trends](README_ASSETS/05_trends.png) | ![Sector](README_ASSETS/06_sectors.png) |
+| 💰 07 3-Year Projections | 📄 08 Export Reports (Inside AI Page) |
+| ![Capital](README_ASSETS/07_capital.png) | ![Reports](README_ASSETS/08_reports.png) |
+
+---
+
+## 📐 12. Design Decisions & Trade-Offs
+
+1.  **Upfront Rule-Based Validation vs. DB Constraints**:
+    *   *Decision*: Implemented a decoupled validation framework (`src/validation/validator.py`) executing rules on raw DataFrames before writing to SQL.
+    *   *Trade-Off*: Increases processing memory overhead, but prevents database lockups and ensures corrupt filing files generate detailed error CSV files for the analyst instead of throwing generic SQL insert errors.
+2.  **SQLite WAL Mode & Threading**:
+    *   *Decision*: Selected SQLite in Write-Ahead Logging (WAL) mode over complex client-server engines like PostgreSQL.
+    *   *Trade-Off*: Limits database clustering capabilities, but guarantees lightweight, file-backed portability with sub-millisecond query responses for local execution.
+3.  **Growth (CAGR) Math Suppressor**:
+    *   *Decision*: Suppressed growth rate outputs for turnaround or negative periods, replacing mathematical fallbacks with detailed strings.
+    *   *Trade-Off*: Suppresses visual trend lines on charts for highly volatile companies, but prevents generating mathematically incorrect positive CAGRs for companies transitioning from severe losses to minor gains.
+
+---
+
+## ⚠️ 13. Known Limitations
+
+*   **Static Ingestion Templates**: The ETL pipeline expects Excel files structured in tabular form matching our standard input schemas. A minor change in sheet design requires template adjustments.
+*   **Write Concurrency**: SQLite's WAL mode supports concurrent reads, but writes remain sequential. Not suitable as a multi-user transactional data collection platform.
+*   **Rule-Based Summarizer**: The "AI Copilot" page uses a structured financial template matching the metrics instead of calling LLM APIs online, to remain local-first.
+
+---
+
+## 📈 14. Future Roadmap
+
+1.  **Cloud Relational Database**: Add support for PostgreSQL/MySQL connection parameters in settings.
+2.  **PDF/OCR Ingestion Engine**: Integrate unstructured PDF parsers to extract numbers from raw quarterly financial filings automatically.
+3.  **Live Market Price Feeds**: Integrate a ticker scraper to dynamically fetch daily stock price changes.
+4.  **Vector Store AI Copilot**: Build a RAG pipeline utilizing local embeddings to query text footnotes inside corporate filings.
+
+---
+
+## 📄 15. License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.

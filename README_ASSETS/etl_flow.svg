@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" width="100%" height="100%">
+  <!-- Definitions -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+    </marker>
+  </defs>
+
+  <style>
+    .bg { fill: #0b0f19; }
+    .step-box { fill: #1e293b; stroke: #4b5563; stroke-width: 1.5; rx: 8px; }
+    .step-box-active-blue { fill: #1e293b; stroke: #38bdf8; stroke-width: 2; rx: 8px; }
+    .step-box-active-green { fill: #1e293b; stroke: #10b981; stroke-width: 2; rx: 8px; }
+    .step-box-active-amber { fill: #1e293b; stroke: #f59e0b; stroke-width: 2; rx: 8px; }
+    .title { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 700; fill: #ffffff; }
+    .subtitle { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 10px; fill: #9ca3af; }
+    .header-title { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 22px; font-weight: 800; fill: #ffffff; letter-spacing: -0.02em; }
+    .header-desc { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 12px; fill: #6b7280; }
+    .step-num { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 800; fill: #64748b; }
+    .step-num-active-blue { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 800; fill: #38bdf8; }
+    .step-num-active-green { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 800; fill: #10b981; }
+    .label-ok { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; fill: #10b981; text-anchor: middle; }
+    .label-fail { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; fill: #ef4444; text-anchor: middle; }
+  </style>
+
+  <rect width="1000" height="450" class="bg" />
+
+  <!-- Header -->
+  <text x="40" y="50" class="header-title">Transactional Ingestion &amp; ETL Pipeline Flow</text>
+  <text x="40" y="70" class="header-desc">Step-by-step processing lifecycle: Ingestion, Validation, Cleaning, Insertion, and Calculation</text>
+
+  <!-- Step 1: Input -->
+  <g transform="translate(40, 150)">
+    <rect width="120" height="100" class="step-box" />
+    <text x="15" y="25" class="step-num">01. INGEST</text>
+    <text x="15" y="50" class="title">Raw Ingestion</text>
+    <text x="15" y="70" class="subtitle">Reads local Excel files</text>
+    <text x="15" y="85" class="subtitle">Locates table anchors</text>
+  </g>
+
+  <!-- Connector 1 -> 2 -->
+  <path d="M 160 200 L 190 200" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Step 2: Normalization -->
+  <g transform="translate(190, 150)">
+    <rect width="130" height="100" class="step-box-active-blue" />
+    <text x="15" y="25" class="step-num-active-blue">02. STANDARDIZE</text>
+    <text x="15" y="50" class="title">Normalization</text>
+    <text x="15" y="70" class="subtitle">Converts Tickers to ISIN</text>
+    <text x="15" y="85" class="subtitle">Parses calendar years</text>
+  </g>
+
+  <!-- Connector 2 -> 3 -->
+  <path d="M 320 200 L 350 200" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+
+  <!-- Step 3: Blocker Validation -->
+  <g transform="translate(350, 150)">
+    <rect width="130" height="100" class="step-box-active-amber" />
+    <text x="15" y="25" class="step-num-active-blue" fill="#f59e0b">03. VALIDATE DQ</text>
+    <text x="15" y="50" class="title">5 Critical Blockers</text>
+    <text x="15" y="70" class="subtitle">Checks Nulls, Keys,</text>
+    <text x="15" y="85" class="subtitle">and Balance Sheet parity</text>
+  </g>
+
+  <!-- Connector 3 -> Success or Fail -->
+  <path d="M 480 200 L 510 200" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-green)" />
+  <text x="495" y="190" class="label-ok">Pass</text>
+
+  <!-- Blocker Rejection Loop -->
+  <path d="M 415 250 L 415 320" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow)" />
+  <text x="430" y="290" class="label-fail">Fail</text>
+
+  <g transform="translate(320, 320)">
+    <rect width="190" height="70" style="fill:#1e293b; stroke:#ef4444; stroke-width:1.5; rx:8px;" />
+    <text x="15" y="25" class="title" fill="#ef4444">Transaction Rejected</text>
+    <text x="15" y="45" class="subtitle">Logs validation failures to CSV</text>
+    <text x="15" y="58" class="subtitle">Rolls back full db transaction</text>
+  </g>
+
+  <!-- Step 4: Warn check -->
+  <g transform="translate(510, 150)">
+    <rect width="130" height="100" class="step-box-active-blue" />
+    <text x="15" y="25" class="step-num-active-blue">04. NON-BLOCKERS</text>
+    <text x="15" y="50" class="title">11 Warnings Check</text>
+    <text x="15" y="70" class="subtitle">Flags extreme values,</text>
+    <text x="15" y="85" class="subtitle">writes flags to anomalies</text>
+  </g>
+
+  <!-- Connector 4 -> 5 -->
+  <path d="M 640 200 L 670 200" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Step 5: Database Commit -->
+  <g transform="translate(670, 150)">
+    <rect width="130" height="100" class="step-box-active-green" />
+    <text x="15" y="25" class="step-num-active-green">05. DB STORAGE</text>
+    <text x="15" y="50" class="title">Transactional Load</text>
+    <text x="15" y="70" class="subtitle">SQLite database commit</text>
+    <text x="15" y="85" class="subtitle">WAL concurrency active</text>
+  </g>
+
+  <!-- Connector 5 -> 6 -->
+  <path d="M 800 200 L 830 200" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-green)" />
+
+  <!-- Step 6: Calculations -->
+  <g transform="translate(830, 150)">
+    <rect width="130" height="100" class="step-box-active-blue" />
+    <text x="15" y="25" class="step-num-active-blue">06. ANALYTICS</text>
+    <text x="15" y="50" class="title">Calculations</text>
+    <text x="15" y="70" class="subtitle">Runs CAGR engines</text>
+    <text x="15" y="85" class="subtitle">Populates financial ratios</text>
+  </g>
+
+</svg>
