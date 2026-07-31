@@ -207,6 +207,14 @@ def main():
         print(f"    Valuation Summary Excel : output/valuation_summary.xlsx")
         print(f"    Valuation Flags CSV     : output/valuation_flags.csv\n")
 
+        print("====================================")
+        print("   NLP TEXT PARSER & VALIDATION     ")
+        print("====================================\n")
+
+        from src.nlp.parser import run_nlp_pipeline
+
+        run_nlp_pipeline()
+
         # Print Execution Summary Dashboard
         print("====================================")
         print("      ETL EXECUTION SUMMARY         ")
