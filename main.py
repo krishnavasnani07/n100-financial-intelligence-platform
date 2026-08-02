@@ -215,6 +215,14 @@ def main():
 
         run_nlp_pipeline()
 
+        print("====================================")
+        print("     PROS & CONS GENERATION         ")
+        print("====================================\n")
+
+        from src.nlp.pros_cons_generator import run_pros_cons_pipeline
+
+        run_pros_cons_pipeline()
+
         # Print Execution Summary Dashboard
         print("====================================")
         print("      ETL EXECUTION SUMMARY         ")
