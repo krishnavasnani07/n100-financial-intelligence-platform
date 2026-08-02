@@ -97,8 +97,8 @@ class TestCapExIntensity:
 
 class TestFCFConversion:
     def test_fcf_conversion_normal(self):
-        # FCF = 400, Operating Profit = 500 -> 0.8
-        assert calculate_fcf_conversion(400, 500) == 0.8
+        # FCF = 400, Operating Profit = 500 -> 80.0%
+        assert calculate_fcf_conversion(400, 500) == 80.0
 
     def test_fcf_conversion_zero_op(self):
         assert calculate_fcf_conversion(400, 0) is None

@@ -208,6 +208,14 @@ def main():
         print(f"    Valuation Flags CSV     : output/valuation_flags.csv\n")
 
         print("====================================")
+        print("   CASH FLOW INTELLIGENCE ENGINE    ")
+        print("====================================\n")
+
+        from src.analytics.cashflow_kpis import run_cashflow_intelligence_pipeline
+
+        run_cashflow_intelligence_pipeline(db_path)
+
+        print("====================================")
         print("   NLP TEXT PARSER & VALIDATION     ")
         print("====================================\n")
 
