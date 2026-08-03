@@ -185,3 +185,42 @@ with col_c:
             st.markdown(f'<div class="badge-cons">❌ {c}</div>', unsafe_allow_html=True)
     else:
         st.write("No major concerns identified.")
+
+st.markdown("---")
+
+# 5. Capital Allocation Strategy Evolution
+st.subheader("💰 Capital Allocation Strategy Evolution")
+from pathlib import Path
+alloc_path = Path("output/capital_allocation.csv")
+if alloc_path.exists():
+    df_alloc_csv = pd.read_csv(alloc_path)
+    df_alloc_csv["company_id"] = df_alloc_csv["company_id"].astype(str).str.strip().str.upper()
+    df_comp_alloc = df_alloc_csv[df_alloc_csv["company_id"] == selected_ticker].copy()
+    
+    if not df_comp_alloc.empty:
+        df_comp_alloc["year_int"] = df_comp_alloc["year"].apply(extract_year_int)
+        df_comp_alloc = df_comp_alloc.sort_values(by="year_int", ascending=True)
+        
+        latest_alloc = df_comp_alloc.iloc[-1]["pattern_label"]
+        st.markdown(f"**Latest Allocation Strategy Status:** `{latest_alloc}`")
+        
+        # Display chronological timeline of patterns
+        st.markdown("#### 📈 Historical Sequence of Allocation Patterns")
+        df_seq = df_comp_alloc[["year", "pattern_label"]].rename(columns={"year": "Financial Year", "pattern_label": "Strategy Pattern"})
+        st.dataframe(df_seq, use_container_width=True, hide_index=True)
+        
+        # Load transitions
+        changes_path = Path("output/pattern_changes.csv")
+        if changes_path.exists():
+            df_changes = pd.read_csv(changes_path)
+            df_changes["company_id"] = df_changes["company_id"].astype(str).str.strip().str.upper()
+            df_comp_changes = df_changes[df_changes["company_id"] == selected_ticker].sort_values(by="year")
+            if not df_comp_changes.empty:
+                st.markdown("#### 🔄 Transition Events")
+                for _, row in df_comp_changes.iterrows():
+                    st.markdown(f"🔹 **{row['year']}**: Transitioned from `{row['previous_pattern']}` to `{row['current_pattern']}` (Type: **{row['change_category']}**)")
+            else:
+                st.info("No strategy changes detected over the historical period. Strategy has remained consistent.")
+else:
+    st.info("Capital allocation historical dataset not found.")
+
