@@ -716,24 +716,22 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
     """
     df_excel = df.copy()
     
-    # Excel print column order and capitalization
+    # Excel print column order and capitalization (9 columns as specified in Day 32)
     excel_cols = {
-        "company_id": "Company ID",
-        "sector": "Sector",
-        "cfo_quality_score": "CFO Quality Score",
-        "cfo_quality_label": "CFO Quality Label",
-        "capex_intensity_pct": "CapEx Intensity %",
+        "company_id": "company_id",
+        "sector": "sector",
+        "cfo_quality_label": "CFO Quality",
         "capex_label": "CapEx Label",
-        "fcf_cagr_5yr": "5Y FCF CAGR %",
-        "fcf_conversion_pct": "FCF Conversion %",
-        "distress_flag": "Distress Flag",
-        "deleveraging_flag": "Deleveraging Flag",
-        "capital_allocation_label": "Capital Allocation Label"
+        "fcf_cagr_5yr": "FCF CAGR",
+        "fcf_conversion_pct": "FCF Conversion",
+        "distress_flag": "Distress",
+        "deleveraging_flag": "Deleveraging",
+        "capital_allocation_label": "Capital Allocation"
     }
     df_excel = df_excel[list(excel_cols.keys())].rename(columns=excel_cols)
     
     # Convert percentages to decimals so Excel formats them correctly
-    for c in ["CapEx Intensity %", "5Y FCF CAGR %", "FCF Conversion %"]:
+    for c in ["FCF CAGR", "FCF Conversion"]:
         df_excel[c] = df_excel[c] / 100.0
         
     try:
@@ -788,9 +786,9 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
             worksheet.row_dimensions[row_idx].height = 20
             is_zebra = (row_idx % 2 == 0)
             
-            cfo_lbl = worksheet.cell(row=row_idx, column=4).value
-            capex_lbl = worksheet.cell(row=row_idx, column=6).value
-            distress_val = worksheet.cell(row=row_idx, column=9).value
+            cfo_lbl = worksheet.cell(row=row_idx, column=3).value
+            capex_lbl = worksheet.cell(row=row_idx, column=4).value
+            distress_val = worksheet.cell(row=row_idx, column=7).value
             
             for col_idx in range(1, len(df_excel.columns) + 1):
                 cell = worksheet.cell(row=row_idx, column=col_idx)
@@ -802,7 +800,7 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
                     cell.fill = zebra_fill
                     
                 # Alignments
-                if col_idx in [1, 2, 4, 6, 9, 10, 11]:  # IDs, Labels, Flags
+                if col_idx in [1, 2, 3, 4, 7, 8, 9]:  # IDs, Labels, Flags, Capital Allocation
                     cell.alignment = Alignment(horizontal="center", vertical="center")
                 else:  # Numeric ratios/scores
                     cell.alignment = Alignment(horizontal="right", vertical="center")
@@ -810,14 +808,12 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
                 # Number formatting
                 val = cell.value
                 if val is not None and isinstance(val, (int, float)):
-                    if col_idx == 3:  # CFO score
-                        cell.number_format = "0.00"
-                    elif col_idx in [5, 7, 8]:  # Percentages
+                    if col_idx in [5, 6]:  # Percentages
                         cell.number_format = "0.00%"
                         
                 # Conditional Fills
-                if col_idx == 4:  # CFO quality
-                    if cfo_lbl == "High":
+                if col_idx == 3:  # CFO quality
+                    if cfo_lbl == "High" or cfo_lbl == "High Quality":
                         cell.fill = green_fill
                         cell.font = green_font
                     elif cfo_lbl == "Moderate":
@@ -827,7 +823,7 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
                         cell.fill = red_fill
                         cell.font = red_font
                         
-                elif col_idx == 6:  # CapEx label
+                elif col_idx == 4:  # CapEx label
                     if capex_lbl == "Asset Light":
                         cell.fill = green_fill
                         cell.font = green_font
@@ -838,7 +834,7 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
                         cell.fill = red_fill
                         cell.font = red_font
                         
-                elif col_idx == 9:  # Distress flag
+                elif col_idx == 7:  # Distress flag
                     if str(distress_val).strip() == "True":
                         cell.fill = red_fill
                         cell.font = red_font

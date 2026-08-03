@@ -216,6 +216,14 @@ def main():
         run_cashflow_intelligence_pipeline(db_path)
 
         print("====================================")
+        print("   CAPITAL ALLOCATION INTEL ENGINE  ")
+        print("====================================\n")
+
+        from src.analytics.capital_allocation_report import run_capital_allocation_report
+
+        run_capital_allocation_report(db_path)
+
+        print("====================================")
         print("   NLP TEXT PARSER & VALIDATION     ")
         print("====================================\n")
 
