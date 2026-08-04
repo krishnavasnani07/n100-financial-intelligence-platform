@@ -62,12 +62,7 @@ def setup_logger() -> logging.Logger:
 logger = setup_logger()
 
 
-def extract_year_int(yr_val: Any) -> Optional[int]:
-    """Extract 4-digit calendar year integer from year string, returning None for TTM/invalid."""
-    if str(yr_val).strip().upper() == "TTM":
-        return None
-    m = re.search(r"\b(19\d\d|20\d\d)\b", str(yr_val))
-    return int(m.group(1)) if m else None
+from src.utils.helpers import extract_year_int
 
 
 def calculate_composite_quality_score(
