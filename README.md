@@ -18,7 +18,7 @@
 [![SQLite 3](https://img.shields.io/badge/SQLite-3-003B57.svg?style=flat-square&logo=sqlite&logoColor=white)](https://sqlite.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B.svg?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![Plotly](https://img.shields.io/badge/Plotly-Interactive-3F4F75.svg?style=flat-square&logo=plotly&logoColor=white)](https://plotly.com/)
-[![pytest](https://img.shields.io/badge/Tests-279%20Passed-2EA44F.svg?style=flat-square&logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![pytest](https://img.shields.io/badge/Tests-283%20Passed-2EA44F.svg?style=flat-square&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
 </div>
@@ -27,9 +27,9 @@
 
 ### 📊 Repository Statistics
 
-| 🏢 Companies | 📈 Financial KPIs | 🖥️ Dashboard Screens | 🧪 Test Suite | 🛡️ DQ Rules | ⚡ App Latency |
+| 🏢 Companies | 📈 Financial KPIs | 🖥️ Dashboard Screens | 🧪 Test Suite | 🛡️ DQ Rules | 📄 PDF Reports |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| **92** | **50+** | **7 Independent Pages** | **279 Tests (100% Pass)** | **16 Ingestion Checks** | **< 1.2 Seconds** |
+| **92** | **50+** | **8 Independent Pages** | **283 Tests (100% Pass)** | **16 Ingestion Checks** | **91 Tearsheets & 11 Sectors** |
 
 ---
 
@@ -64,8 +64,8 @@ Institutional terminals charge tens of thousands of dollars, whereas retail stoc
 *   **Institutional Valuation Engine**: Automated valuation pipeline computing FCF Yields and Sector Median P/E multiples to flag stocks under `Discount` or `Caution` categories.
 *   **Responsive Multi-Slider Filtering**: Instant screener updates using custom presets that automatically populate 10 sliding filters via Streamlit session states.
 *   **Automated Excel & CSV Exports**: Reusable download widgets for dynamic screeners, alongside structured openpyxl reports compiling relative valuations.
-*   **Data Ingestion & 16-Rule DQ Validator**: Reads raw corporate filings, runs 16 data validation checks, and records rejections/warnings in structured audits before DB loading.
 *   **Custom Financial Math Engines**: Computes profitability (DuPont, ROE/ROCE), CAGR growth curves, and cash flow structures with built-in mathematical edge-case guards.
+*   **Batch PDF Research Report Pipeline**: Programmatic ReportLab compiler generating styled 2-page company tearsheets (with Matplotlib charts, waterfall cash flows, and capital allocation badges) and multi-page sector summary reports. Implements data eligibility controls (minimum 3 years history) and layout QA validations (file size and page budgets).
 
 ---
 
@@ -130,7 +130,8 @@ flowchart TD
 2.  **`src/validation/validator.py`**: Executes the 16 data quality rules, preventing database pollution.
 3.  **`src/database/loader.py`**: Loads validated datasets in single transactions with automated database rollbacks if errors occur.
 4.  **`src/analytics/`**: Relies on specific calculations (ratios, CAGR, cash flow patterns, and valuation metrics) to populate relational tables.
-5.  **`app.py`**: Serving the user interface utilizing Streamlit and Plotly visualizations.
+5.  **`src/reports/`**: Compiles PDF tearsheets and sector summary booklets with visual layout budgets.
+6.  **`app.py`**: Serving the user interface utilizing Streamlit and Plotly visualizations.
 
 ---
 
@@ -173,10 +174,18 @@ n100-financial-intelligence-platform/
 │   ├── database/            # Database loaders and queries
 │   ├── etl/                 # Parsing and normalization scripts
 │   ├── peer_analysis/       # Peer ranks and sector averages
+│   ├── reports/             # Reusable ReportLab templates & batch PDF pipeline
+│   │   ├── styles.py        # Professional color tokens & typography styles
+│   │   ├── layouts.py       # Custom canvas, headers & footers (NumberedCanvas)
+│   │   ├── charts.py        # Matplotlib financial chart visualizers
+│   │   ├── tearsheet.py     # Individual company tearsheet PDF compiler
+│   │   ├── report_utils.py  # Page count, size validations & sector mapping
+│   │   ├── batch_generator.py # Automated batch tearsheet execution runner
+│   │   └── sector_report.py # Sector-level performance medians PDF compiler
 │   ├── screener/            # Preset filtering and ranking algorithms
 │   ├── utils/               # PDF generators and AI engines
 │   └── validation/          # Ingestion rule checkers
-├── tests/                   # 279-test unit and integration suite
+├── tests/                   # 283-test unit and integration suite
 ├── app.py                   # Streamlit web application
 ├── Dockerfile               # Production container config
 ├── LICENSE                  # MIT License
@@ -271,12 +280,23 @@ The platform executes a sequential ETL and quality validation process before dat
     streamlit run src/dashboard/app.py
     ```
     *Access the dashboard locally in your browser at `http://localhost:8501`.*
+3.  **Generate Batch PDF Tearsheets & Sector Summary Reports**:
+    *   **Run Company Tearsheets Batch**:
+        ```bash
+        python -m src.reports.batch_generator
+        ```
+        *(Accepts optional `--tickers` to run subset e.g., `--tickers TCS,HDFCBANK`)*
+    *   **Run Sector Benchmark Reports**:
+        ```bash
+        python -m src.reports.sector_report
+        ```
+        *(Outputs compiled PDFs under `reports/sector/` and logs summaries to `output/`)*
 
 ---
 
 ## 🧪 10. Testing
 
-The platform features a comprehensive suite of **279 automated unit and integration tests** validating data quality modules, ETL parsers, CAGR logic, and database schemas.
+The platform features a comprehensive suite of **283 automated unit and integration tests** validating data quality modules, ETL parsers, CAGR logic, and database schemas.
 
 ### Option A: Using Helper Scripts
 *   **Windows**: `test.bat`
