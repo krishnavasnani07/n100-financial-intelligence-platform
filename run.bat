@@ -10,6 +10,7 @@ call "%~dp0.venv\Scripts\activate.bat"
 if "%1" == "etl" goto run_etl
 if "%1" == "app" goto run_app
 if "%1" == "api" goto run_api
+if "%1" == "report" goto run_report
 if "%1" == "" goto run_default
 
 echo [ERROR] Unknown option: %1
@@ -28,6 +29,11 @@ exit /b %errorlevel%
 :run_api
 echo Launching uvicorn API server...
 uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000
+exit /b %errorlevel%
+
+:run_report
+echo Generating Portfolio Summary PDF Report...
+python -m src.reports.portfolio_summary
 exit /b %errorlevel%
 
 :run_default
@@ -55,4 +61,5 @@ echo   run.bat        - Runs ETL, then launches Streamlit Dashboard
 echo   run.bat etl    - Runs ETL and Data Validation Pipeline
 echo   run.bat app    - Launches Streamlit Web Dashboard
 echo   run.bat api    - Launches FastAPI server
+echo   run.bat report - Generates Portfolio Summary PDF Report
 exit /b 1

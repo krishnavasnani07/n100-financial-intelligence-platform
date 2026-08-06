@@ -22,6 +22,10 @@ elif [ "$1" = "api" ]; then
     echo "Launching uvicorn API server..."
     uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000
     exit $?
+elif [ "$1" = "report" ]; then
+    echo "Generating Portfolio Summary PDF Report..."
+    python -m src.reports.portfolio_summary
+    exit $?
 elif [ -z "$1" ]; then
     echo "[NOTICE] Running default flow: ETL Pipeline, then Streamlit Dashboard..."
     echo "===================================================================="
@@ -42,5 +46,6 @@ else
     echo "  ./run.sh etl    - Runs ETL and Data Validation Pipeline"
     echo "  ./run.sh app    - Launches Streamlit Web Dashboard"
     echo "  ./run.sh api    - Launches FastAPI server"
+    echo "  ./run.sh report - Generates Portfolio Summary PDF Report"
     exit 1
 fi

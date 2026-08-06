@@ -15,6 +15,10 @@ run:
 test:
 	pytest tests/
 
+# Generate Portfolio Summary PDF Report
+report:
+	python -m src.reports.portfolio_summary
+
 # Clean up cache files
 clean:
 	rmdir /s /q __pycache__ 2>nul || rm -rf __pycache__
