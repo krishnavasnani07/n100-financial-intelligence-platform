@@ -251,7 +251,47 @@ You can onboard the project locally in under 3 minutes using the provided automa
 
 ---
 
-## 🏃 9. Running the Project
+## 🐳 9. Docker Deployment
+
+The Nifty 100 Financial Intelligence Platform is fully containerized with Docker and Docker Compose. This allows you to spin up the entire application (Streamlit Dashboard & FastAPI Backend) with a single command without needing to configure local Python virtual environments.
+
+### Prerequisites
+- Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and ensure it is running.
+
+### Quick Start
+1.  **Configure Environment**:
+    Copy `.env.example` to `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+2.  **Start Services**:
+    Run Docker Compose in detached mode:
+    ```bash
+    docker compose up -d
+    ```
+    This command builds the images, initializes the backend and frontend containers, and mounts local directories for database (`db/`), reports/exports (`output/`), and logs (`logs/`) persistence.
+
+3.  **Access the Applications**:
+    - **Streamlit Dashboard**: [http://localhost:8501](http://localhost:8501)
+    - **FastAPI Documentation & Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### Useful Docker Commands
+- View logs:
+  ```bash
+  docker compose logs -f
+  ```
+- Stop services:
+  ```bash
+  docker compose down
+  ```
+- Rebuild containers:
+  ```bash
+  docker compose up -d --build
+  ```
+
+---
+
+## 🏃 10. Running the Project
 
 The platform executes a sequential ETL and quality validation process before database ingestion:
 
@@ -294,7 +334,7 @@ The platform executes a sequential ETL and quality validation process before dat
 
 ---
 
-## 🧪 10. Testing
+## 🧪 11. Testing
 
 The platform features a comprehensive suite of **283 automated unit and integration tests** validating data quality modules, ETL parsers, CAGR logic, and database schemas.
 
@@ -321,7 +361,7 @@ Ensure your pythonpath is set to the project root, then run:
 
 ---
 
-## 🖥️ 11. Dashboard Preview
+## 🖥️ 12. Dashboard Preview
 
 The frontend is a local multi-page Streamlit web app displaying live financial distribution matrices and valuation charts:
 
@@ -363,7 +403,7 @@ The application is broken down into **8 comprehensive, independent pages** allow
 
 ---
 
-## 📐 12. Design Decisions & Trade-Offs
+## 📐 13. Design Decisions & Trade-Offs
 
 1.  **Upfront Rule-Based Validation vs. DB Constraints**:
     *   *Decision*: Implemented a decoupled validation framework (`src/validation/validator.py`) executing rules on raw DataFrames before writing to SQL.
@@ -377,7 +417,7 @@ The application is broken down into **8 comprehensive, independent pages** allow
 
 ---
 
-## ⚠️ 13. Known Limitations
+## ⚠️ 14. Known Limitations
 
 *   **Static Ingestion Templates**: The ETL pipeline expects Excel files structured in tabular form matching our standard input schemas. A minor change in sheet design requires template adjustments.
 *   **Write Concurrency**: SQLite's WAL mode supports concurrent reads, but writes remain sequential. Not suitable as a multi-user transactional data collection platform.
@@ -385,7 +425,7 @@ The application is broken down into **8 comprehensive, independent pages** allow
 
 ---
 
-## 📈 14. Future Roadmap
+## 📈 15. Future Roadmap
 
 1.  **Cloud Relational Database**: Add support for PostgreSQL/MySQL connection parameters in settings.
 2.  **PDF/OCR Ingestion Engine**: Integrate unstructured PDF parsers to extract numbers from raw quarterly financial filings automatically.
@@ -394,6 +434,6 @@ The application is broken down into **8 comprehensive, independent pages** allow
 
 ---
 
-## 📄 15. License
+## 📄 16. License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.

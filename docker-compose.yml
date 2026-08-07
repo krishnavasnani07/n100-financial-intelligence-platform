@@ -1,27 +1,43 @@
-version: '3.8'
 
 services:
-  frontend:
-    build: .
-    ports:
-      - "8501:8501"
-    environment:
-      - ENV=production
-      - DB_PATH=db/nifty100.db
-    volumes:
-      - ./db:/app/db
-      - ./output:/app/output
-    restart: always
-
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: n100-backend
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
       - ENV=production
       - DB_PATH=db/nifty100.db
+      - LOG_FILE=logs/api.log
     volumes:
       - ./db:/app/db
       - ./output:/app/output
+      - ./logs:/app/logs
     command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000
-    restart: always
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: n100-frontend
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - ENV=production
+      - DB_PATH=db/nifty100.db
+      - LOG_FILE=logs/dashboard.log
+    volumes:
+      - ./db:/app/db
+      - ./output:/app/output
+      - ./logs:/app/logs
+    command: streamlit run app.py --server.port=8501 --server.address=0.0.0.0
+    restart: unless-stopped
+    depends_on:
+      - backend
