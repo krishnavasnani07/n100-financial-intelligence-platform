@@ -6,7 +6,8 @@ import sys
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
-from src.reports.portfolio_summary import generate_portfolio_summary_report, extract_year_int
+from src.reports.portfolio_summary import generate_portfolio_summary_report
+from src.utils.helpers import extract_year_int
 from src.reports.generate_sample_reports import count_pdf_pages
 from src.config.settings import DB_PATH
 
@@ -14,8 +15,8 @@ def test_extract_year_int():
     """Verify that extract_year_int correctly extracts year digits."""
     assert extract_year_int("Mar 2024") == 2024
     assert extract_year_int("Dec 2012") == 2012
-    assert extract_year_int("TTM") == 0
-    assert extract_year_int(None) == 0
+    assert extract_year_int("TTM") is None
+    assert extract_year_int(None) is None
     assert extract_year_int("FY 2021") == 2021
 
 

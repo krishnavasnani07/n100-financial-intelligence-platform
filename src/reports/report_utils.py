@@ -3,10 +3,12 @@ Report utilities for validation, sector mapping, data eligibility checks, and lo
 """
 
 from __future__ import annotations
+
 import re
 import sqlite3
 from pathlib import Path
-from typing import Tuple, Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
+
 import pandas as pd
 
 from src.utils.logger import get_logger
@@ -39,8 +41,7 @@ def map_sector(broad_sector: Optional[str], sub_sector: Optional[str]) -> str:
     elif "HEALTHCARE" in broad_upper:
         return "Healthcare"
     elif "ENERGY" in broad_upper and any(
-        kw in sub_upper
-        for kw in ["POWER", "UTILITIES", "TRANSMISSION", "RENEWABLE"]
+        kw in sub_upper for kw in ["POWER", "UTILITIES", "TRANSMISSION", "RENEWABLE"]
     ):
         return "Utilities"
     else:
@@ -115,7 +116,10 @@ def validate_pdf(
     size_kb = size_bytes / 1024.0
 
     if size_kb < min_size_kb:
-        return False, f"File size too small ({size_kb:.2f} KB, expected > {min_size_kb:.1f} KB)"
+        return (
+            False,
+            f"File size too small ({size_kb:.2f} KB, expected > {min_size_kb:.1f} KB)",
+        )
 
     try:
         with open(file_path, "rb") as f:

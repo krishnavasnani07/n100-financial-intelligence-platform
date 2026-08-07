@@ -15,6 +15,7 @@ from src.reports.tearsheet import generate_tearsheet
 
 TEST_COMPANIES = ["TCS", "HDFCBANK", "RELIANCE", "SUNPHARMA", "TATASTEEL"]
 
+
 def count_pdf_pages(pdf_path: Path) -> int:
     """Estimates the page count of a PDF by scanning for /Type /Page tags."""
     try:
@@ -33,14 +34,15 @@ def count_pdf_pages(pdf_path: Path) -> int:
         print(f"Error reading PDF {pdf_path}: {e}")
         return -1
 
+
 def run_batch():
     print("=" * 60)
     print("STARTING BATCH TEARSHEET GENERATION")
     print("=" * 60)
-    
+
     success_count = 0
     total_time = 0.0
-    
+
     for company in TEST_COMPANIES:
         print(f"\n[*] Processing company: {company}...")
         start = time.time()
@@ -48,22 +50,26 @@ def run_batch():
             pdf_path = generate_tearsheet(company)
             elapsed = time.time() - start
             total_time += elapsed
-            
+
             # Page count verification
             pages = count_pdf_pages(pdf_path)
             print(f"[+] PDF path: {pdf_path}")
             print(f"[+] Execution time: {elapsed:.2f} seconds")
             print(f"[+] Page count: {pages}")
-            
+
             if pages == 2:
-                print(f"[SUCCESS] {company} tearsheet generated and page-budget verified (2 pages).")
+                print(
+                    f"[SUCCESS] {company} tearsheet generated and page-budget verified (2 pages)."
+                )
                 success_count += 1
             else:
-                print(f"[WARNING] {company} tearsheet generated but pages count is {pages} (expected 2 pages).")
-                success_count += 1 # generated but maybe sizing is off
+                print(
+                    f"[WARNING] {company} tearsheet generated but pages count is {pages} (expected 2 pages)."
+                )
+                success_count += 1  # generated but maybe sizing is off
         except Exception as e:
             print(f"[ERROR] Failed to generate tearsheet for {company}: {e}")
-            
+
     print("\n" + "=" * 60)
     print("BATCH COMPILATION SUMMARY")
     print("=" * 60)
@@ -71,6 +77,7 @@ def run_batch():
     print(f"Total processing time: {total_time:.2f} seconds")
     print(f"Average time per company: {total_time/len(TEST_COMPANIES):.2f} seconds")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     run_batch()

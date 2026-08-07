@@ -2,10 +2,12 @@ import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Generator
+
 from src.config import settings
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
+
 
 def get_connection(db_path: Path | str | None = None) -> sqlite3.Connection:
     """
@@ -32,7 +34,9 @@ def get_connection(db_path: Path | str | None = None) -> sqlite3.Connection:
 
 
 @contextmanager
-def get_db(db_path: Path | str | None = None) -> Generator[sqlite3.Connection, None, None]:
+def get_db(
+    db_path: Path | str | None = None,
+) -> Generator[sqlite3.Connection, None, None]:
     """
     Context manager for database connections that automatically handles
     commit and rollback on exceptions.

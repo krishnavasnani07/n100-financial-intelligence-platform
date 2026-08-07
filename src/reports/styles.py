@@ -4,8 +4,8 @@ Defines colors, fonts, and ReportLab ParagraphStyle objects.
 """
 
 from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 
 # Custom Colors (HexColor)
 NAVY_PRIMARY = colors.HexColor("#1B365D")
@@ -21,9 +21,9 @@ BORDER_LIGHT = colors.HexColor("#D9D9D9")
 # Margins and Dimensions (A4: 595.27 x 841.89 points)
 A4_WIDTH, A4_HEIGHT = A4
 MARGIN_INCHES = 0.5
-MARGIN_POINTS = MARGIN_INCHES * 72 # 36 points
-PRINTABLE_WIDTH = A4_WIDTH - (2 * MARGIN_POINTS) # 523.27 points
-PRINTABLE_HEIGHT = A4_HEIGHT - (2 * MARGIN_POINTS) # 769.89 points
+MARGIN_POINTS = MARGIN_INCHES * 72  # 36 points
+PRINTABLE_WIDTH = A4_WIDTH - (2 * MARGIN_POINTS)  # 523.27 points
+PRINTABLE_HEIGHT = A4_HEIGHT - (2 * MARGIN_POINTS)  # 769.89 points
 
 # Get default sample styles
 _sample_styles = getSampleStyleSheet()
@@ -37,7 +37,7 @@ title_style = ParagraphStyle(
     leading=22,
     textColor=colors.white,
     spaceAfter=0,
-    alignment=0, # Left-aligned
+    alignment=0,  # Left-aligned
 )
 
 subtitle_style = ParagraphStyle(
@@ -48,7 +48,7 @@ subtitle_style = ParagraphStyle(
     leading=13,
     textColor=colors.HexColor("#E0E0E0"),
     spaceAfter=0,
-    alignment=0, # Left-aligned
+    alignment=0,  # Left-aligned
 )
 
 meta_style = ParagraphStyle(
@@ -59,7 +59,7 @@ meta_style = ParagraphStyle(
     leading=14,
     textColor=colors.white,
     spaceAfter=0,
-    alignment=2, # Right-aligned
+    alignment=2,  # Right-aligned
 )
 
 meta_subtitle_style = ParagraphStyle(
@@ -70,7 +70,7 @@ meta_subtitle_style = ParagraphStyle(
     leading=13,
     textColor=colors.HexColor("#E0E0E0"),
     spaceAfter=0,
-    alignment=2, # Right-aligned
+    alignment=2,  # Right-aligned
 )
 
 section_heading_style = ParagraphStyle(
@@ -92,7 +92,7 @@ kpi_label_style = ParagraphStyle(
     fontSize=9,
     leading=11,
     textColor=TEXT_LIGHT,
-    alignment=1, # Centered
+    alignment=1,  # Centered
 )
 
 kpi_value_style = ParagraphStyle(
@@ -102,7 +102,7 @@ kpi_value_style = ParagraphStyle(
     fontSize=14,
     leading=17,
     textColor=NAVY_PRIMARY,
-    alignment=1, # Centered
+    alignment=1,  # Centered
 )
 
 kpi_unit_style = ParagraphStyle(
@@ -112,7 +112,7 @@ kpi_unit_style = ParagraphStyle(
     fontSize=8,
     leading=10,
     textColor=TEXT_LIGHT,
-    alignment=1, # Centered
+    alignment=1,  # Centered
 )
 
 table_header_style = ParagraphStyle(
@@ -155,7 +155,7 @@ badge_style = ParagraphStyle(
     fontName="Helvetica-Bold",
     fontSize=10,
     leading=12,
-    alignment=1, # Centered
+    alignment=1,  # Centered
 )
 
 footer_style = ParagraphStyle(

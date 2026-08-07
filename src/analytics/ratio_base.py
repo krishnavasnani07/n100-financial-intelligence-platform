@@ -3,16 +3,19 @@ Generic Ratio Base Class & Data Models.
 Provides reusable division, validation, benchmarking, and structured RatioResult models.
 """
 
-import math
 import logging
+import math
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from dataclasses import dataclass, asdict
-from typing import Any, Optional, Dict, List
+from typing import Any, Dict, List, Optional
+
 from src.config.ratio_config import DEFAULT_PRECISION, FORMULA_VERSION
+
 
 @dataclass
 class RatioResult:
     """Structured result object for calculated KPIs."""
+
     company_id: str
     year: str
     ratio_name: str
@@ -42,7 +45,7 @@ class RatioCalculator:
         numerator: Any,
         denominator: Any,
         multiplier: float = 1.0,
-        precision: int = DEFAULT_PRECISION
+        precision: int = DEFAULT_PRECISION,
     ) -> tuple[Optional[float], str]:
         """
         Safely divide two values with multiplier and return (value, status_code).
@@ -94,9 +97,11 @@ class RatioCalculator:
         status: str,
         formula: str,
         source_tables: str,
-        benchmarks: Optional[Dict[str, float]] = None
+        benchmarks: Optional[Dict[str, float]] = None,
     ) -> RatioResult:
-        classification = cls.classify_benchmark(value, benchmarks) if benchmarks else "N/A"
+        classification = (
+            cls.classify_benchmark(value, benchmarks) if benchmarks else "N/A"
+        )
         return RatioResult(
             company_id=company_id,
             year=year,
@@ -105,5 +110,5 @@ class RatioCalculator:
             status=status,
             formula=formula,
             source_tables=source_tables,
-            classification=classification
+            classification=classification,
         )

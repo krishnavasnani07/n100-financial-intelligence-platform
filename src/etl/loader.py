@@ -1,6 +1,8 @@
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
 import pandas as pd
+
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -19,10 +21,14 @@ class ExcelLoader:
         """
         path = Path(file_path)
         if not path.exists():
-            logger.error(f"File verification failed. File does not exist: {path.resolve()}")
+            logger.error(
+                f"File verification failed. File does not exist: {path.resolve()}"
+            )
             return False
         if not path.is_file():
-            logger.error(f"File verification failed. Path is not a file: {path.resolve()}")
+            logger.error(
+                f"File verification failed. Path is not a file: {path.resolve()}"
+            )
             return False
         return True
 
@@ -48,7 +54,9 @@ class ExcelLoader:
             return False
         clean_cols = [str(c).strip().lower() for c in df.columns]
         missing = [
-            req for req in required_columns if str(req).strip().lower() not in clean_cols
+            req
+            for req in required_columns
+            if str(req).strip().lower() not in clean_cols
         ]
         if missing:
             logger.error(f"Required columns missing in dataset: {missing}")
@@ -81,11 +89,17 @@ class ExcelLoader:
                 logger.warning(f"File '{path.name}' loaded but is empty.")
                 return None
 
-            if required_columns and not self.validate_required_columns(df, required_columns):
-                logger.error(f"Validation failed for required columns in '{path.name}'.")
+            if required_columns and not self.validate_required_columns(
+                df, required_columns
+            ):
+                logger.error(
+                    f"Validation failed for required columns in '{path.name}'."
+                )
                 return None
 
-            logger.info(f"SUCCESS Loaded {len(df)} rows from '{path.name}' (Shape: {df.shape})")
+            logger.info(
+                f"SUCCESS Loaded {len(df)} rows from '{path.name}' (Shape: {df.shape})"
+            )
             return df
         except Exception as e:
             logger.error(
@@ -126,4 +140,3 @@ class ExcelLoader:
 def load_excel(file_path: Path | str, sheet_name=0, **kwargs) -> pd.DataFrame | None:
     loader = ExcelLoader()
     return loader.load_excel(file_path, sheet_name=sheet_name, **kwargs)
-

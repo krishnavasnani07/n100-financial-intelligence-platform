@@ -64,4 +64,3 @@ ASSET_TURNOVER_BENCHMARKS: Dict[str, float] = {
     "GOOD": 1.0,
     "AVERAGE": 0.5,
 }
-

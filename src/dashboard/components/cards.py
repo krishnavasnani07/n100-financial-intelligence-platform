@@ -1,9 +1,10 @@
 import streamlit as st
 
+
 def kpi_card(title: str, value: str, delta: str = None, delta_type: str = "neutral"):
     """
     Renders a premium glassmorphic metric/KPI card using custom HTML/CSS.
-    
+
     Args:
         title (str): Title of the metric
         value (str): Value of the metric
@@ -13,7 +14,7 @@ def kpi_card(title: str, value: str, delta: str = None, delta_type: str = "neutr
     delta_html = ""
     if delta:
         delta_html = f'<div class="kpi-delta {delta_type}">{delta}</div>'
-        
+
     card_html = f"""
     <div class="kpi-card">
         <div class="kpi-title">{title}</div>

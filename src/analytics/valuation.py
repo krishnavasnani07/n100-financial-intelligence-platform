@@ -5,16 +5,17 @@ Computes FCF Yield, Sector Median PE, comparisons, valuation flags, and exports 
 
 from __future__ import annotations
 
+import logging
 import os
+import sqlite3
 import sys
 import time
-import logging
-import sqlite3
-import pandas as pd
 from pathlib import Path
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
-from src.config.settings import DB_PATH, BASE_DIR, RAW_DATA_DIR, OUTPUT_DIR
+import pandas as pd
+
+from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR, RAW_DATA_DIR
 
 # Custom logging to logs/valuation.log and stdout
 LOG_FILE = BASE_DIR / "logs" / "valuation.log"
@@ -42,7 +43,9 @@ try:
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 except Exception as e:
-    console_handler.stream.write(f"CRITICAL: Failed to initialize file log handler at {LOG_FILE}: {e}\n")
+    console_handler.stream.write(
+        f"CRITICAL: Failed to initialize file log handler at {LOG_FILE}: {e}\n"
+    )
 
 
 from src.utils.helpers import extract_year_int
@@ -67,8 +70,14 @@ def load_market_cap(filepath: Optional[Path] = None) -> pd.DataFrame:
 
     # Validation: Missing columns
     required_cols = [
-        "company_id", "year", "market_cap_crore", "enterprise_value_crore",
-        "pe_ratio", "pb_ratio", "ev_ebitda", "dividend_yield_pct"
+        "company_id",
+        "year",
+        "market_cap_crore",
+        "enterprise_value_crore",
+        "pe_ratio",
+        "pb_ratio",
+        "ev_ebitda",
+        "dividend_yield_pct",
     ]
     missing_cols = [col for col in required_cols if col not in df.columns]
     if missing_cols:
@@ -100,16 +109,26 @@ def load_market_cap(filepath: Optional[Path] = None) -> pd.DataFrame:
 
     # Validation: Duplicate company IDs
     if df_merged["company_id"].duplicated().any():
-        dup_ids = df_merged[df_merged["company_id"].duplicated()]["company_id"].unique().tolist()
-        logger.warning(f"Found duplicate company IDs in latest market cap records: {dup_ids}")
+        dup_ids = (
+            df_merged[df_merged["company_id"].duplicated()]["company_id"]
+            .unique()
+            .tolist()
+        )
+        logger.warning(
+            f"Found duplicate company IDs in latest market cap records: {dup_ids}"
+        )
         df_merged = df_merged.drop_duplicates(subset=["company_id"]).copy()
 
     # Validation: Missing market caps
     missing_mcap_count = df_merged["market_cap_crore"].isnull().sum()
     if missing_mcap_count > 0:
-        logger.warning(f"Found {missing_mcap_count} companies with missing market cap in latest year.")
+        logger.warning(
+            f"Found {missing_mcap_count} companies with missing market cap in latest year."
+        )
 
-    logger.info(f"Loaded {len(df_merged)} company latest market cap records from Excel.")
+    logger.info(
+        f"Loaded {len(df_merged)} company latest market cap records from Excel."
+    )
     return df_merged
 
 
@@ -119,7 +138,9 @@ def load_company_master(db_path: Optional[Path] = None) -> pd.DataFrame:
     logger.info(f"Connecting to database at {path} for company master...")
     conn = sqlite3.connect(str(path))
     try:
-        df = pd.read_sql_query("SELECT id AS company_id, company_name FROM companies", conn)
+        df = pd.read_sql_query(
+            "SELECT id AS company_id, company_name FROM companies", conn
+        )
         df["company_id"] = df["company_id"].astype(str).str.strip().str.upper()
         logger.info(f"Loaded {len(df)} companies from database master.")
         return df
@@ -145,7 +166,9 @@ def load_latest_ratios(db_path: Optional[Path] = None) -> pd.DataFrame:
         # Keep latest year only
         latest_idx = df.groupby("company_id")["year_int"].idxmax()
         df_latest = df.loc[latest_idx].copy()
-        logger.info(f"Loaded {len(df_latest)} company latest financial ratio records from database.")
+        logger.info(
+            f"Loaded {len(df_latest)} company latest financial ratio records from database."
+        )
         return df_latest
     except Exception as e:
         logger.error(f"Failed to query financial_ratios: {e}")
@@ -171,7 +194,9 @@ def load_sector_data(db_path: Optional[Path] = None) -> pd.DataFrame:
     path = db_path or DB_PATH
     conn = sqlite3.connect(str(path))
     try:
-        df = pd.read_sql_query("SELECT company_id, broad_sector AS sector FROM sectors", conn)
+        df = pd.read_sql_query(
+            "SELECT company_id, broad_sector AS sector FROM sectors", conn
+        )
         df["company_id"] = df["company_id"].astype(str).str.strip().str.upper()
         logger.info(f"Loaded {len(df)} company sector records from database.")
         return df
@@ -186,7 +211,7 @@ def compute_valuation_metrics(
     df_mcap: pd.DataFrame,
     df_master: pd.DataFrame,
     df_sector: pd.DataFrame,
-    df_fcf: pd.DataFrame
+    df_fcf: pd.DataFrame,
 ) -> pd.DataFrame:
     """
     Merges datasets and calculates FCF Yield, Sector Median PE, Comparisons, and Flags.
@@ -194,14 +219,15 @@ def compute_valuation_metrics(
     logger.info("Merging datasets for valuation analysis...")
     # Begin with company master (92 companies) to ensure we cover the entire universe
     df_merged = pd.merge(df_master, df_sector, on="company_id", how="left")
-    
+
     # Merge with market cap data
     df_merged = pd.merge(df_merged, df_mcap, on="company_id", how="left")
-    
+
     # Merge with latest FCF
     df_merged = pd.merge(df_merged, df_fcf, on="company_id", how="left")
 
     logger.info("Computing FCF Yield %...")
+
     # Step 3: FCF Yield % = Free Cash Flow / Market Cap * 100
     def calc_fcf_yield(row: pd.Series) -> float:
         fcf = row.get("free_cash_flow_cr")
@@ -217,10 +243,11 @@ def compute_valuation_metrics(
     # Using pe_ratio from market_cap
     sector_medians = df_merged.groupby("sector")["pe_ratio"].median().reset_index()
     sector_medians.rename(columns={"pe_ratio": "sector_median_pe"}, inplace=True)
-    
+
     df_merged = pd.merge(df_merged, sector_medians, on="sector", how="left")
 
     logger.info("Comparing Company PE against Sector Median...")
+
     # Step 5: PE vs Sector Median % = Company PE / Sector Median PE * 100
     def calc_pe_comparison(row: pd.Series) -> Optional[float]:
         pe = row.get("pe_ratio")
@@ -232,6 +259,7 @@ def compute_valuation_metrics(
     df_merged["PE_vs_sector_median_pct"] = df_merged.apply(calc_pe_comparison, axis=1)
 
     logger.info("Generating Valuation Flags...")
+
     # Step 6: Valuation Flags
     def get_valuation_flag(row: pd.Series) -> str:
         pe = row.get("pe_ratio")
@@ -257,15 +285,23 @@ def compute_valuation_metrics(
             "pb_ratio": "PB",
             "ev_ebitda": "EV/EBITDA",
         },
-        inplace=True
+        inplace=True,
     )
 
     # Fill NaN values in PE, PB, EV/EBITDA, 5yr_median_PE, and PE_vs_sector_median_pct with None (or leave for excel)
     # Ensure columns match final specification
     expected_cols = [
-        "company_id", "company_name", "sector", "PE", "PB", "EV/EBITDA",
-        "FCF_yield_pct", "5yr_median_PE", "PE_vs_sector_median_pct", "flag",
-        "sector_median_pe"  # We keep this for flags.csv requirements
+        "company_id",
+        "company_name",
+        "sector",
+        "PE",
+        "PB",
+        "EV/EBITDA",
+        "FCF_yield_pct",
+        "5yr_median_PE",
+        "PE_vs_sector_median_pct",
+        "flag",
+        "sector_median_pe",  # We keep this for flags.csv requirements
     ]
     # For columns that might not have merged or are completely empty
     for col in expected_cols:
@@ -273,7 +309,11 @@ def compute_valuation_metrics(
             df_final[col] = None
 
     # Step 7: Sort by Sector ascending, then Company Name
-    df_final = df_final[expected_cols].sort_values(by=["sector", "company_name"]).reset_index(drop=True)
+    df_final = (
+        df_final[expected_cols]
+        .sort_values(by=["sector", "company_name"])
+        .reset_index(drop=True)
+    )
     return df_final
 
 
@@ -283,47 +323,71 @@ def export_excel_report(df: pd.DataFrame, output_path: Path):
     """
     logger.info(f"Exporting valuation summary to Excel at {output_path}...")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     # We don't need sector_median_pe in the Excel print to keep it clean, but let's see. Let's write the 10 final columns.
     excel_cols = [
-        "company_id", "company_name", "sector", "PE", "PB", "EV/EBITDA",
-        "FCF_yield_pct", "5yr_median_PE", "PE_vs_sector_median_pct", "flag"
+        "company_id",
+        "company_name",
+        "sector",
+        "PE",
+        "PB",
+        "EV/EBITDA",
+        "FCF_yield_pct",
+        "5yr_median_PE",
+        "PE_vs_sector_median_pct",
+        "flag",
     ]
     df_excel = df[excel_cols].copy()
-    
+
     # Capitalize column headers for printing
     df_excel.columns = [
-        "Company ID", "Company Name", "Sector", "P/E Ratio", "P/B Ratio",
-        "EV/EBITDA", "FCF Yield %", "5Y Median P/E", "P/E vs. Sector Median %", "Valuation Flag"
+        "Company ID",
+        "Company Name",
+        "Sector",
+        "P/E Ratio",
+        "P/B Ratio",
+        "EV/EBITDA",
+        "FCF Yield %",
+        "5Y Median P/E",
+        "P/E vs. Sector Median %",
+        "Valuation Flag",
     ]
 
     try:
         import openpyxl
-        from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+        from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
         from openpyxl.utils import get_column_letter
 
         writer = pd.ExcelWriter(output_path, engine="openpyxl")
         df_excel.to_excel(writer, sheet_name="Valuation Analysis", index=False)
-        
+
         workbook = writer.book
         worksheet = writer.sheets["Valuation Analysis"]
 
         # Design system styles
         font_family = "Inter"
-        header_fill = PatternFill(start_color="1E3A8A", end_color="1E3A8A", fill_type="solid")  # Navy Blue
+        header_fill = PatternFill(
+            start_color="1E3A8A", end_color="1E3A8A", fill_type="solid"
+        )  # Navy Blue
         header_font = Font(name=font_family, size=11, bold=True, color="FFFFFF")
         data_font = Font(name=font_family, size=10)
-        
+
         # Zebra striping and flag highlights
-        zebra_fill = PatternFill(start_color="F8FAFC", end_color="F8FAFC", fill_type="solid") # light slate
-        discount_fill = PatternFill(start_color="DCFCE7", end_color="DCFCE7", fill_type="solid") # soft green
-        caution_fill = PatternFill(start_color="FEE2E2", end_color="FEE2E2", fill_type="solid") # soft red
-        
+        zebra_fill = PatternFill(
+            start_color="F8FAFC", end_color="F8FAFC", fill_type="solid"
+        )  # light slate
+        discount_fill = PatternFill(
+            start_color="DCFCE7", end_color="DCFCE7", fill_type="solid"
+        )  # soft green
+        caution_fill = PatternFill(
+            start_color="FEE2E2", end_color="FEE2E2", fill_type="solid"
+        )  # soft red
+
         thin_border = Border(
-            left=Side(style='thin', color='E2E8F0'),
-            right=Side(style='thin', color='E2E8F0'),
-            top=Side(style='thin', color='E2E8F0'),
-            bottom=Side(style='thin', color='E2E8F0')
+            left=Side(style="thin", color="E2E8F0"),
+            right=Side(style="thin", color="E2E8F0"),
+            top=Side(style="thin", color="E2E8F0"),
+            bottom=Side(style="thin", color="E2E8F0"),
         )
 
         # Style header
@@ -331,23 +395,25 @@ def export_excel_report(df: pd.DataFrame, output_path: Path):
             cell = worksheet.cell(row=1, column=col_idx)
             cell.fill = header_fill
             cell.font = header_font
-            cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+            cell.alignment = Alignment(
+                horizontal="center", vertical="center", wrap_text=True
+            )
             cell.border = thin_border
-            
+
         worksheet.row_dimensions[1].height = 28
 
         # Style data rows
         for row_idx in range(2, len(df_excel) + 2):
             worksheet.row_dimensions[row_idx].height = 20
-            is_zebra = (row_idx % 2 == 0)
-            
+            is_zebra = row_idx % 2 == 0
+
             flag_val = str(worksheet.cell(row=row_idx, column=10).value).strip()
 
             for col_idx in range(1, len(df_excel.columns) + 1):
                 cell = worksheet.cell(row=row_idx, column=col_idx)
                 cell.font = data_font
                 cell.border = thin_border
-                
+
                 # Alignments
                 if col_idx in [1, 3, 10]:  # ID, Sector, Flag
                     cell.alignment = Alignment(horizontal="center", vertical="center")
@@ -355,27 +421,33 @@ def export_excel_report(df: pd.DataFrame, output_path: Path):
                     cell.alignment = Alignment(horizontal="left", vertical="center")
                 else:  # Numeric ratios
                     cell.alignment = Alignment(horizontal="right", vertical="center")
-                
+
                 # Apply number formatting
                 val = cell.value
                 if val is not None and isinstance(val, (int, float)):
                     if col_idx in [4, 5, 6, 8]:  # Ratios
                         cell.number_format = "0.00"
                     elif col_idx in [7, 9]:  # Percentages
-                        cell.number_format = "0.0%" if col_idx == 7 and val < 1.0 else "0.00"
-                
+                        cell.number_format = (
+                            "0.0%" if col_idx == 7 and val < 1.0 else "0.00"
+                        )
+
                 # Zebra striping
                 if is_zebra:
                     cell.fill = zebra_fill
-                    
+
                 # Highlight flags specifically
                 if col_idx == 10:
                     if flag_val == "Discount":
                         cell.fill = discount_fill
-                        cell.font = Font(name=font_family, size=10, bold=True, color="166534")
+                        cell.font = Font(
+                            name=font_family, size=10, bold=True, color="166534"
+                        )
                     elif flag_val == "Caution":
                         cell.fill = caution_fill
-                        cell.font = Font(name=font_family, size=10, bold=True, color="991B1B")
+                        cell.font = Font(
+                            name=font_family, size=10, bold=True, color="991B1B"
+                        )
 
         # Freeze headers (Freeze Row 1, meaning we freeze at Row 2)
         worksheet.freeze_panes = "A2"
@@ -384,7 +456,7 @@ def export_excel_report(df: pd.DataFrame, output_path: Path):
         for col in worksheet.columns:
             max_len = 0
             for cell in col:
-                val = str(cell.value or '')
+                val = str(cell.value or "")
                 if len(val) > max_len:
                     max_len = len(val)
             col_letter = get_column_letter(col[0].column)
@@ -417,17 +489,21 @@ def export_csv_flags_report(df: pd.DataFrame, output_path: Path):
         "PE": "PE",
         "sector_median_pe": "Sector Median",
         "FCF_yield_pct": "FCF Yield",
-        "flag": "Flag"
+        "flag": "Flag",
     }
-    
+
     df_export = df_flags[list(csv_cols.keys())].rename(columns=csv_cols)
-    
+
     # Save CSV
     df_export.to_csv(output_path, index=False)
-    logger.info(f"CSV flags report written to {output_path} ({len(df_export)} flag records)")
+    logger.info(
+        f"CSV flags report written to {output_path} ({len(df_export)} flag records)"
+    )
 
 
-def run_valuation_pipeline(db_path: Optional[Path] = None, raw_dir: Optional[Path] = None) -> pd.DataFrame:
+def run_valuation_pipeline(
+    db_path: Optional[Path] = None, raw_dir: Optional[Path] = None
+) -> pd.DataFrame:
     """Executes the complete valuation pipeline and exports reports."""
     start_time = time.time()
     logger.info("=" * 60)
@@ -447,7 +523,7 @@ def run_valuation_pipeline(db_path: Optional[Path] = None, raw_dir: Optional[Pat
         # 3. Export reports
         summary_xlsx = OUTPUT_DIR / "valuation_summary.xlsx"
         flags_csv = OUTPUT_DIR / "valuation_flags.csv"
-        
+
         export_excel_report(df_final, summary_xlsx)
         export_csv_flags_report(df_final, flags_csv)
 
@@ -461,22 +537,26 @@ def run_valuation_pipeline(db_path: Optional[Path] = None, raw_dir: Optional[Pat
         logger.info(f"  Total Records: {row_count} (Expected: 92)")
         logger.info(f"  Duplicates:    {duplicate_count}")
         logger.info(f"  Missing Names: {missing_company_names}")
-        
+
         # Log missing companies
         db_companies = set(df_master["company_id"].unique())
         processed_companies = set(df_final["company_id"].unique())
         missing_from_mc = db_companies - processed_companies
         if missing_from_mc:
-            logger.warning(f"Companies in database missing from processed output: {missing_from_mc}")
+            logger.warning(
+                f"Companies in database missing from processed output: {missing_from_mc}"
+            )
 
         runtime = round(time.time() - start_time, 2)
         logger.info(f"Valuation pipeline completed successfully in {runtime} seconds.")
         logger.info("=" * 60)
-        
+
         return df_final
 
     except Exception as e:
-        logger.critical(f"Valuation pipeline failed with critical error: {e}", exc_info=True)
+        logger.critical(
+            f"Valuation pipeline failed with critical error: {e}", exc_info=True
+        )
         raise
 
 

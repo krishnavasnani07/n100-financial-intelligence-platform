@@ -3,7 +3,9 @@ Utility functions for Screener Engine.
 """
 
 from __future__ import annotations
+
 from typing import Any, Optional
+
 import pandas as pd
 
 

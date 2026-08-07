@@ -5,6 +5,7 @@ and peer analysis updates. Clears/updates cache signals for the dashboard.
 """
 
 from __future__ import annotations
+
 import os
 import sys
 import time
@@ -28,27 +29,35 @@ def run_daily_refresh():
     """
     logger.info("Starting daily scheduler refresh pipeline...")
     start_time = time.time()
-    
+
     # 1. Run Data Validation
     logger.info("Step 1: Running Data Validation...")
     from src.validation.validator import DataValidator
+
     validator = DataValidator()
     validator_summary = validator.run_validation()
-    logger.info(f"Validation completed. Success: {validator_summary['success']}, Critical failures: {validator_summary['critical_failures']}")
-    
+    logger.info(
+        f"Validation completed. Success: {validator_summary['success']}, Critical failures: {validator_summary['critical_failures']}"
+    )
+
     # 2. SQLite Database Loading
     logger.info("Step 2: Loading Data into SQLite...")
     from src.database.loader import DatabaseLoader
+
     db_loader = DatabaseLoader()
     load_summary = db_loader.load_all(validator.datasets)
-    logger.info(f"Database load completed. Total read: {load_summary['total_read']}, Total inserted: {load_summary['total_inserted']}")
-    
+    logger.info(
+        f"Database load completed. Total read: {load_summary['total_read']}, Total inserted: {load_summary['total_inserted']}"
+    )
+
     # 3. Calculate Profitability KPIs
     logger.info("Step 3: Calculating Profitability KPIs...")
     import sqlite3
+
     import pandas as pd
+
     from src.analytics.ratios import ProfitabilityEngine
-    
+
     conn = sqlite3.connect(str(DB_PATH))
     query_ratios = """
         SELECT 
@@ -70,7 +79,7 @@ def run_daily_refresh():
     """
     df_ratios_data = pd.read_sql(query_ratios, conn)
     conn.close()
-    
+
     all_ratio_results = []
     for idx, row in df_ratios_data.iterrows():
         is_fin = str(row.get("broad_sector")) == "Financials"
@@ -85,20 +94,21 @@ def run_daily_refresh():
             borrowings=row["borrowings"],
             total_assets=row["total_assets"],
             reported_opm=row["reported_opm"],
-            is_financial=is_fin
+            is_financial=is_fin,
         )
         all_ratio_results.extend(results)
     ProfitabilityEngine.export_ratio_audit_and_summary(all_ratio_results)
     logger.info("Profitability KPIs calculation complete.")
-    
+
     # 4. Calculate CAGR KPIs
     logger.info("Step 4: Calculating Growth CAGR KPIs...")
     from src.analytics.cagr import CAGREngine
+
     conn_cagr = sqlite3.connect(str(DB_PATH))
     query_pl = "SELECT company_id, year, sales, net_profit, eps FROM profitandloss"
     df_pl_all = pd.read_sql(query_pl, conn_cagr)
     conn_cagr.close()
-    
+
     all_cagr_results = []
     for cid in df_pl_all["company_id"].unique():
         df_comp = df_pl_all[df_pl_all["company_id"] == cid]
@@ -106,10 +116,11 @@ def run_daily_refresh():
         all_cagr_results.extend(cagr_res)
     CAGREngine.export_growth_reports(all_cagr_results)
     logger.info("Growth CAGR calculation complete.")
-    
+
     # 5. Calculate Cash Flow KPIs
     logger.info("Step 5: Calculating Cash Flow KPIs...")
     from src.analytics.cashflow_kpis import CashFlowEngine
+
     conn_cf = sqlite3.connect(str(DB_PATH))
     query_cf = """
         SELECT 
@@ -127,7 +138,7 @@ def run_daily_refresh():
     """
     df_cf_all = pd.read_sql(query_cf, conn_cf)
     conn_cf.close()
-    
+
     all_cashflow_results = []
     for cid in df_cf_all["company_id"].unique():
         df_comp = df_cf_all[df_cf_all["company_id"] == cid]
@@ -135,27 +146,32 @@ def run_daily_refresh():
         all_cashflow_results.extend(cf_res)
     CashFlowEngine.export_cashflow_reports(all_cashflow_results)
     logger.info("Cash Flow KPIs calculation complete.")
-    
+
     # 6. Populate Financial Ratios Database Table
     logger.info("Step 6: Populating SQLite financial_ratios table...")
-    from src.analytics.populate_financial_ratios import populate_ratios_pipeline
+    from src.analytics.populate_financial_ratios import \
+        populate_ratios_pipeline
+
     populate_ratios_pipeline(DB_PATH)
     logger.info("financial_ratios table populated.")
-    
+
     # 7. Run Peer Percentile Ranking Engine
     logger.info("Step 7: Running Peer Percentile Ranking Engine...")
     from src.peer_analysis.comparison import run_peer_analysis
+
     run_peer_analysis(DB_PATH)
     logger.info("Peer comparison and percentile ranking completed.")
-    
+
     # 8. Write Cache Invalidation Token
     cache_token_path = BASE_DIR / "data" / "last_update.txt"
     cache_token_path.parent.mkdir(parents=True, exist_ok=True)
     with open(cache_token_path, "w") as f:
         f.write(datetime.now().isoformat())
-    
+
     runtime = round(time.time() - start_time, 2)
-    logger.info(f"Daily Scheduler execution completed successfully in {runtime} seconds.")
+    logger.info(
+        f"Daily Scheduler execution completed successfully in {runtime} seconds."
+    )
 
 
 if __name__ == "__main__":

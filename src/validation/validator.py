@@ -1,13 +1,14 @@
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
 import pandas as pd
 
 from src.config import settings
-from src.utils.logger import get_logger
 from src.etl.loader import load_excel
-from src.validation.report import ValidationReport
-from src.validation.exceptions import DataLoadError
+from src.utils.logger import get_logger
 from src.validation import dq_rules
+from src.validation.exceptions import DataLoadError
+from src.validation.report import ValidationReport
 
 logger = get_logger(__name__)
 

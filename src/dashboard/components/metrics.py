@@ -1,10 +1,18 @@
 from src.dashboard.components.cards import kpi_card
-from src.dashboard.utils.formatting import format_percentage, format_currency_cr, format_ratio
+from src.dashboard.utils.formatting import (format_currency_cr,
+                                            format_percentage, format_ratio)
 
-def render_financial_metric(name: str, value: float, format_type: str, delta: str = None, delta_type: str = "neutral"):
+
+def render_financial_metric(
+    name: str,
+    value: float,
+    format_type: str,
+    delta: str = None,
+    delta_type: str = "neutral",
+):
     """
     Formates and renders a financial metric inside a glassmorphism KPI card.
-    
+
     Args:
         name (str): Display name of the metric
         value (float): Numerical value of the metric
@@ -20,5 +28,5 @@ def render_financial_metric(name: str, value: float, format_type: str, delta: st
         formatted_val = format_ratio(value)
     else:
         formatted_val = str(value) if value is not None else "N/A"
-        
+
     kpi_card(name, formatted_val, delta, delta_type)

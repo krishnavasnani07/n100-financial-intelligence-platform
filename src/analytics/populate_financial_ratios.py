@@ -5,14 +5,15 @@ Integrates Profitability, Leverage, CAGR, and Cash Flow analytics engines
 to populate the `financial_ratios` SQLite database table and generate `output/financial_ratios.csv`.
 """
 
-import sys
-import time
+import logging
 import math
 import re
 import sqlite3
-import logging
+import sys
+import time
 from pathlib import Path
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
+
 import pandas as pd
 
 # Add parent directory to sys.path if needed
@@ -20,19 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from src.config.settings import DB_PATH, OUTPUT_DIR, BASE_DIR
-from src.analytics.ratios import (
-    calculate_net_profit_margin,
-    calculate_operating_profit_margin,
-    calculate_roe,
-    calculate_roce,
-    calculate_roa,
-    calculate_debt_to_equity,
-    calculate_interest_coverage,
-    calculate_asset_turnover,
-)
 from src.analytics.cagr import calculate_cagr
-from src.analytics.cashflow_kpis import calculate_free_cash_flow, calculate_cfo_quality
+from src.analytics.cashflow_kpis import (calculate_cfo_quality,
+                                         calculate_free_cash_flow)
+from src.analytics.ratios import (calculate_asset_turnover,
+                                  calculate_debt_to_equity,
+                                  calculate_interest_coverage,
+                                  calculate_net_profit_margin,
+                                  calculate_operating_profit_margin,
+                                  calculate_roa, calculate_roce, calculate_roe)
+from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
 
 
 def setup_logger() -> logging.Logger:
@@ -47,7 +45,9 @@ def setup_logger() -> logging.Logger:
 
     # File handler
     file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
@@ -72,7 +72,7 @@ def calculate_composite_quality_score(
     pat_cagr: Optional[float],
     de_ratio: Optional[float],
     icr: Optional[float],
-    cfo_quality: Optional[float]
+    cfo_quality: Optional[float],
 ) -> Optional[float]:
     """
     Computes a weighted Composite Quality Score (0 - 100).
@@ -210,7 +210,9 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     # 1. Load & Merge Data
     df_master = load_master_dataframe(db_file)
-    logger.info(f"Loaded master dataset: {len(df_master)} company-year records across {df_master['company_id'].nunique()} companies.")
+    logger.info(
+        f"Loaded master dataset: {len(df_master)} company-year records across {df_master['company_id'].nunique()} companies."
+    )
 
     # 2. Build Historical Lookup for 5-Year CAGR
     # Map (company_id, year_int) -> row dict
@@ -252,26 +254,57 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
 
         # Core Profitability KPIs
         npm = calculate_net_profit_margin(net_prof, sales)
-        opm = calculate_operating_profit_margin(op_prof, sales, reported_opm=reported_opm, company_id=cid, year=yr)
+        opm = calculate_operating_profit_margin(
+            op_prof, sales, reported_opm=reported_opm, company_id=cid, year=yr
+        )
         roe = calculate_roe(net_prof, eq_cap, reserves)
-        roce = calculate_roce(op_prof, eq_cap, reserves, borrowings, is_financial=is_fin, company_id=cid, year=yr)
+        roce = calculate_roce(
+            op_prof,
+            eq_cap,
+            reserves,
+            borrowings,
+            is_financial=is_fin,
+            company_id=cid,
+            year=yr,
+        )
         roa = calculate_roa(net_prof, total_assets)
 
         # Leverage & Efficiency KPIs
-        de_ratio = calculate_debt_to_equity(borrowings, eq_cap, reserves, company_id=cid, year=yr)
+        de_ratio = calculate_debt_to_equity(
+            borrowings, eq_cap, reserves, company_id=cid, year=yr
+        )
         icr = calculate_interest_coverage(op_prof, interest, other_income=other_inc)
         asset_turnover = calculate_asset_turnover(sales, total_assets)
 
         # Cashflow KPIs
         fcf = calculate_free_cash_flow(cfo, cfi, company_id=cid, year=yr)
-        capex = abs(float(cfi)) if cfi is not None and not math.isnan(float(cfi or 0)) else None
-        cash_from_ops = float(cfo) if cfo is not None and not math.isnan(float(cfo or 0)) else None
-        total_debt = float(borrowings) if borrowings is not None and not math.isnan(float(borrowings or 0)) else None
+        capex = (
+            abs(float(cfi))
+            if cfi is not None and not math.isnan(float(cfi or 0))
+            else None
+        )
+        cash_from_ops = (
+            float(cfo) if cfo is not None and not math.isnan(float(cfo or 0)) else None
+        )
+        total_debt = (
+            float(borrowings)
+            if borrowings is not None and not math.isnan(float(borrowings or 0))
+            else None
+        )
         cfo_qual = calculate_cfo_quality(cfo, net_prof, company_id=cid, year=yr)
 
         # Shareholder Metrics
-        eps = float(row.get("eps")) if row.get("eps") is not None and not math.isnan(float(row.get("eps") or 0)) else None
-        div_payout = float(row.get("dividend_payout")) if row.get("dividend_payout") is not None and not math.isnan(float(row.get("dividend_payout") or 0)) else None
+        eps = (
+            float(row.get("eps"))
+            if row.get("eps") is not None and not math.isnan(float(row.get("eps") or 0))
+            else None
+        )
+        div_payout = (
+            float(row.get("dividend_payout"))
+            if row.get("dividend_payout") is not None
+            and not math.isnan(float(row.get("dividend_payout") or 0))
+            else None
+        )
 
         # Book Value per share = ((Equity Capital + Reserves) / Equity Capital) * Face Value
         bv_per_share = None
@@ -291,9 +324,19 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
 
         if pd.notnull(yint) and (cid, int(yint) - 5) in cagr_lookup:
             start_data = cagr_lookup[(cid, int(yint) - 5)]
-            rev_cagr_5yr, _ = calculate_cagr(start_data["sales"], sales, 5, company_id=cid, metric_name="Revenue_5Y")
-            pat_cagr_5yr, _ = calculate_cagr(start_data["net_profit"], net_prof, 5, company_id=cid, metric_name="PAT_5Y")
-            eps_cagr_5yr, _ = calculate_cagr(start_data["eps"], eps, 5, company_id=cid, metric_name="EPS_5Y")
+            rev_cagr_5yr, _ = calculate_cagr(
+                start_data["sales"], sales, 5, company_id=cid, metric_name="Revenue_5Y"
+            )
+            pat_cagr_5yr, _ = calculate_cagr(
+                start_data["net_profit"],
+                net_prof,
+                5,
+                company_id=cid,
+                metric_name="PAT_5Y",
+            )
+            eps_cagr_5yr, _ = calculate_cagr(
+                start_data["eps"], eps, 5, company_id=cid, metric_name="EPS_5Y"
+            )
 
         # Composite Quality Score
         quality_score = calculate_composite_quality_score(
@@ -303,32 +346,34 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
             pat_cagr=pat_cagr_5yr,
             de_ratio=de_ratio,
             icr=icr,
-            cfo_quality=cfo_qual
+            cfo_quality=cfo_qual,
         )
 
-        records.append({
-            "company_id": cid,
-            "year": yr,
-            "net_profit_margin_pct": npm,
-            "operating_profit_margin_pct": opm,
-            "return_on_equity_pct": roe,
-            "return_on_capital_employed_pct": roce,
-            "return_on_assets_pct": roa,
-            "debt_to_equity": de_ratio,
-            "interest_coverage": icr,
-            "asset_turnover": asset_turnover,
-            "free_cash_flow_cr": fcf,
-            "capex_cr": capex,
-            "earnings_per_share": eps,
-            "book_value_per_share": bv_per_share,
-            "dividend_payout_ratio_pct": div_payout,
-            "total_debt_cr": total_debt,
-            "cash_from_operations_cr": cash_from_ops,
-            "revenue_cagr_5yr": rev_cagr_5yr,
-            "pat_cagr_5yr": pat_cagr_5yr,
-            "eps_cagr_5yr": eps_cagr_5yr,
-            "composite_quality_score": quality_score
-        })
+        records.append(
+            {
+                "company_id": cid,
+                "year": yr,
+                "net_profit_margin_pct": npm,
+                "operating_profit_margin_pct": opm,
+                "return_on_equity_pct": roe,
+                "return_on_capital_employed_pct": roce,
+                "return_on_assets_pct": roa,
+                "debt_to_equity": de_ratio,
+                "interest_coverage": icr,
+                "asset_turnover": asset_turnover,
+                "free_cash_flow_cr": fcf,
+                "capex_cr": capex,
+                "earnings_per_share": eps,
+                "book_value_per_share": bv_per_share,
+                "dividend_payout_ratio_pct": div_payout,
+                "total_debt_cr": total_debt,
+                "cash_from_operations_cr": cash_from_ops,
+                "revenue_cagr_5yr": rev_cagr_5yr,
+                "pat_cagr_5yr": pat_cagr_5yr,
+                "eps_cagr_5yr": eps_cagr_5yr,
+                "composite_quality_score": quality_score,
+            }
+        )
 
     df_ratios = pd.DataFrame(records)
 
@@ -372,18 +417,35 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     # Insert records into SQLite
     cols_to_insert = [
-        "company_id", "year", "net_profit_margin_pct", "operating_profit_margin_pct",
-        "return_on_equity_pct", "return_on_capital_employed_pct", "return_on_assets_pct",
-        "debt_to_equity", "interest_coverage", "asset_turnover", "free_cash_flow_cr",
-        "capex_cr", "earnings_per_share", "book_value_per_share", "dividend_payout_ratio_pct",
-        "total_debt_cr", "cash_from_operations_cr", "revenue_cagr_5yr", "pat_cagr_5yr",
-        "eps_cagr_5yr", "composite_quality_score"
+        "company_id",
+        "year",
+        "net_profit_margin_pct",
+        "operating_profit_margin_pct",
+        "return_on_equity_pct",
+        "return_on_capital_employed_pct",
+        "return_on_assets_pct",
+        "debt_to_equity",
+        "interest_coverage",
+        "asset_turnover",
+        "free_cash_flow_cr",
+        "capex_cr",
+        "earnings_per_share",
+        "book_value_per_share",
+        "dividend_payout_ratio_pct",
+        "total_debt_cr",
+        "cash_from_operations_cr",
+        "revenue_cagr_5yr",
+        "pat_cagr_5yr",
+        "eps_cagr_5yr",
+        "composite_quality_score",
     ]
 
     placeholders = ", ".join(["?"] * len(cols_to_insert))
     insert_sql = f"INSERT INTO financial_ratios ({', '.join(cols_to_insert)}) VALUES ({placeholders})"
 
-    data_tuples = [tuple(row[col] for col in cols_to_insert) for _, row in df_ratios.iterrows()]
+    data_tuples = [
+        tuple(row[col] for col in cols_to_insert) for _, row in df_ratios.iterrows()
+    ]
     cursor.executemany(insert_sql, data_tuples)
     conn.commit()
 
@@ -412,9 +474,13 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     # Step 11: Verify Row Count >= 1100
     if inserted_count < 1100:
-        logger.warning(f"WARNING: Inserted row count {inserted_count} is less than target 1,100!")
+        logger.warning(
+            f"WARNING: Inserted row count {inserted_count} is less than target 1,100!"
+        )
     else:
-        logger.info(f"[PASS] Row count validation PASSED: {inserted_count} >= 1100 records inserted.")
+        logger.info(
+            f"[PASS] Row count validation PASSED: {inserted_count} >= 1100 records inserted."
+        )
 
     # Step 12: Check Null Columns
     null_summary = df_ratios[cols_to_insert].isnull().sum()
@@ -443,12 +509,20 @@ def verify_spot_checks(df_ratios: pd.DataFrame, df_master: pd.DataFrame):
     target_year = "Mar 2024"
 
     for ticker in sample_tickers:
-        sub_ratio = df_ratios[(df_ratios["company_id"] == ticker) & (df_ratios["year"] == target_year)]
-        sub_master = df_master[(df_master["company_id"] == ticker) & (df_master["year"] == target_year)]
-        sub_master_2019 = df_master[(df_master["company_id"] == ticker) & (df_master["year"] == "Mar 2019")]
+        sub_ratio = df_ratios[
+            (df_ratios["company_id"] == ticker) & (df_ratios["year"] == target_year)
+        ]
+        sub_master = df_master[
+            (df_master["company_id"] == ticker) & (df_master["year"] == target_year)
+        ]
+        sub_master_2019 = df_master[
+            (df_master["company_id"] == ticker) & (df_master["year"] == "Mar 2019")
+        ]
 
         if sub_ratio.empty or sub_master.empty:
-            logger.warning(f"Spot check skipped for {ticker} ({target_year}): Data not found.")
+            logger.warning(
+                f"Spot check skipped for {ticker} ({target_year}): Data not found."
+            )
             continue
 
         row_r = sub_ratio.iloc[0]
@@ -456,7 +530,9 @@ def verify_spot_checks(df_ratios: pd.DataFrame, df_master: pd.DataFrame):
 
         # Manual ROE = PAT / (Equity + Reserves) * 100
         pat = float(row_m.get("net_profit") or 0)
-        tot_eq = float(row_m.get("equity_capital") or 0) + float(row_m.get("reserves") or 0)
+        tot_eq = float(row_m.get("equity_capital") or 0) + float(
+            row_m.get("reserves") or 0
+        )
         manual_roe = (pat / tot_eq * 100.0) if tot_eq > 0 else None
 
         # Manual 5yr Revenue CAGR = ((Sales_2024 / Sales_2019) ** 0.2 - 1) * 100
@@ -471,21 +547,34 @@ def verify_spot_checks(df_ratios: pd.DataFrame, df_master: pd.DataFrame):
         pipeline_cagr = row_r.get("revenue_cagr_5yr")
 
         # Compare ROE
-        roe_diff = abs(pipeline_roe - manual_roe) if pipeline_roe is not None and manual_roe is not None else 0.0
-        cagr_diff = abs(pipeline_cagr - manual_cagr) if pipeline_cagr is not None and manual_cagr is not None else 0.0
+        roe_diff = (
+            abs(pipeline_roe - manual_roe)
+            if pipeline_roe is not None and manual_roe is not None
+            else 0.0
+        )
+        cagr_diff = (
+            abs(pipeline_cagr - manual_cagr)
+            if pipeline_cagr is not None and manual_cagr is not None
+            else 0.0
+        )
 
         logger.info(f"  [{ticker} {target_year}]")
-        logger.info(f"    ROE          -> Pipeline: {pipeline_roe:.2f}%, Manual: {manual_roe:.2f}%, Diff: {roe_diff:.4f}%")
-        logger.info(f"    Revenue CAGR -> Pipeline: {pipeline_cagr:.2f}%, Manual: {manual_cagr:.2f}%, Diff: {cagr_diff:.4f}%")
+        logger.info(
+            f"    ROE          -> Pipeline: {pipeline_roe:.2f}%, Manual: {manual_roe:.2f}%, Diff: {roe_diff:.4f}%"
+        )
+        logger.info(
+            f"    Revenue CAGR -> Pipeline: {pipeline_cagr:.2f}%, Manual: {manual_cagr:.2f}%, Diff: {cagr_diff:.4f}%"
+        )
 
         if roe_diff >= 0.1 or cagr_diff >= 0.1:
-            logger.error(f"[FAIL] Spot check failed for {ticker}! ROE diff={roe_diff:.4f}%, CAGR diff={cagr_diff:.4f}%")
+            logger.error(
+                f"[FAIL] Spot check failed for {ticker}! ROE diff={roe_diff:.4f}%, CAGR diff={cagr_diff:.4f}%"
+            )
             raise ValueError(f"Spot check validation failed for {ticker}.")
         else:
             logger.info(f"    [PASS] Spot check PASSED for {ticker} (Diff < 0.1%)")
 
     logger.info("All 3 company spot checks completed successfully.\n")
-
 
 
 if __name__ == "__main__":

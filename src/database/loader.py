@@ -4,6 +4,7 @@ import shutil
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+
 import pandas as pd
 
 from src.config import settings
@@ -49,7 +50,11 @@ class DatabaseLoader:
         # 1. Foreign Key Filter: Ensure company_id exists in companies table if applicable
         if table_name != "companies" and "company_id" in df_clean.columns:
             df_clean = df_clean[
-                df_clean["company_id"].dropna().astype(str).str.strip().isin(valid_company_ids)
+                df_clean["company_id"]
+                .dropna()
+                .astype(str)
+                .str.strip()
+                .isin(valid_company_ids)
             ]
 
         # 2. Primary Key Uniqueness Filter
@@ -65,7 +70,13 @@ class DatabaseLoader:
             )
 
         # Drop explicit 'id' auto-increment column if present in raw sheet to let SQLite handle AUTOINCREMENT
-        if table_name in ["sectors", "analysis", "prosandcons", "documents", "peer_groups"]:
+        if table_name in [
+            "sectors",
+            "analysis",
+            "prosandcons",
+            "documents",
+            "peer_groups",
+        ]:
             if "id" in df_clean.columns:
                 df_clean = df_clean.drop(columns=["id"])
 
@@ -119,7 +130,9 @@ class DatabaseLoader:
 
         # If loading companies, update active valid_company_ids
         if table_name == "companies":
-            valid_company_ids = set(df_to_insert["id"].dropna().astype(str).str.strip().unique())
+            valid_company_ids = set(
+                df_to_insert["id"].dropna().astype(str).str.strip().unique()
+            )
 
         return valid_company_ids
 
@@ -215,7 +228,9 @@ class DatabaseLoader:
         for table_name, file_name in LOAD_ORDER:
             df = normalized_dfs.get(table_name)
             if df is None or df.empty:
-                logger.warning(f"No DataFrame found for table '{table_name}'. Skipping load.")
+                logger.warning(
+                    f"No DataFrame found for table '{table_name}'. Skipping load."
+                )
                 continue
 
             valid_company_ids = self.load_table(table_name, df, valid_company_ids)
@@ -239,4 +254,3 @@ class DatabaseLoader:
             "backup_file": str(backup_path),
             "metrics": metrics,
         }
-

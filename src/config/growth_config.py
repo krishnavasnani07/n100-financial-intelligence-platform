@@ -1,6 +1,6 @@
 """
 Growth Analytics Engine Configuration.
-Defines supported CAGR time windows, metric keys, edge-case flag constants, 
+Defines supported CAGR time windows, metric keys, edge-case flag constants,
 growth classification thresholds, and output formatting precision.
 """
 
@@ -10,11 +10,7 @@ from typing import Dict, List
 CAGR_TIME_WINDOWS: List[int] = [3, 5, 10]
 
 # Supported growth metrics mapping (Database column -> Display Name)
-CAGR_METRICS: Dict[str, str] = {
-    "sales": "Revenue",
-    "net_profit": "PAT",
-    "eps": "EPS"
-}
+CAGR_METRICS: Dict[str, str] = {"sales": "Revenue", "net_profit": "PAT", "eps": "EPS"}
 
 # CAGR Edge Case Flag Constants
 FLAG_VALID: str = "VALID"
@@ -27,10 +23,10 @@ FLAG_INVALID_INPUT: str = "INVALID_INPUT"
 
 # Growth Classification Labels & Thresholds (CAGR %)
 GROWTH_CLASSIFICATION_THRESHOLDS: Dict[str, float] = {
-    "HIGH_GROWTH": 20.0,      # > 20%
-    "STRONG_GROWTH": 10.0,    # 10% - 20%
-    "MODERATE_GROWTH": 5.0,   # 5% - 10%
-    "SLOW_GROWTH": 0.0,       # 0% - 5%
+    "HIGH_GROWTH": 20.0,  # > 20%
+    "STRONG_GROWTH": 10.0,  # 10% - 20%
+    "MODERATE_GROWTH": 5.0,  # 5% - 10%
+    "SLOW_GROWTH": 0.0,  # 0% - 5%
 }
 
 # Growth Classification Display Names

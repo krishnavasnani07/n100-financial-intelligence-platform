@@ -5,30 +5,30 @@ Computes sector-relative winsorized, normalized composite quality scores and ran
 
 from __future__ import annotations
 
-import re
 import sqlite3
-import math
-import pandas as pd
 from pathlib import Path
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Any, Optional
 
-from src.config.settings import DB_PATH, BASE_DIR, OUTPUT_DIR
+import pandas as pd
+
 from src.analytics.cagr import calculate_cagr
 from src.analytics.ratios import calculate_icr_label
-
-
-def extract_year_int(yr_val: Any) -> Optional[int]:
-    """Extract 4-digit calendar year integer from year string, returning None for TTM/invalid."""
-    if str(yr_val).strip().upper() == "TTM":
-        return None
-    m = re.search(r"\b(19\d\d|20\d\d)\b", str(yr_val))
-    return int(m.group(1)) if m else None
+from src.config.constants import (QUALITY_SCORE_WEIGHTS, WINSOR_LOWER_QUANTILE,
+                                  WINSOR_UPPER_QUANTILE)
+from src.config.settings import DB_PATH, OUTPUT_DIR
+from src.utils.helpers import extract_year_int, map_year_to_price_date
 
 
 def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
     """
     Loads all historical financial ratios joined with sector, sales, interest, and net profit.
     This preserves multi-year history to compute 5-year FCF CAGR and other historical metrics.
+
+    Parameters:
+        db_path (Optional[Path]): Path to the SQLite database.
+
+    Returns:
+        pd.DataFrame: Loaded master ratios and financial data.
     """
     db_file = db_path or DB_PATH
     conn = sqlite3.connect(db_file)
@@ -48,29 +48,14 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
         LEFT JOIN profitandloss pl ON fr.company_id = pl.company_id AND fr.year = pl.year
         """
         df = pd.read_sql_query(query, conn)
-        
+
         # Load stock prices to compute P/E and P/B dynamically
-        query_prices = "SELECT company_id, date as price_date, close_price FROM stock_prices"
+        query_prices = (
+            "SELECT company_id, date as price_date, close_price FROM stock_prices"
+        )
         df_prices = pd.read_sql_query(query_prices, conn)
     finally:
         conn.close()
-
-    # Map year to stock price date
-    def map_year_to_price_date(year_str: str) -> Optional[str]:
-        if not year_str:
-            return None
-        months = {
-            "JAN": "01", "FEB": "02", "MAR": "03", "APR": "04", "MAY": "05", "JUN": "06",
-            "JUL": "07", "AUG": "08", "SEP": "09", "OCT": "10", "NOV": "11", "DEC": "12"
-        }
-        match = re.search(r"\b([A-Za-z]{3})\s+(\d{4})\b", str(year_str).strip())
-        if match:
-            m = match.group(1).upper()
-            y = match.group(2)
-            m_num = months.get(m)
-            if m_num:
-                return f"{y}-{m_num}-01"
-        return None
 
     df["price_date"] = df["year"].apply(map_year_to_price_date)
     df = pd.merge(df, df_prices, on=["company_id", "price_date"], how="left")
@@ -86,8 +71,12 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
         except (ValueError, TypeError):
             return None
 
-    df["pe"] = df.apply(lambda r: safe_div(r.get("close_price"), r.get("earnings_per_share")), axis=1)
-    df["pb"] = df.apply(lambda r: safe_div(r.get("close_price"), r.get("book_value_per_share")), axis=1)
+    df["pe"] = df.apply(
+        lambda r: safe_div(r.get("close_price"), r.get("earnings_per_share")), axis=1
+    )
+    df["pb"] = df.apply(
+        lambda r: safe_div(r.get("close_price"), r.get("book_value_per_share")), axis=1
+    )
 
     # Compute dividend_yield dynamically
     def calc_div_yield(row: pd.Series) -> float:
@@ -103,16 +92,18 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
     # Compute icr_label
     df["icr_label"] = df.apply(
         lambda r: calculate_icr_label(r.get("interest"), r.get("interest_coverage")),
-        axis=1
+        axis=1,
     )
 
     # Parse calendar years and sort
     df["year_int"] = df["year"].apply(extract_year_int)
-    df = df.dropna(subset=["year_int"]).sort_values(by=["company_id", "year_int"]).copy()
+    df = (
+        df.dropna(subset=["year_int"]).sort_values(by=["company_id", "year_int"]).copy()
+    )
 
     # Historical calculations (YoY Debt and 3Y Revenue CAGR)
     df["prev_de"] = df.groupby("company_id")["debt_to_equity"].shift(1)
-    
+
     def is_de_declining(row: pd.Series) -> bool:
         cur = row.get("debt_to_equity")
         prev = row.get("prev_de")
@@ -123,13 +114,19 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
     df["de_declining_yoy"] = df.apply(is_de_declining, axis=1)
 
     df["sales_3y_ago"] = df.groupby("company_id")["sales"].shift(3)
-    
+
     def row_cagr_3y(row: pd.Series) -> Optional[float]:
         start = row.get("sales_3y_ago")
         end = row.get("sales")
         if pd.isnull(start) or pd.isnull(end) or start is None or end is None:
             return None
-        val, flag = calculate_cagr(start, end, 3, company_id=str(row.get("company_id")), metric_name="Revenue_3Y")
+        val, flag = calculate_cagr(
+            start,
+            end,
+            3,
+            company_id=str(row.get("company_id")),
+            metric_name="Revenue_3Y",
+        )
         return val if flag == "VALID" else None
 
     df["revenue_cagr_3yr"] = df.apply(row_cagr_3y, axis=1)
@@ -141,13 +138,20 @@ def winsorize_and_scale(series: pd.Series, lower_is_better: bool = False) -> pd.
     """
     Normalise a series using P10/P90 winsorisation and Min-Max scaling to 0-100.
     Missing values (NaN/None) are filled with the median of non-null values in the series.
+
+    Parameters:
+        series (pd.Series): The series of numeric values to scale.
+        lower_is_better (bool): True if lower values represent better performance.
+
+    Returns:
+        pd.Series: Normalized and scaled score series (0 to 100).
     """
     non_null = series.dropna()
     if non_null.empty:
         return pd.Series(0.0, index=series.index)
 
-    p10 = non_null.quantile(0.10)
-    p90 = non_null.quantile(0.90)
+    p10 = non_null.quantile(WINSOR_LOWER_QUANTILE)
+    p90 = non_null.quantile(WINSOR_UPPER_QUANTILE)
     median_val = non_null.median()
 
     # Fill NaN values with median
@@ -175,6 +179,12 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
     """
     Main function to compute composite quality scores and overall ranks.
     Saves scores to SQLite and returns the ranked DataFrame for the latest year.
+
+    Parameters:
+        db_path (Optional[Path]): Path to the SQLite database.
+
+    Returns:
+        pd.DataFrame: Sorted, ranked DataFrame containing computed composite scores and ranks.
     """
     db_file = db_path or DB_PATH
     df = load_ranking_master_data(db_file)
@@ -194,10 +204,12 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
         yint = row["year_int"]
         fcf_latest = row.get("free_cash_flow_cr")
         fcf_5yr_ago = fcf_lookup.get((cid, yint - 5)) if pd.notnull(yint) else None
-        
-        cagr_val, flag = calculate_cagr(fcf_5yr_ago, fcf_latest, 5, company_id=cid, metric_name="FCF_5Y")
+
+        cagr_val, flag = calculate_cagr(
+            fcf_5yr_ago, fcf_latest, 5, company_id=cid, metric_name="FCF_5Y"
+        )
         fcf_cagr_vals.append(cagr_val if flag == "VALID" else None)
-    
+
     df["fcf_cagr_5yr"] = fcf_cagr_vals
 
     # 2. Compute CFO/PAT ratio dynamically
@@ -220,7 +232,11 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
     df["fcf_positive"] = df.apply(calc_fcf_flag, axis=1)
 
     # Keep only the latest year for each company
-    df_latest = df.sort_values(by="year_int", ascending=False).drop_duplicates(subset=["company_id"], keep="first").copy()
+    df_latest = (
+        df.sort_values(by="year_int", ascending=False)
+        .drop_duplicates(subset=["company_id"], keep="first")
+        .copy()
+    )
 
     # 4. Sector-relative normalization (Winsorisation and scaling)
     # Define metrics: (column_name, lower_is_better)
@@ -234,7 +250,7 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
         "rev_cagr": ("revenue_cagr_5yr", False),
         "pat_cagr": ("pat_cagr_5yr", False),
         "de": ("debt_to_equity", True),
-        "icr": ("interest_coverage", False)
+        "icr": ("interest_coverage", False),
     }
 
     # Initialize score columns
@@ -256,29 +272,21 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
             df_scored.at[idx, "icr_score"] = 100.0
             df_scored.at[idx, "de_score"] = 100.0
 
-    # 5. Compute Weighted Composite Quality Score
-    weights = {
-        "roe_score": 0.15,
-        "roce_score": 0.10,
-        "npm_score": 0.10,
-        "fcf_cagr_score": 0.15,
-        "cfo_pat_score": 0.10,
-        "fcf_flag_score": 0.05,
-        "rev_cagr_score": 0.10,
-        "pat_cagr_score": 0.10,
-        "de_score": 0.10,
-        "icr_score": 0.05
-    }
-
     comp_score = pd.Series(0.0, index=df_scored.index)
-    for col, weight in weights.items():
+    for col, weight in QUALITY_SCORE_WEIGHTS.items():
         comp_score += df_scored[col] * weight
 
     df_scored["composite_quality_score"] = comp_score.round(2)
 
     # 6. Rank companies descending by composite quality score
-    df_scored = df_scored.sort_values(by="composite_quality_score", ascending=False).reset_index(drop=True)
-    df_scored["overall_rank"] = df_scored["composite_quality_score"].rank(method="dense", ascending=False).astype(int)
+    df_scored = df_scored.sort_values(
+        by="composite_quality_score", ascending=False
+    ).reset_index(drop=True)
+    df_scored["overall_rank"] = (
+        df_scored["composite_quality_score"]
+        .rank(method="dense", ascending=False)
+        .astype(int)
+    )
 
     # 7. Update composite_quality_score in the SQLite database financial_ratios table
     conn = sqlite3.connect(db_file)
@@ -290,10 +298,10 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
             yr = row["year"]
             score = row["composite_quality_score"]
             update_data.append((score, cid, yr))
-        
+
         cursor.executemany(
             "UPDATE financial_ratios SET composite_quality_score = ? WHERE company_id = ? AND year = ?",
-            update_data
+            update_data,
         )
         conn.commit()
     finally:

@@ -12,7 +12,7 @@ SECTORS = [
     "Chemicals",
     "Services",
     "Capital Goods",
-    "Consumer Durables"
+    "Consumer Durables",
 ]
 
 PAGES_CONFIG = {
@@ -23,5 +23,5 @@ PAGES_CONFIG = {
     "Trends": {"icon": "📈", "title": "Trend Analysis"},
     "Sectors": {"icon": "🏭", "title": "Sector Analysis"},
     "Capital": {"icon": "💰", "title": "Capital Allocation"},
-    "Reports": {"icon": "📄", "title": "Annual Reports"}
+    "Reports": {"icon": "📄", "title": "Annual Reports"},
 }

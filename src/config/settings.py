@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Base directory of the project
@@ -13,7 +14,7 @@ if not env_file.exists():
         f"NOTICE: '.env' configuration file not found at {env_file.resolve()}.\n"
         f"You can copy '.env.example' to '.env' to configure local variables.\n"
         f"Using default configuration values for development...\n",
-        file=sys.stderr
+        file=sys.stderr,
     )
 
 # Load environment variables
@@ -26,7 +27,7 @@ if ENV not in VALID_ENVS:
     print(
         f"WARNING: Invalid ENV value '{os.getenv('ENV')}' in environment. "
         f"Must be one of {VALID_ENVS}. Defaulting to 'development'.",
-        file=sys.stderr
+        file=sys.stderr,
     )
     ENV = "development"
 
@@ -56,7 +57,7 @@ if LOG_LEVEL not in VALID_LOG_LEVELS:
     print(
         f"WARNING: Invalid LOG_LEVEL value '{os.getenv('LOG_LEVEL')}' in environment. "
         f"Must be one of {VALID_LOG_LEVELS}. Defaulting to 'INFO'.",
-        file=sys.stderr
+        file=sys.stderr,
     )
     LOG_LEVEL = "INFO"
 

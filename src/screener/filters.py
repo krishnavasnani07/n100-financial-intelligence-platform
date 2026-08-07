@@ -3,8 +3,11 @@ Filtering functions for the Screener Engine.
 """
 
 from __future__ import annotations
+
 from typing import Any, Optional
+
 import pandas as pd
+
 from src.screener.utilities import coerce_float, get_series
 
 
@@ -13,7 +16,7 @@ def apply_numeric_filter(
     column_aliases: list[str],
     threshold: Optional[float],
     mode: str,
-    mask: pd.Series
+    mask: pd.Series,
 ) -> pd.Series:
     """Applies a numeric filter (ge, le, gt, lt) using a column alias list to update a boolean mask."""
     if threshold is None:
@@ -34,9 +37,7 @@ def apply_numeric_filter(
 
 
 def apply_debt_filter(
-    frame: pd.DataFrame,
-    max_debt_to_equity: Optional[float],
-    mask: pd.Series
+    frame: pd.DataFrame, max_debt_to_equity: Optional[float], mask: pd.Series
 ) -> pd.Series:
     """Applies a sector-aware debt-to-equity filter, skipping the Financials sector."""
     if max_debt_to_equity is None:
@@ -57,14 +58,14 @@ def apply_debt_filter(
 
 
 def apply_interest_filter(
-    frame: pd.DataFrame,
-    min_interest_coverage: Optional[float],
-    mask: pd.Series
+    frame: pd.DataFrame, min_interest_coverage: Optional[float], mask: pd.Series
 ) -> pd.Series:
     """Applies interest coverage ratio screening, skipping debt-free companies."""
     if min_interest_coverage is None:
         return mask
-    icr_series = get_series(frame, ["interest_coverage", "icr", "interest_coverage_ratio"])
+    icr_series = get_series(
+        frame, ["interest_coverage", "icr", "interest_coverage_ratio"]
+    )
     if icr_series is None:
         return mask
 

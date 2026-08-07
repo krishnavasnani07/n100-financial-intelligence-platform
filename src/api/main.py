@@ -6,11 +6,13 @@ Cleans pandas NaN values to None to prevent JSON serialization errors.
 """
 
 from __future__ import annotations
+
 import sqlite3
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
-from typing import Dict, List, Any, Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -19,7 +21,7 @@ from src.config.settings import DB_PATH
 app = FastAPI(
     title="Nifty 100 Financial Intelligence API",
     description="REST API backend exposing company ratios, sector summaries, screeners, and peer comparisons.",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Enable CORS for frontend integration
@@ -56,7 +58,7 @@ def read_root():
     return {
         "app": "Nifty 100 Financial Intelligence API",
         "docs": "/docs",
-        "status": "healthy"
+        "status": "healthy",
     }
 
 
@@ -74,17 +76,22 @@ def get_company_ratios(company_id: str):
         ORDER BY id DESC LIMIT 1
         """
         row = conn.execute(query, [company_id.upper()]).fetchone()
-        
+
         if not row:
-            raise HTTPException(status_code=404, detail=f"Company '{company_id}' not found.")
-            
+            raise HTTPException(
+                status_code=404, detail=f"Company '{company_id}' not found."
+            )
+
         # Get sector info
-        sector_row = conn.execute("SELECT broad_sector, sub_sector, market_cap_category FROM sectors WHERE company_id = ?", [company_id.upper()]).fetchone()
-        
+        sector_row = conn.execute(
+            "SELECT broad_sector, sub_sector, market_cap_category FROM sectors WHERE company_id = ?",
+            [company_id.upper()],
+        ).fetchone()
+
         data = dict(row)
         if sector_row:
             data.update(dict(sector_row))
-            
+
         return clean_dict_nans(data)
     finally:
         conn.close()
@@ -104,12 +111,15 @@ def get_sector_data(sector_name: str):
         WHERE LOWER(s.broad_sector) = LOWER(?)
         """
         rows = conn.execute(query, [sector_name]).fetchall()
-        
+
         if not rows:
-            raise HTTPException(status_code=404, detail=f"Sector '{sector_name}' has no records or does not exist.")
-            
+            raise HTTPException(
+                status_code=404,
+                detail=f"Sector '{sector_name}' has no records or does not exist.",
+            )
+
         companies = [clean_dict_nans(dict(r)) for r in rows]
-        
+
         # Calculate some summary statistics for the sector
         query_stats = """
         SELECT 
@@ -122,12 +132,12 @@ def get_sector_data(sector_name: str):
         WHERE LOWER(s.broad_sector) = LOWER(?)
         """
         stats_row = conn.execute(query_stats, [sector_name]).fetchone()
-        
+
         return {
             "sector": sector_name,
             "companies_count": len(companies),
             "statistics": clean_dict_nans(dict(stats_row)) if stats_row else {},
-            "companies": companies
+            "companies": companies,
         }
     finally:
         conn.close()
@@ -137,7 +147,7 @@ def get_sector_data(sector_name: str):
 def run_screener_preset(preset_name: str):
     """
     Executes an investment screener preset and returns matching companies.
-    
+
     Available presets:
     - Quality Compounder
     - Value Pick
@@ -146,7 +156,8 @@ def run_screener_preset(preset_name: str):
     - Debt-Free Blue Chip
     - Turnaround Watch
     """
-    from src.screener.presets import run_preset, load_screener_master_data
+    from src.screener.presets import load_screener_master_data, run_preset
+
     try:
         master_df = load_screener_master_data(DB_PATH)
         matched_df = run_preset(preset_name, master_df)
@@ -164,10 +175,13 @@ def get_top_performers():
     """
     try:
         from src.peer_analysis.comparison import run_peer_analysis
+
         _, _, top_perf_df, _ = run_peer_analysis(DB_PATH)
         return clean_df_nans(top_perf_df)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error retrieving top performers: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"Error retrieving top performers: {e}"
+        )
 
 
 @app.get("/api/peercomparison")
@@ -177,7 +191,10 @@ def get_peer_comparison():
     """
     try:
         from src.peer_analysis.comparison import run_peer_analysis
+
         peer_comp_df, _, _, _ = run_peer_analysis(DB_PATH)
         return clean_df_nans(peer_comp_df)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error executing peer comparison: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"Error executing peer comparison: {e}"
+        )
