@@ -8,7 +8,6 @@ on:
 
 jobs:
   build-and-test:
-    runs-ok: ubuntu-latest
     runs-on: ubuntu-latest
 
     steps:
@@ -23,21 +22,23 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # Convert UTF-16 requirements to UTF-8
-        iconv -f UTF-16 -t UTF-8 requirements.txt > reqs_utf8.txt
-        pip install -r reqs_utf8.txt
-        pip install fastapi uvicorn reportlab pytest pytest-cov flake8 black
+        pip install -r requirements.txt
+        pip install flake8 black
 
     - name: Code Linting with Flake8
       run: |
         # Stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings
+        # exit-zero treats all other style issues as warnings
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Format Check with Black
       run: |
         black --check . --exclude "/(\.venv|\.git|__pycache__|scratch)/"
+
+    - name: Populate Database (ETL Pipeline)
+      run: |
+        python main.py
 
     - name: Run Test Suite
       run: |

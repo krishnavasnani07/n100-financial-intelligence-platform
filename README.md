@@ -20,6 +20,7 @@
 [![Plotly](https://img.shields.io/badge/Plotly-Interactive-3F4F75.svg?style=flat-square&logo=plotly&logoColor=white)](https://plotly.com/)
 [![pytest](https://img.shields.io/badge/Tests-283%20Passed-2EA44F.svg?style=flat-square&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![N100 CI Pipeline](https://github.com/krishnavasnani07/n100-financial-intelligence-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/krishnavasnani07/n100-financial-intelligence-platform/actions/workflows/ci.yml)
 
 </div>
 
