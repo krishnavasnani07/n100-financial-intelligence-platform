@@ -433,10 +433,10 @@ elif menu_selection == "Predefined Screeners":
         st.subheader(f"Strategy: {screener_choice} ({len(matched_df)} Companies Match)")
         
         # Display table
-        cols_to_show = ["company_id", "broad_sector", "return_on_equity_pct", "revenue_cagr_5yr", "debt_to_equity", "composite_quality_score"]
+        cols_to_show = ["company_id", "sector", "return_on_equity_pct", "revenue_cagr_5yr", "debt_to_equity", "composite_quality_score"]
         disp_df = matched_df[cols_to_show].rename(columns={
             "company_id": "Company",
-            "broad_sector": "Sector",
+            "sector": "Sector",
             "return_on_equity_pct": "ROE",
             "revenue_cagr_5yr": "5Y CAGR",
             "debt_to_equity": "D/E",
