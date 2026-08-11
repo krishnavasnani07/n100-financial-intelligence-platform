@@ -1,0 +1,109 @@
+2026-08-11 15:39:37,010 - clustering - INFO - =========================================
+2026-08-11 15:39:37,010 - clustering - INFO - Starting KMeans Financial Clustering Engine
+2026-08-11 15:39:37,010 - clustering - INFO - =========================================
+2026-08-11 15:39:37,010 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-11 15:39:37,829 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-11 15:39:37,831 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-11 15:39:37,847 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-11 15:39:37,847 - clustering - INFO - Detected 1 missing values in feature: 'debt_to_equity'
+2026-08-11 15:39:37,848 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-11 15:39:37,849 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-11 15:39:37,851 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:39:37,851 - clustering - INFO - Detected 43 missing values in feature: 'fcf_cagr_5yr'
+2026-08-11 15:39:37,853 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'fcf_cagr_5yr'. Applying global-median safety fallback.
+2026-08-11 15:39:37,853 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:39:37,853 - clustering - INFO - Detected 1 missing values in feature: 'operating_profit_margin_pct'
+2026-08-11 15:39:37,855 - clustering - INFO - Imputed missing values for 'operating_profit_margin_pct'. Remaining NaNs: 0
+2026-08-11 15:39:37,857 - clustering - INFO - Feature matrix validations passed (92 rows, 0 NaNs). Applying StandardScaler.
+2026-08-11 15:39:37,886 - clustering - INFO - Executing KMeans elbow analysis for k=2..10...
+2026-08-11 15:39:39,775 - clustering - INFO - k=2 | Inertia=357.8912
+2026-08-11 15:39:39,781 - clustering - INFO - k=3 | Inertia=269.0608
+2026-08-11 15:39:39,786 - clustering - INFO - k=4 | Inertia=232.6823
+2026-08-11 15:39:39,791 - clustering - INFO - k=5 | Inertia=185.9914
+2026-08-11 15:39:39,797 - clustering - INFO - k=6 | Inertia=160.2262
+2026-08-11 15:39:39,802 - clustering - INFO - k=7 | Inertia=121.6116
+2026-08-11 15:39:39,808 - clustering - INFO - k=8 | Inertia=110.7747
+2026-08-11 15:39:39,815 - clustering - INFO - k=9 | Inertia=101.9123
+2026-08-11 15:39:39,821 - clustering - INFO - k=10 | Inertia=98.0289
+2026-08-11 15:39:43,108 - clustering - INFO - Elbow plot saved successfully to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\reports\elbow_plot.png
+2026-08-11 15:39:43,109 - clustering - INFO - Training final KMeans model (k=5, random_state=42)...
+2026-08-11 15:39:43,124 - clustering - INFO - Computing centroid means in original feature space to assign archetype names:
+2026-08-11 15:39:43,127 - clustering - INFO - Cluster 1 mapped to 'Highly Leveraged Financials & Utilities' (Mean D/E: 8.02)
+2026-08-11 15:39:43,130 - clustering - INFO - Cluster 2 mapped to 'Capital-Efficient Outliers (High ROE)' (Mean ROE: 4280.32)
+2026-08-11 15:39:43,131 - clustering - INFO - Cluster 0 mapped to 'High-Quality Cash Compounders' (Mean OPM: 80.49%)
+2026-08-11 15:39:43,132 - clustering - INFO - Cluster 3 mapped to 'Emerging Growth Leaders' (Mean 5Y Rev CAGR: 20.54%)
+2026-08-11 15:39:43,133 - clustering - INFO - Cluster 4 mapped to 'Stable Blue Chips & Defensives' (Mean 5Y Rev CAGR: 8.68%, Mean D/E: 0.57)
+2026-08-11 15:39:43,142 - clustering - INFO - Cluster labels successfully saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-11 15:39:43,142 - clustering - INFO - 
+Cluster Distribution Summary:
+2026-08-11 15:39:43,148 - clustering - INFO - - Stable Blue Chips & Defensives: 47 companies
+2026-08-11 15:39:43,148 - clustering - INFO - - Emerging Growth Leaders: 23 companies
+2026-08-11 15:39:43,148 - clustering - INFO - - Highly Leveraged Financials & Utilities: 12 companies
+2026-08-11 15:39:43,149 - clustering - INFO - - High-Quality Cash Compounders: 8 companies
+2026-08-11 15:39:43,149 - clustering - INFO - - Capital-Efficient Outliers (High ROE): 2 companies
+2026-08-11 15:39:43,151 - clustering - INFO - All output validations passed successfully.
+2026-08-11 15:39:43,151 - clustering - INFO - =========================================
+2026-08-11 15:39:43,151 - clustering - INFO - KMeans Financial Clustering Completed Successfully
+2026-08-11 15:39:43,151 - clustering - INFO - =========================================
+2026-08-11 15:43:14,369 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-11 15:43:31,537 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-11 15:43:32,569 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-11 15:43:32,572 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-11 15:43:32,574 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-11 15:43:32,575 - clustering - INFO - Detected 2 missing values in feature: 'debt_to_equity'
+2026-08-11 15:43:32,576 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'debt_to_equity'. Applying global-median safety fallback.
+2026-08-11 15:43:32,576 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-11 15:43:32,577 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-11 15:43:32,578 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:32,579 - clustering - INFO - Detected 1 missing values in feature: 'fcf_cagr_5yr'
+2026-08-11 15:43:32,581 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:32,583 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-11 15:43:33,464 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-11 15:43:33,465 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-11 15:43:33,466 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-11 15:43:33,467 - clustering - INFO - Detected 1 missing values in feature: 'debt_to_equity'
+2026-08-11 15:43:33,469 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-11 15:43:33,469 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-11 15:43:33,471 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:33,471 - clustering - INFO - Detected 43 missing values in feature: 'fcf_cagr_5yr'
+2026-08-11 15:43:33,473 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'fcf_cagr_5yr'. Applying global-median safety fallback.
+2026-08-11 15:43:33,473 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:33,473 - clustering - INFO - Detected 1 missing values in feature: 'operating_profit_margin_pct'
+2026-08-11 15:43:33,475 - clustering - INFO - Imputed missing values for 'operating_profit_margin_pct'. Remaining NaNs: 0
+2026-08-11 15:43:33,476 - clustering - INFO - Feature matrix validations passed (92 rows, 0 NaNs). Applying StandardScaler.
+2026-08-11 15:43:33,520 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-11 15:43:34,422 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-11 15:43:34,424 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-11 15:43:34,427 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-11 15:43:34,428 - clustering - INFO - Detected 1 missing values in feature: 'debt_to_equity'
+2026-08-11 15:43:34,431 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-11 15:43:34,431 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-11 15:43:34,436 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:34,436 - clustering - INFO - Detected 43 missing values in feature: 'fcf_cagr_5yr'
+2026-08-11 15:43:34,439 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'fcf_cagr_5yr'. Applying global-median safety fallback.
+2026-08-11 15:43:34,440 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:34,441 - clustering - INFO - Detected 1 missing values in feature: 'operating_profit_margin_pct'
+2026-08-11 15:43:34,444 - clustering - INFO - Imputed missing values for 'operating_profit_margin_pct'. Remaining NaNs: 0
+2026-08-11 15:43:34,447 - clustering - INFO - Feature matrix validations passed (92 rows, 0 NaNs). Applying StandardScaler.
+2026-08-11 15:43:34,453 - clustering - INFO - Training final KMeans model (k=5, random_state=42)...
+2026-08-11 15:43:37,406 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-11 15:43:38,451 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-11 15:43:38,453 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-11 15:43:38,456 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-11 15:43:38,457 - clustering - INFO - Detected 1 missing values in feature: 'debt_to_equity'
+2026-08-11 15:43:38,462 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-11 15:43:38,463 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-11 15:43:38,468 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:38,469 - clustering - INFO - Detected 43 missing values in feature: 'fcf_cagr_5yr'
+2026-08-11 15:43:38,473 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'fcf_cagr_5yr'. Applying global-median safety fallback.
+2026-08-11 15:43:38,474 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-11 15:43:38,475 - clustering - INFO - Detected 1 missing values in feature: 'operating_profit_margin_pct'
+2026-08-11 15:43:38,479 - clustering - INFO - Imputed missing values for 'operating_profit_margin_pct'. Remaining NaNs: 0
+2026-08-11 15:43:38,481 - clustering - INFO - Feature matrix validations passed (92 rows, 0 NaNs). Applying StandardScaler.
+2026-08-11 15:43:38,486 - clustering - INFO - Training final KMeans model (k=5, random_state=42)...
+2026-08-11 15:43:38,501 - clustering - INFO - Computing centroid means in original feature space to assign archetype names:
+2026-08-11 15:43:38,502 - clustering - INFO - Cluster 1 mapped to 'Highly Leveraged Financials & Utilities' (Mean D/E: 8.02)
+2026-08-11 15:43:38,504 - clustering - INFO - Cluster 2 mapped to 'Capital-Efficient Outliers (High ROE)' (Mean ROE: 4280.32)
+2026-08-11 15:43:38,506 - clustering - INFO - Cluster 0 mapped to 'High-Quality Cash Compounders' (Mean OPM: 80.49%)
+2026-08-11 15:43:38,507 - clustering - INFO - Cluster 3 mapped to 'Emerging Growth Leaders' (Mean 5Y Rev CAGR: 20.54%)
+2026-08-11 15:43:38,508 - clustering - INFO - Cluster 4 mapped to 'Stable Blue Chips & Defensives' (Mean 5Y Rev CAGR: 8.68%, Mean D/E: 0.57)

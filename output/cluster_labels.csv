@@ -1,0 +1,93 @@
+company_id,cluster_id,cluster_name,distance_from_centroid
+INDIGO,0,High-Quality Cash Compounders,1.923
+HAL,2,Capital-Efficient Outliers (High ROE),0.7606
+ADANIPOWER,3,Emerging Growth Leaders,1.0375
+ASIANPAINT,4,Stable Blue Chips & Defensives,0.6615
+IRCTC,3,Emerging Growth Leaders,1.1392
+PIDILITIND,4,Stable Blue Chips & Defensives,0.6328
+NESTLEIND,4,Stable Blue Chips & Defensives,0.8753
+BEL,2,Capital-Efficient Outliers (High ROE),0.7606
+BAJAJHLDNG,3,Emerging Growth Leaders,2.6101
+COALINDIA,0,High-Quality Cash Compounders,1.4913
+BPCL,4,Stable Blue Chips & Defensives,0.3619
+ICICIGI,0,High-Quality Cash Compounders,0.836
+ATGL,3,Emerging Growth Leaders,0.6295
+TRENT,3,Emerging Growth Leaders,2.3298
+CIPLA,0,High-Quality Cash Compounders,5.8353
+TCS,4,Stable Blue Chips & Defensives,0.4015
+HINDUNILVR,0,High-Quality Cash Compounders,1.2617
+HCLTECH,4,Stable Blue Chips & Defensives,0.7004
+IOC,4,Stable Blue Chips & Defensives,0.3753
+LICI,4,Stable Blue Chips & Defensives,2.0348
+LTIM,3,Emerging Growth Leaders,1.6747
+ADANIPORTS,3,Emerging Growth Leaders,1.2987
+ICICIBANK,1,Highly Leveraged Financials & Utilities,0.5863
+DRREDDY,4,Stable Blue Chips & Defensives,1.3399
+TORNTPHARM,4,Stable Blue Chips & Defensives,0.5183
+POWERGRID,0,High-Quality Cash Compounders,0.8422
+SIEMENS,4,Stable Blue Chips & Defensives,1.4613
+ITC,4,Stable Blue Chips & Defensives,0.7708
+HINDALCO,0,High-Quality Cash Compounders,1.4618
+JIOFIN,3,Emerging Growth Leaders,1.8512
+BRITANNIA,4,Stable Blue Chips & Defensives,1.5681
+BAJAJ-AUTO,4,Stable Blue Chips & Defensives,0.471
+BHARTIARTL,3,Emerging Growth Leaders,1.2291
+ABB,4,Stable Blue Chips & Defensives,0.6126
+SUNPHARMA,4,Stable Blue Chips & Defensives,1.149
+HDFCLIFE,3,Emerging Growth Leaders,2.3369
+BAJFINANCE,3,Emerging Growth Leaders,1.1609
+INFY,4,Stable Blue Chips & Defensives,0.6703
+TITAN,3,Emerging Growth Leaders,1.2536
+CANBK,1,Highly Leveraged Financials & Utilities,2.4876
+ONGC,4,Stable Blue Chips & Defensives,0.2465
+LODHA,4,Stable Blue Chips & Defensives,1.7771
+SBILIFE,3,Emerging Growth Leaders,1.6118
+EICHERMOT,4,Stable Blue Chips & Defensives,0.5866
+SBIN,4,Stable Blue Chips & Defensives,1.9735
+TATACONSUM,3,Emerging Growth Leaders,1.8006
+HDFCBANK,1,Highly Leveraged Financials & Utilities,0.6697
+HEROMOTOCO,0,High-Quality Cash Compounders,1.8293
+BAJAJFINSV,3,Emerging Growth Leaders,1.3018
+KOTAKBANK,1,Highly Leveraged Financials & Utilities,1.8041
+TATAMOTORS,4,Stable Blue Chips & Defensives,0.3505
+SHREECEM,4,Stable Blue Chips & Defensives,0.3231
+ADANIENT,3,Emerging Growth Leaders,1.3258
+DMART,3,Emerging Growth Leaders,1.2003
+DLF,4,Stable Blue Chips & Defensives,2.1143
+PNB,3,Emerging Growth Leaders,1.1389
+IRFC,1,Highly Leveraged Financials & Utilities,1.5099
+APOLLOHOSP,4,Stable Blue Chips & Defensives,0.8663
+LT,4,Stable Blue Chips & Defensives,0.7942
+GAIL,4,Stable Blue Chips & Defensives,0.5534
+BANKBARODA,1,Highly Leveraged Financials & Utilities,1.6498
+ADANIENSOL,3,Emerging Growth Leaders,0.7297
+MARUTI,4,Stable Blue Chips & Defensives,0.3956
+RELIANCE,4,Stable Blue Chips & Defensives,0.1496
+DIVISLAB,4,Stable Blue Chips & Defensives,0.741
+NAUKRI,3,Emerging Growth Leaders,0.7633
+PFC,1,Highly Leveraged Financials & Utilities,1.2846
+ADANIGREEN,1,Highly Leveraged Financials & Utilities,2.5316
+RECLTD,1,Highly Leveraged Financials & Utilities,1.7771
+AXISBANK,1,Highly Leveraged Financials & Utilities,1.0095
+BOSCHLTD,4,Stable Blue Chips & Defensives,0.7547
+CHOLAFIN,1,Highly Leveraged Financials & Utilities,1.2987
+SHRIRAMFIN,3,Emerging Growth Leaders,1.126
+HAVELLS,4,Stable Blue Chips & Defensives,1.0672
+NTPC,4,Stable Blue Chips & Defensives,0.6779
+AMBUJACEM,4,Stable Blue Chips & Defensives,0.6538
+JSWENERGY,4,Stable Blue Chips & Defensives,1.1968
+NHPC,4,Stable Blue Chips & Defensives,1.7793
+ICICIPRULI,3,Emerging Growth Leaders,3.0743
+TATAPOWER,3,Emerging Growth Leaders,1.0786
+INDUSINDBK,1,Highly Leveraged Financials & Utilities,0.9218
+DABUR,4,Stable Blue Chips & Defensives,0.7351
+GRASIM,4,Stable Blue Chips & Defensives,0.8559
+JINDALSTEL,4,Stable Blue Chips & Defensives,0.9989
+TECHM,4,Stable Blue Chips & Defensives,0.4717
+MOTHERSON,4,Stable Blue Chips & Defensives,0.5542
+JSWSTEEL,4,Stable Blue Chips & Defensives,0.9739
+TATASTEEL,4,Stable Blue Chips & Defensives,0.4037
+TVSMOTOR,4,Stable Blue Chips & Defensives,1.3849
+GODREJCP,4,Stable Blue Chips & Defensives,0.3379
+BHEL,4,Stable Blue Chips & Defensives,2.0565
+M&M,4,Stable Blue Chips & Defensives,0.5442
