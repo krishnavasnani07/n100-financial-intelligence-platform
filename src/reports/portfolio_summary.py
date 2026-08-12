@@ -16,19 +16,28 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
+
 # ReportLab imports
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer
 
 # Package relative imports
 from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
-from src.reports.report_builder import (NumberedCanvas,
-                                        build_allocation_valuation_table,
-                                        build_header, build_kpi_table,
-                                        build_pros_cons_table,
-                                        build_trend_table)
-from src.reports.report_styles import (A4_HEIGHT, A4_WIDTH, MARGIN_POINTS,
-                                       PRINTABLE_WIDTH, section_heading_style)
+from src.reports.report_builder import (
+    NumberedCanvas,
+    build_allocation_valuation_table,
+    build_header,
+    build_kpi_table,
+    build_pros_cons_table,
+    build_trend_table,
+)
+from src.reports.report_styles import (
+    A4_HEIGHT,
+    A4_WIDTH,
+    MARGIN_POINTS,
+    PRINTABLE_WIDTH,
+    section_heading_style,
+)
 from src.reports.report_utils import map_sector, validate_pdf
 from src.utils.helpers import extract_year_int
 from src.utils.logger import get_logger

@@ -10,12 +10,14 @@ from typing import Optional
 
 import pandas as pd
 
-from src.config.constants import (DEBT_FREE_BLUE_CHIP_CRITERIA,
-                                  DIVIDEND_CHAMPION_CRITERIA,
-                                  GROWTH_ACCELERATOR_CRITERIA,
-                                  QUALITY_COMPOUNDER_CRITERIA,
-                                  TURNAROUND_WATCH_CRITERIA,
-                                  VALUE_PICK_CRITERIA)
+from src.config.constants import (
+    DEBT_FREE_BLUE_CHIP_CRITERIA,
+    DIVIDEND_CHAMPION_CRITERIA,
+    GROWTH_ACCELERATOR_CRITERIA,
+    QUALITY_COMPOUNDER_CRITERIA,
+    TURNAROUND_WATCH_CRITERIA,
+    VALUE_PICK_CRITERIA,
+)
 from src.screener.engine import filter_companies
 
 

@@ -105,7 +105,7 @@ class TestLeverageEngineIntegration:
             sales=230000,
             total_assets=280000,
             other_income=1500,
-            is_financial=False
+            is_financial=False,
         )
 
         assert res["company_id"] == "TATASTEEL"
@@ -131,7 +131,7 @@ class TestLeverageEngineIntegration:
             sales=225458,
             total_assets=142859,
             other_income=3000,
-            is_financial=False
+            is_financial=False,
         )
 
         assert res["d/e"] == 0.0
@@ -154,7 +154,7 @@ class TestLeverageEngineIntegration:
             sales=120000,
             total_assets=2500000,
             other_income=10000,
-            is_financial=True
+            is_financial=True,
         )
 
         # High leverage flag should be False because is_financial=True
@@ -173,7 +173,7 @@ class TestLeverageEngineIntegration:
             sales=225458,
             total_assets=142859,
             other_income=3000,
-            is_financial=False
+            is_financial=False,
         )
         LeverageEngine.export_ratio_audit_and_summary(results, output_dir=tmp_path)
 

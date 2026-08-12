@@ -9,22 +9,25 @@ import datetime
 import sqlite3
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
+
 # openpyxl for Excel report
 import openpyxl
 import pandas as pd
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from reportlab.lib import colors
+
 # ReportLab for PDF report
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.platypus import Image as RLImage
-from reportlab.platypus import (Paragraph, SimpleDocTemplate, Spacer, Table,
-                                TableStyle)
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 from src.config.settings import DB_PATH, OUTPUT_DIR
-from src.peer_analysis.percentile import (calculate_sector_statistics,
-                                          compute_percentiles)
+from src.peer_analysis.percentile import (
+    calculate_sector_statistics,
+    compute_percentiles,
+)
 from src.peer_analysis.summary import get_bottom_performers, get_top_performers
 from src.utils.helpers import extract_year_int
 from src.visualization.radar_chart import generate_peer_radar

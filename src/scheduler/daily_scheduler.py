@@ -149,8 +149,7 @@ def run_daily_refresh():
 
     # 6. Populate Financial Ratios Database Table
     logger.info("Step 6: Populating SQLite financial_ratios table...")
-    from src.analytics.populate_financial_ratios import \
-        populate_ratios_pipeline
+    from src.analytics.populate_financial_ratios import populate_ratios_pipeline
 
     populate_ratios_pipeline(DB_PATH)
     logger.info("financial_ratios table populated.")

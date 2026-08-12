@@ -7,13 +7,13 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
+from typing import Optional
 
 from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.utils.logger import get_logger
 from src.visualization.charts import generate_trend_charts
 from src.visualization.heatmaps import generate_sector_heatmap
-from src.visualization.radar_chart import (generate_peer_radar,
-                                           generate_single_radar)
+from src.visualization.radar_chart import generate_peer_radar, generate_single_radar
 
 logger = get_logger("chart_exporter")
 

@@ -7,8 +7,13 @@ from datetime import datetime
 
 from reportlab.pdfgen import canvas
 
-from src.reports.styles import (A4_HEIGHT, A4_WIDTH, BORDER_LIGHT,
-                                MARGIN_POINTS, TEXT_LIGHT)
+from src.reports.styles import (
+    A4_HEIGHT,
+    A4_WIDTH,
+    BORDER_LIGHT,
+    MARGIN_POINTS,
+    TEXT_LIGHT,
+)
 
 
 class NumberedCanvas(canvas.Canvas):

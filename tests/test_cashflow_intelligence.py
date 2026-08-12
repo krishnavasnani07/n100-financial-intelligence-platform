@@ -13,7 +13,7 @@ from src.analytics.cashflow_kpis import (
     calculate_capex_intensity,
     classify_capex_intensity,
     calculate_fcf_conversion,
-    run_cashflow_intelligence_pipeline
+    run_cashflow_intelligence_pipeline,
 )
 from src.config.settings import DB_PATH
 
@@ -74,17 +74,25 @@ def test_pipeline_execution(tmp_path):
     """Verify end-to-end execution of run_cashflow_intelligence_pipeline."""
     # Use real DB, output to tmp_path
     df_intel = run_cashflow_intelligence_pipeline(db_path=DB_PATH, output_dir=tmp_path)
-    
+
     # Check shape/columns
     assert len(df_intel) == 92
     expected_cols = [
-        "company_id", "sector", "cfo_quality_score", "cfo_quality_label",
-        "capex_intensity_pct", "capex_label", "fcf_cagr_5yr", "fcf_conversion_pct",
-        "distress_flag", "deleveraging_flag", "capital_allocation_label"
+        "company_id",
+        "sector",
+        "cfo_quality_score",
+        "cfo_quality_label",
+        "capex_intensity_pct",
+        "capex_label",
+        "fcf_cagr_5yr",
+        "fcf_conversion_pct",
+        "distress_flag",
+        "deleveraging_flag",
+        "capital_allocation_label",
     ]
     for col in expected_cols:
         assert col in df_intel.columns
-        
+
     # Check generated files
     assert (tmp_path / "cashflow_intelligence.xlsx").exists()
     assert (tmp_path / "distress_alerts.csv").exists()

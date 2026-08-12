@@ -22,17 +22,25 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 
 from src.analytics.ratio_base import RatioCalculator
-from src.config.growth_config import (CAGR_METRICS, CAGR_TIME_WINDOWS,
-                                      DEFAULT_CAGR_PRECISION,
-                                      FLAG_BOTH_NEGATIVE, FLAG_DECLINE_TO_LOSS,
-                                      FLAG_INSUFFICIENT, FLAG_INVALID_INPUT,
-                                      FLAG_TURNAROUND, FLAG_VALID,
-                                      FLAG_ZERO_BASE,
-                                      GROWTH_CLASSIFICATION_THRESHOLDS,
-                                      LABEL_DECLINING, LABEL_HIGH_GROWTH,
-                                      LABEL_MODERATE_GROWTH,
-                                      LABEL_NOT_APPLICABLE, LABEL_SLOW_GROWTH,
-                                      LABEL_STRONG_GROWTH)
+from src.config.growth_config import (
+    CAGR_METRICS,
+    CAGR_TIME_WINDOWS,
+    DEFAULT_CAGR_PRECISION,
+    FLAG_BOTH_NEGATIVE,
+    FLAG_DECLINE_TO_LOSS,
+    FLAG_INSUFFICIENT,
+    FLAG_INVALID_INPUT,
+    FLAG_TURNAROUND,
+    FLAG_VALID,
+    FLAG_ZERO_BASE,
+    GROWTH_CLASSIFICATION_THRESHOLDS,
+    LABEL_DECLINING,
+    LABEL_HIGH_GROWTH,
+    LABEL_MODERATE_GROWTH,
+    LABEL_NOT_APPLICABLE,
+    LABEL_SLOW_GROWTH,
+    LABEL_STRONG_GROWTH,
+)
 from src.config.settings import BASE_DIR
 from src.utils.helpers import extract_year_int
 from src.utils.logger import get_logger

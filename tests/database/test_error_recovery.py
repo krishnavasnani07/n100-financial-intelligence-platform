@@ -45,9 +45,13 @@ def test_transaction_rollback_on_duplicate_pk(tmp_path: Path):
     # Context manager should rollback changes if error occurs
     with pytest.raises(sqlite3.IntegrityError):
         with get_db(db_file) as conn:
-            conn.execute("INSERT INTO companies (id, company_name) VALUES ('RELIANCE', 'Reliance Ltd');")
+            conn.execute(
+                "INSERT INTO companies (id, company_name) VALUES ('RELIANCE', 'Reliance Ltd');"
+            )
             # Duplicate PK insertion should fail transaction
-            conn.execute("INSERT INTO companies (id, company_name) VALUES ('RELIANCE', 'Duplicate Ltd');")
+            conn.execute(
+                "INSERT INTO companies (id, company_name) VALUES ('RELIANCE', 'Duplicate Ltd');"
+            )
 
     # Verify database state was rolled back completely
     conn = get_connection(db_file)
@@ -64,7 +68,9 @@ def test_transaction_rollback_on_fk_violation(tmp_path: Path):
     with pytest.raises(sqlite3.IntegrityError):
         with get_db(db_file) as conn:
             # Inserting into child table without parent company present
-            conn.execute("INSERT INTO sectors (company_id, broad_sector) VALUES ('INVALID_TICKER', 'Tech');")
+            conn.execute(
+                "INSERT INTO sectors (company_id, broad_sector) VALUES ('INVALID_TICKER', 'Tech');"
+            )
 
     # Verify no orphan rows were committed
     conn = get_connection(db_file)

@@ -11,7 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from src.analytics.ratio_validation import build_ratio_mismatch_entries, write_ratio_edge_case_log
+from src.analytics.ratio_validation import (
+    build_ratio_mismatch_entries,
+    write_ratio_edge_case_log,
+)
 
 
 def _load_companies_source(path: Path) -> pd.DataFrame:
@@ -38,8 +41,12 @@ def _load_companies_source(path: Path) -> pd.DataFrame:
             companies_df = companies_df.rename(columns={"id": "company_id"})
 
     companies_df = companies_df[["company_id", "roe_percentage"]].copy()
-    companies_df["company_id"] = companies_df["company_id"].astype(str).str.strip().str.upper()
-    companies_df["roe_percentage"] = pd.to_numeric(companies_df["roe_percentage"], errors="coerce")
+    companies_df["company_id"] = (
+        companies_df["company_id"].astype(str).str.strip().str.upper()
+    )
+    companies_df["roe_percentage"] = pd.to_numeric(
+        companies_df["roe_percentage"], errors="coerce"
+    )
     return companies_df
 
 
@@ -59,9 +66,13 @@ def _load_latest_computed_roe(db_path: Path) -> pd.DataFrame:
         )
         conn.close()
         computed_df = computed_df.copy()
-        computed_df["company_id"] = computed_df["company_id"].astype(str).str.strip().str.upper()
+        computed_df["company_id"] = (
+            computed_df["company_id"].astype(str).str.strip().str.upper()
+        )
         computed_df["year_sort"] = computed_df["year"].apply(_extract_year)
-        computed_df = computed_df.sort_values(["company_id", "year_sort"], ascending=[True, False], na_position="last")
+        computed_df = computed_df.sort_values(
+            ["company_id", "year_sort"], ascending=[True, False], na_position="last"
+        )
         computed_df = computed_df.drop_duplicates(subset=["company_id"], keep="first")
         return computed_df[["company_id", "computed_value"]]
 
@@ -71,8 +82,12 @@ def _load_latest_computed_roe(db_path: Path) -> pd.DataFrame:
         financial_ratios_df = financial_ratios_df.rename(columns={"id": "company_id"})
     computed_df = financial_ratios_df[["company_id", "return_on_equity_pct"]].copy()
     computed_df.columns = ["company_id", "computed_value"]
-    computed_df["company_id"] = computed_df["company_id"].astype(str).str.strip().str.upper()
-    computed_df["computed_value"] = pd.to_numeric(computed_df["computed_value"], errors="coerce")
+    computed_df["company_id"] = (
+        computed_df["company_id"].astype(str).str.strip().str.upper()
+    )
+    computed_df["computed_value"] = pd.to_numeric(
+        computed_df["computed_value"], errors="coerce"
+    )
     return computed_df
 
 
@@ -92,7 +107,9 @@ def main() -> None:
     )
 
     if mis_matches:
-        output_path = write_ratio_edge_case_log(mis_matches, output_path=BASE_DIR / "output" / "ratio_edge_cases.log")
+        output_path = write_ratio_edge_case_log(
+            mis_matches, output_path=BASE_DIR / "output" / "ratio_edge_cases.log"
+        )
         print(f"Wrote {len(mis_matches)} ROE mismatches to {output_path}")
     else:
         print("No ROE mismatches found")

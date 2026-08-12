@@ -9,13 +9,15 @@ logger = get_logger(__name__)
 def main():
     start_pipeline_time = time.time()
     print("=" * 80)
-    print("          NIFTY 100 FINANCIAL INTELLIGENCE PLATFORM - DATA VALIDATION          ")
+    print(
+        "          NIFTY 100 FINANCIAL INTELLIGENCE PLATFORM - DATA VALIDATION          "
+    )
     print("=" * 80)
-    
+
     try:
         validator = DataValidator()
         summary = validator.run_validation()
-        
+
         # Calculate failures per rule from validator report
         rule_failures = {}
         for failure in validator.report.failures:
@@ -36,18 +38,18 @@ def main():
                 status = f"FAIL ({failures_count})"
             else:
                 status = f"WARNING ({failures_count})"
-            
+
             print(f"{rule_id} {status}\n")
 
         print("------------------------------")
         print(f"Total Errors : {summary['critical_failures']}")
         print(f"Warnings : {summary['warning_failures']}")
         print("------------------------------\n")
-        
+
         print("==============================")
         print("SQLITE DATABASE LOADING")
         print("==============================\n")
-        
+
         from src.database.loader import DatabaseLoader
         from src.database.queries import check_foreign_key_violations, get_table_counts
 
@@ -63,7 +65,7 @@ def main():
         print("--- Verification Check ---")
         fk_violations = check_foreign_key_violations()
         print(f"Foreign Key Violations: {len(fk_violations)}")
-        
+
         table_counts = get_table_counts()
         print("\nTable Record Counts:")
         for tbl, count in table_counts.items():
@@ -75,7 +77,7 @@ def main():
         print("==============================")
         print("PROFITABILITY KPI RATIO ENGINE")
         print("==============================\n")
-        
+
         import sqlite3
         import pandas as pd
         from src.analytics.ratios import ProfitabilityEngine
@@ -119,12 +121,14 @@ def main():
                 borrowings=row["borrowings"],
                 total_assets=row["total_assets"],
                 reported_opm=row["reported_opm"],
-                is_financial=is_fin
+                is_financial=is_fin,
             )
             all_ratio_results.extend(results)
 
         ProfitabilityEngine.export_ratio_audit_and_summary(all_ratio_results)
-        print(f"[+] Computed profitability ratios for {len(df_ratios_data)} period records!")
+        print(
+            f"[+] Computed profitability ratios for {len(df_ratios_data)} period records!"
+        )
         print(f"    Itemized Ratio Audit Log : output/ratio_calculation_log.csv")
         print(f"    KPI Summary Statistics   : output/ratio_summary.csv\n")
 
@@ -146,7 +150,9 @@ def main():
             all_cagr_results.extend(cagr_res)
 
         CAGREngine.export_growth_reports(all_cagr_results)
-        print(f"[+] Computed Growth CAGR metrics for {len(df_pl_all['company_id'].unique())} companies ({len(all_cagr_results)} CAGR evaluations)!")
+        print(
+            f"[+] Computed Growth CAGR metrics for {len(df_pl_all['company_id'].unique())} companies ({len(all_cagr_results)} CAGR evaluations)!"
+        )
         print(f"    Growth Summary Table : output/growth_summary.csv")
         print(f"    CAGR Flag Statistics : output/cagr_statistics.csv\n")
 
@@ -181,10 +187,14 @@ def main():
             all_cashflow_results.extend(cf_res)
 
         CashFlowEngine.export_cashflow_reports(all_cashflow_results)
-        print(f"[+] Computed Cash Flow KPIs & Capital Allocation for {len(df_cf_all['company_id'].unique())} companies ({len(all_cashflow_results)} period evaluations)!")
+        print(
+            f"[+] Computed Cash Flow KPIs & Capital Allocation for {len(df_cf_all['company_id'].unique())} companies ({len(all_cashflow_results)} period evaluations)!"
+        )
         print(f"    Capital Allocation Matrix : output/capital_allocation.csv")
         print(f"    Cash Flow KPI Summary     : output/cashflow_summary.csv")
-        print(f"    Capital Pattern Metrics   : output/capital_pattern_statistics.csv\n")
+        print(
+            f"    Capital Pattern Metrics   : output/capital_pattern_statistics.csv\n"
+        )
 
         print("====================================")
         print(" POPULATING FINANCIAL RATIOS TABLE  ")
@@ -193,7 +203,9 @@ def main():
         from src.analytics.populate_financial_ratios import populate_ratios_pipeline
 
         df_final_ratios = populate_ratios_pipeline(db_path)
-        print(f"[+] Populated financial_ratios SQLite table with {len(df_final_ratios)} records!")
+        print(
+            f"[+] Populated financial_ratios SQLite table with {len(df_final_ratios)} records!"
+        )
         print(f"    Exported CSV : output/financial_ratios.csv\n")
 
         print("====================================")
@@ -219,7 +231,9 @@ def main():
         print("   CAPITAL ALLOCATION INTEL ENGINE  ")
         print("====================================\n")
 
-        from src.analytics.capital_allocation_report import run_capital_allocation_report
+        from src.analytics.capital_allocation_report import (
+            run_capital_allocation_report,
+        )
 
         run_capital_allocation_report(db_path)
 
@@ -257,14 +271,18 @@ def main():
         print(f"Validation Errors    : {summary['critical_failures']}")
         print(f"FK Violations        : {len(fk_violations)}")
         print("")
-        print(f"Total Runtime        : {round(time.time() - start_pipeline_time, 2)} sec")
+        print(
+            f"Total Runtime        : {round(time.time() - start_pipeline_time, 2)} sec"
+        )
         print("")
         print("Database Status      : SUCCESS")
         print("====================================\n")
 
-        if not summary['success']:
-            print("Validation completed with warnings / critical findings logged to audit CSVs.\n")
-            
+        if not summary["success"]:
+            print(
+                "Validation completed with warnings / critical findings logged to audit CSVs.\n"
+            )
+
     except Exception as e:
         logger.critical(f"Pipeline execution failed: {e}", exc_info=True)
         print(f"\n[x] CRITICAL PIPELINE ERROR: {e}\n")

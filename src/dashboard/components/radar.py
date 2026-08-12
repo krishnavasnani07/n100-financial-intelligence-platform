@@ -108,11 +108,7 @@ def calculate_normalized_radar_metrics(df_universe: pd.DataFrame) -> pd.DataFram
         if p90 > p10:
             clipped = filled.clip(lower=p10, upper=p90)
             if lower_is_better:
-                scores = (
-                    100.0 * (p90 - capped) / (p90 - p10)
-                    if "capped" in locals()
-                    else 100.0 * (p90 - clipped) / (p90 - p10)
-                )
+                scores = 100.0 * (p90 - clipped) / (p90 - p10)
             else:
                 scores = 100.0 * (clipped - p10) / (p90 - p10)
         else:

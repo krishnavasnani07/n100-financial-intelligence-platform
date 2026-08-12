@@ -2,9 +2,11 @@ import pandas as pd
 import streamlit as st
 
 from src.dashboard.components.peer_table import render_peer_table
-from src.dashboard.components.radar import (calculate_normalized_radar_metrics,
-                                            load_radar_universe_data,
-                                            render_peer_radar)
+from src.dashboard.components.radar import (
+    calculate_normalized_radar_metrics,
+    load_radar_universe_data,
+    render_peer_radar,
+)
 
 st.markdown(
     "<h1 style='font-weight:800;'>👥 Peer Comparison</h1>", unsafe_allow_html=True

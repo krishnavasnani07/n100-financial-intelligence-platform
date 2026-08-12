@@ -1,6 +1,9 @@
 from pathlib import Path
 
-from src.analytics.ratio_validation import categorize_ratio_mismatch, write_ratio_edge_case_log
+from src.analytics.ratio_validation import (
+    categorize_ratio_mismatch,
+    write_ratio_edge_case_log,
+)
 
 
 def test_classify_source_issue_for_unrealistic_percentage():
@@ -30,7 +33,9 @@ def test_write_ratio_edge_case_log(tmp_path: Path):
         }
     ]
 
-    output_path = write_ratio_edge_case_log(entries, output_path=tmp_path / "ratio_edge_cases.log")
+    output_path = write_ratio_edge_case_log(
+        entries, output_path=tmp_path / "ratio_edge_cases.log"
+    )
 
     assert output_path.exists()
     content = output_path.read_text(encoding="utf-8")

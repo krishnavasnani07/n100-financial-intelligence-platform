@@ -66,6 +66,7 @@ def read_root():
 # Day 39 REST API Endpoints
 # ==========================================
 
+
 @app.get("/companies")
 def get_companies():
     """
@@ -137,19 +138,26 @@ def get_company_details(ticker: str):
 @app.get("/valuation")
 def get_valuation():
     """
-    Triggers the valuation engine to compute and return PE, PB, EV/EBITDA, FCF Yield, 
+    Triggers the valuation engine to compute and return PE, PB, EV/EBITDA, FCF Yield,
     5Y Median PE, and Valuation Flags for all constituents.
     """
     from src.analytics.valuation import run_valuation_pipeline
+
     try:
         df = run_valuation_pipeline(DB_PATH)
         return clean_df_nans(df)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Valuation pipeline execution error: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"Valuation pipeline execution error: {e}"
+        )
 
 
 @app.get("/screen")
-def screen_companies(preset: Optional[str] = Query(None, description="Preset strategy name (e.g. 'Value Pick')")):
+def screen_companies(
+    preset: Optional[str] = Query(
+        None, description="Preset strategy name (e.g. 'Value Pick')"
+    )
+):
     """
     Executes an investment screener preset and returns matching companies.
     If no preset is provided, returns the list of available presets.
@@ -162,21 +170,23 @@ def screen_companies(preset: Optional[str] = Query(None, description="Preset str
         "Growth Accelerator",
         "Dividend Champion",
         "Debt-Free Blue Chip",
-        "Turnaround Watch"
+        "Turnaround Watch",
     ]
 
     if not preset:
         return {
             "available_presets": available_presets,
-            "message": "Use ?preset=<name> to screen companies."
+            "message": "Use ?preset=<name> to screen companies.",
         }
 
     # Match case-insensitively
-    matching_preset = next((p for p in available_presets if p.lower() == preset.lower()), None)
+    matching_preset = next(
+        (p for p in available_presets if p.lower() == preset.lower()), None
+    )
     if not matching_preset:
         raise HTTPException(
             status_code=400,
-            detail=f"Invalid preset '{preset}'. Available presets: {available_presets}"
+            detail=f"Invalid preset '{preset}'. Available presets: {available_presets}",
         )
 
     try:
@@ -188,7 +198,9 @@ def screen_companies(preset: Optional[str] = Query(None, description="Preset str
 
 
 @app.get("/sector")
-def get_sector_info(name: Optional[str] = Query(None, description="Sector name (e.g. 'IT')")):
+def get_sector_info(
+    name: Optional[str] = Query(None, description="Sector name (e.g. 'IT')")
+):
     """
     Returns statistics and list of companies for a given sector name.
     If no sector name is provided, returns summary stats for all sectors.
@@ -256,7 +268,9 @@ def get_sector_info(name: Optional[str] = Query(None, description="Sector name (
 
 
 @app.get("/peer")
-def get_peer_comparison(sector: Optional[str] = Query(None, description="Sector name to filter peers")):
+def get_peer_comparison(
+    sector: Optional[str] = Query(None, description="Sector name to filter peers")
+):
     """
     Returns peer comparisons, top performers, and sector statistics.
     If a sector name is provided, filters the results to that specific sector.
@@ -264,28 +278,41 @@ def get_peer_comparison(sector: Optional[str] = Query(None, description="Sector 
     try:
         from src.peer_analysis.comparison import run_peer_analysis
 
-        peer_comp_df, bottom_perf_df, top_perf_df, sector_stats_df = run_peer_analysis(DB_PATH)
+        peer_comp_df, bottom_perf_df, top_perf_df, sector_stats_df = run_peer_analysis(
+            DB_PATH
+        )
 
         if sector:
             # Normalize and filter
-            peer_comp_df = peer_comp_df[peer_comp_df["Sector"].str.lower() == sector.lower()]
-            bottom_perf_df = bottom_perf_df[bottom_perf_df["Sector"].str.lower() == sector.lower()]
-            top_perf_df = top_perf_df[top_perf_df["Sector"].str.lower() == sector.lower()]
-            sector_stats_df = sector_stats_df[sector_stats_df["Sector"].str.lower() == sector.lower()]
+            peer_comp_df = peer_comp_df[
+                peer_comp_df["Sector"].str.lower() == sector.lower()
+            ]
+            bottom_perf_df = bottom_perf_df[
+                bottom_perf_df["Sector"].str.lower() == sector.lower()
+            ]
+            top_perf_df = top_perf_df[
+                top_perf_df["Sector"].str.lower() == sector.lower()
+            ]
+            sector_stats_df = sector_stats_df[
+                sector_stats_df["Sector"].str.lower() == sector.lower()
+            ]
 
         return {
             "peer_comparison": clean_df_nans(peer_comp_df),
             "top_performers": clean_df_nans(top_perf_df),
             "bottom_performers": clean_df_nans(bottom_perf_df),
-            "sector_statistics": clean_df_nans(sector_stats_df)
+            "sector_statistics": clean_df_nans(sector_stats_df),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Peer analysis execution error: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"Peer analysis execution error: {e}"
+        )
 
 
 # ==========================================
 # Legacy/Compatibility Routes
 # ==========================================
+
 
 @app.get("/api/company/{company_id}")
 def get_company_ratios(company_id: str):
@@ -311,6 +338,7 @@ def get_top_performers():
     conn = get_db_connection()
     try:
         from src.peer_analysis.comparison import run_peer_analysis
+
         _, _, top_perf_df, _ = run_peer_analysis(DB_PATH)
         return clean_df_nans(top_perf_df)
     except Exception as e:
@@ -325,6 +353,7 @@ def get_peer_comparison_legacy():
     conn = get_db_connection()
     try:
         from src.peer_analysis.comparison import run_peer_analysis
+
         peer_comp_df, _, _, _ = run_peer_analysis(DB_PATH)
         return clean_df_nans(peer_comp_df)
     except Exception as e:

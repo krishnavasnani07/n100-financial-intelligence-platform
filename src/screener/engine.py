@@ -7,8 +7,11 @@ from typing import Any, Dict, Optional, Union
 import pandas as pd
 import yaml
 
-from src.screener.filters import (apply_debt_filter, apply_interest_filter,
-                                  apply_numeric_filter)
+from src.screener.filters import (
+    apply_debt_filter,
+    apply_interest_filter,
+    apply_numeric_filter,
+)
 from src.screener.utilities import coerce_float
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent

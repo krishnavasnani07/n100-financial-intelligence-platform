@@ -21,6 +21,7 @@ logger = get_logger("ratio_verification")
 
 SAMPLE_COMPANIES = ["TCS", "HDFCBANK", "ITC", "TATAMOTORS", "SUNPHARMA"]
 
+
 def run_spot_check_verification(db_path: Path, output_dir: Path) -> pd.DataFrame:
     """Run automated spot-check verification against raw and SQLite datasets."""
     logger.info("Starting automated ratio spot-check verification...")
@@ -76,52 +77,72 @@ def run_spot_check_verification(db_path: Path, output_dir: Path) -> pd.DataFrame
             borrowings=borr,
             total_assets=assets,
             reported_opm=rep_opm,
-            is_financial=is_fin
+            is_financial=is_fin,
         )
 
         # Re-verify math manually
-        manual_npm = round((net_prof / sales) * 100.0, 2) if sales and sales > 0 else None
-        manual_opm = round((op_prof / sales) * 100.0, 2) if sales and sales > 0 else None
+        manual_npm = (
+            round((net_prof / sales) * 100.0, 2) if sales and sales > 0 else None
+        )
+        manual_opm = (
+            round((op_prof / sales) * 100.0, 2) if sales and sales > 0 else None
+        )
         tot_eq = (eq_cap or 0) + (res or 0)
         manual_roe = round((net_prof / tot_eq) * 100.0, 2) if tot_eq > 0 else None
         cap_emp = tot_eq + (borr or 0)
         manual_roce = round((op_prof / cap_emp) * 100.0, 2) if cap_emp > 0 else None
-        manual_roa = round((net_prof / assets) * 100.0, 2) if assets and assets > 0 else None
+        manual_roa = (
+            round((net_prof / assets) * 100.0, 2) if assets and assets > 0 else None
+        )
 
         # Calculate deltas
-        npm_delta = abs(ratios["npm"] - manual_npm) if ratios["npm"] and manual_npm else 0.0
-        opm_delta = abs(ratios["opm"] - manual_opm) if ratios["opm"] and manual_opm else 0.0
-        roe_delta = abs(ratios["roe"] - manual_roe) if ratios["roe"] and manual_roe else 0.0
-        roce_delta = abs(ratios["roce"] - manual_roce) if ratios["roce"] and manual_roce else 0.0
-        roa_delta = abs(ratios["roa"] - manual_roa) if ratios["roa"] and manual_roa else 0.0
+        npm_delta = (
+            abs(ratios["npm"] - manual_npm) if ratios["npm"] and manual_npm else 0.0
+        )
+        opm_delta = (
+            abs(ratios["opm"] - manual_opm) if ratios["opm"] and manual_opm else 0.0
+        )
+        roe_delta = (
+            abs(ratios["roe"] - manual_roe) if ratios["roe"] and manual_roe else 0.0
+        )
+        roce_delta = (
+            abs(ratios["roce"] - manual_roce) if ratios["roce"] and manual_roce else 0.0
+        )
+        roa_delta = (
+            abs(ratios["roa"] - manual_roa) if ratios["roa"] and manual_roa else 0.0
+        )
 
-        records.append({
-            "company_id": company_id,
-            "year": year,
-            "sector": row["broad_sector"],
-            "engine_npm": ratios["npm"],
-            "manual_npm": manual_npm,
-            "npm_match": npm_delta < 0.01,
-            "engine_opm": ratios["opm"],
-            "manual_opm": manual_opm,
-            "opm_match": opm_delta < 0.01,
-            "engine_roe": ratios["roe"],
-            "manual_roe": manual_roe,
-            "roe_match": roe_delta < 0.01,
-            "engine_roce": ratios["roce"],
-            "manual_roce": manual_roce,
-            "roce_match": roce_delta < 0.01,
-            "engine_roa": ratios["roa"],
-            "manual_roa": manual_roa,
-            "roa_match": roa_delta < 0.01,
-            "reported_opm": rep_opm,
-        })
+        records.append(
+            {
+                "company_id": company_id,
+                "year": year,
+                "sector": row["broad_sector"],
+                "engine_npm": ratios["npm"],
+                "manual_npm": manual_npm,
+                "npm_match": npm_delta < 0.01,
+                "engine_opm": ratios["opm"],
+                "manual_opm": manual_opm,
+                "opm_match": opm_delta < 0.01,
+                "engine_roe": ratios["roe"],
+                "manual_roe": manual_roe,
+                "roe_match": roe_delta < 0.01,
+                "engine_roce": ratios["roce"],
+                "manual_roce": manual_roce,
+                "roce_match": roce_delta < 0.01,
+                "engine_roa": ratios["roa"],
+                "manual_roa": manual_roa,
+                "roa_match": roa_delta < 0.01,
+                "reported_opm": rep_opm,
+            }
+        )
 
     df_result = pd.DataFrame(records)
     output_dir.mkdir(parents=True, exist_ok=True)
     report_file = output_dir / "ratio_spot_check.csv"
     df_result.to_csv(report_file, index=False)
-    logger.info(f"Spot-check verification complete for {len(df_result)} records. Report exported to {report_file}")
+    logger.info(
+        f"Spot-check verification complete for {len(df_result)} records. Report exported to {report_file}"
+    )
     return df_result
 
 

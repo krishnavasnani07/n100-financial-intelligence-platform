@@ -33,7 +33,7 @@ def main():
         ("Growth Accelerator", "growth_accelerator.csv"),
         ("Dividend Champion", "dividend_champion.csv"),
         ("Debt-Free Blue Chip", "debt_free_bluechip.csv"),
-        ("Turnaround Watch", "turnaround_watch.csv")
+        ("Turnaround Watch", "turnaround_watch.csv"),
     ]
 
     all_passed = True
@@ -44,26 +44,26 @@ def main():
         try:
             df_res = run_preset(name, master_df)
             count = len(df_res)
-            
+
             # Export to CSV
             out_path = OUTPUT_DIR / filename
             df_res.to_csv(out_path, index=False)
-            
+
             # Print info
             print(f"  -> Returned {count} companies.")
             print(f"  -> Exported to: {out_path}")
-            
+
             # Print sample tickers
             sample_tickers = list(df_res["company_id"].head(5))
             print(f"  -> Sample tickers: {sample_tickers}")
-            
+
             # Check constraint (5 to 50 companies)
             if 5 <= count <= 50:
                 print(f"  -> [PASS] Company count ({count}) is within the 5-50 range.")
             else:
                 print(f"  -> [FAIL] Company count ({count}) is OUTSIDE the 5-50 range!")
                 all_passed = False
-                
+
         except Exception as e:
             print(f"  -> [ERROR] Failed to run preset '{name}': {e}")
             all_passed = False

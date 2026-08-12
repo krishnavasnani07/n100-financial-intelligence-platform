@@ -57,7 +57,9 @@ def test_load_excel_empty_file(tmp_path):
 def test_load_excel_missing_required_columns(temp_excel_file):
     loader = ExcelLoader()
     # "NonExistentCol" does not exist in temp_excel_file
-    df = loader.load_excel(temp_excel_file, required_columns=["Ticker", "NonExistentCol"])
+    df = loader.load_excel(
+        temp_excel_file, required_columns=["Ticker", "NonExistentCol"]
+    )
     assert df is None
 
 

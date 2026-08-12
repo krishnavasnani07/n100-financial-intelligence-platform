@@ -16,8 +16,7 @@ import numpy as np
 import pandas as pd
 
 from src.config import settings
-from src.nlp.confidence import (MIN_CONFIDENCE_THRESHOLD,
-                                score_sector_adjustment)
+from src.nlp.confidence import MIN_CONFIDENCE_THRESHOLD, score_sector_adjustment
 from src.nlp.rules import RULES_REGISTRY
 from src.utils.helpers import extract_year_int
 from src.utils.logger import get_logger
