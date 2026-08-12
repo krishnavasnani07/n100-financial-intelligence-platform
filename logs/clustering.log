@@ -107,3 +107,243 @@ Cluster Distribution Summary:
 2026-08-11 15:43:38,506 - clustering - INFO - Cluster 0 mapped to 'High-Quality Cash Compounders' (Mean OPM: 80.49%)
 2026-08-11 15:43:38,507 - clustering - INFO - Cluster 3 mapped to 'Emerging Growth Leaders' (Mean 5Y Rev CAGR: 20.54%)
 2026-08-11 15:43:38,508 - clustering - INFO - Cluster 4 mapped to 'Stable Blue Chips & Defensives' (Mean 5Y Rev CAGR: 8.68%, Mean D/E: 0.57)
+2026-08-12 15:04:13,755 - cluster_profile - INFO - =========================================
+2026-08-12 15:04:13,755 - cluster_profile - INFO - Starting S6 Day 37 Profiling & Stats Engine
+2026-08-12 15:04:13,755 - cluster_profile - INFO - =========================================
+2026-08-12 15:04:13,755 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:04:14,670 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:04:14,681 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:04:14,692 - cluster_profile - INFO - Calculating cluster statistics (mean and median)...
+2026-08-12 15:04:14,704 - cluster_profile - INFO - Cluster profiles successfully saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_profiles.csv
+2026-08-12 15:04:14,705 - cluster_profile - INFO - 
+=========================================
+2026-08-12 15:04:14,705 - cluster_profile - INFO - Cluster Constituent Analysis
+2026-08-12 15:04:14,705 - cluster_profile - INFO - =========================================
+2026-08-12 15:04:14,706 - cluster_profile - INFO - 
+Cluster 0 — High-Quality Cash Compounders (8 companies):
+2026-08-12 15:04:14,706 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,707 - cluster_profile - INFO - Company ID   | ROE (%)  | D/E    | Rev CAGR (%) | FCF CAGR (%) | OPM (%)  | Distance
+2026-08-12 15:04:14,707 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,709 - cluster_profile - INFO - ICICIGI      |    15.72 |   0.00 |        12.91 |        32.28 |    87.42 |   0.8360
+2026-08-12 15:04:14,709 - cluster_profile - INFO - POWERGRID    |    17.87 |   1.42 |         5.51 |        39.70 |    86.87 |   0.8422
+2026-08-12 15:04:14,709 - cluster_profile - INFO - HINDUNILVR   |    20.07 |   0.03 |         9.50 |        13.60 |    76.32 |   1.2617
+2026-08-12 15:04:14,710 - cluster_profile - INFO - HINDALCO     |     9.57 |   0.53 |        10.59 |         8.46 |    88.95 |   1.4618
+2026-08-12 15:04:14,710 - cluster_profile - INFO - COALINDIA    |    45.17 |   0.08 |         7.40 |         9.99 |    66.29 |   1.4913
+2026-08-12 15:04:14,710 - cluster_profile - INFO - HEROMOTOCO   |    21.14 |   0.03 |         2.15 |         5.84 |    86.15 |   1.8293
+2026-08-12 15:04:14,710 - cluster_profile - INFO - INDIGO       |   892.57 |   0.02 |        19.31 |        71.57 |    76.30 |   1.9230
+2026-08-12 15:04:14,710 - cluster_profile - INFO - CIPLA        |    15.55 |   0.02 |         9.51 |       228.75 |    75.59 |   5.8353
+2026-08-12 15:04:14,711 - cluster_profile - INFO - 
+Cluster 1 — Highly Leveraged Financials & Utilities (12 companies):
+2026-08-12 15:04:14,711 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,711 - cluster_profile - INFO - Company ID   | ROE (%)  | D/E    | Rev CAGR (%) | FCF CAGR (%) | OPM (%)  | Distance
+2026-08-12 15:04:14,711 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,713 - cluster_profile - INFO - ICICIBANK    |    17.99 |   6.45 |        17.25 |        -7.36 |    62.41 |   0.5863
+2026-08-12 15:04:14,713 - cluster_profile - INFO - HDFCBANK     |    14.34 |   6.81 |        21.95 |        -7.36 |    61.41 |   0.6697
+2026-08-12 15:04:14,713 - cluster_profile - INFO - INDUSINDBK   |    14.25 |   6.89 |        15.50 |        -7.36 |    38.55 |   0.9218
+2026-08-12 15:04:14,713 - cluster_profile - INFO - AXISBANK     |    15.83 |   8.25 |        14.74 |        -7.36 |    34.69 |   1.0095
+2026-08-12 15:04:14,713 - cluster_profile - INFO - PFC          |    26.16 |   8.52 |        11.08 |        -7.36 |    36.69 |   1.2846
+2026-08-12 15:04:14,713 - cluster_profile - INFO - CHOLAFIN     |    17.46 |   6.86 |        21.94 |        -7.36 |    28.10 |   1.2987
+2026-08-12 15:04:14,714 - cluster_profile - INFO - IRFC         |    13.04 |   8.38 |        19.07 |        -7.36 |    99.50 |   1.5099
+2026-08-12 15:04:14,714 - cluster_profile - INFO - BANKBARODA   |    15.76 |  12.14 |        17.48 |        -7.36 |    37.49 |   1.6498
+2026-08-12 15:04:14,714 - cluster_profile - INFO - RECLTD       |    20.40 |   6.42 |        13.34 |        -7.36 |   100.77 |   1.7771
+2026-08-12 15:04:14,714 - cluster_profile - INFO - KOTAKBANK    |    14.01 |   4.00 |        13.52 |        -7.36 |    83.67 |   1.8041
+2026-08-12 15:04:14,714 - cluster_profile - INFO - CANBK        |    16.72 |  14.87 |        18.18 |        -5.34 |    41.75 |   2.4876
+2026-08-12 15:04:14,714 - cluster_profile - INFO - ADANIGREEN   |    12.81 |   6.60 |        34.98 |        12.69 |    79.37 |   2.5316
+2026-08-12 15:04:14,715 - cluster_profile - INFO - 
+Cluster 2 — Capital-Efficient Outliers (High ROE) (2 companies):
+2026-08-12 15:04:14,715 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,715 - cluster_profile - INFO - Company ID   | ROE (%)  | D/E    | Rev CAGR (%) | FCF CAGR (%) | OPM (%)  | Distance
+2026-08-12 15:04:14,715 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,716 - cluster_profile - INFO - HAL          |  3816.58 |   0.62 |         8.71 |        32.36 |    32.09 |   0.7606
+2026-08-12 15:04:14,716 - cluster_profile - INFO - BEL          |  4744.05 |   0.51 |        10.75 |        32.36 |    24.92 |   0.7606
+2026-08-12 15:04:14,717 - cluster_profile - INFO - 
+Cluster 3 — Emerging Growth Leaders (23 companies):
+2026-08-12 15:04:14,717 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,717 - cluster_profile - INFO - Company ID   | ROE (%)  | D/E    | Rev CAGR (%) | FCF CAGR (%) | OPM (%)  | Distance
+2026-08-12 15:04:14,717 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,720 - cluster_profile - INFO - ATGL         |    18.66 |   0.43 |        21.09 |        12.69 |    24.67 |   0.6295
+2026-08-12 15:04:14,721 - cluster_profile - INFO - ADANIENSOL   |     9.46 |   2.93 |        17.85 |        12.69 |    34.39 |   0.7297
+2026-08-12 15:04:14,721 - cluster_profile - INFO - NAUKRI       |     1.97 |   0.01 |        17.12 |        10.03 |    28.04 |   0.7633
+2026-08-12 15:04:14,721 - cluster_profile - INFO - ADANIPOWER   |    48.28 |   0.80 |        16.09 |        30.71 |    36.20 |   1.0375
+2026-08-12 15:04:14,721 - cluster_profile - INFO - TATAPOWER    |    13.23 |   1.66 |        15.51 |        -3.67 |    17.47 |   1.0786
+2026-08-12 15:04:14,722 - cluster_profile - INFO - SHRIRAMFIN   |    15.12 |   3.99 |        18.56 |        -7.36 |    28.92 |   1.1260
+2026-08-12 15:04:14,722 - cluster_profile - INFO - PNB          |    61.32 |   3.68 |        15.90 |        -7.36 |    40.15 |   1.1389
+2026-08-12 15:04:14,722 - cluster_profile - INFO - IRCTC        |    34.40 |   0.02 |        17.96 |        35.50 |    34.33 |   1.1392
+2026-08-12 15:04:14,722 - cluster_profile - INFO - BAJFINANCE   |    18.84 |   3.82 |        24.35 |        -7.36 |    29.29 |   1.1609
+2026-08-12 15:04:14,723 - cluster_profile - INFO - DMART        |    13.56 |   0.03 |        20.48 |        10.03 |     8.08 |   1.2003
+2026-08-12 15:04:14,723 - cluster_profile - INFO - BHARTIARTL   |    10.36 |   2.61 |        13.17 |        10.03 |    52.20 |   1.2291
+2026-08-12 15:04:14,723 - cluster_profile - INFO - TITAN        |    37.22 |   1.65 |        20.90 |        27.56 |    10.36 |   1.2536
+2026-08-12 15:04:14,723 - cluster_profile - INFO - ADANIPORTS   |    15.35 |   0.94 |        19.58 |        37.79 |    58.36 |   1.2987
+2026-08-12 15:04:14,724 - cluster_profile - INFO - BAJAJFINSV   |    25.85 |   4.79 |        20.97 |        -7.36 |    37.04 |   1.3018
+2026-08-12 15:04:14,724 - cluster_profile - INFO - ADANIENT     |     8.53 |   1.67 |        19.02 |        32.36 |    11.80 |   1.3258
+2026-08-12 15:04:14,724 - cluster_profile - INFO - SBILIFE      |    12.70 |   0.00 |        24.23 |        -7.36 |     0.19 |   1.6118
+2026-08-12 15:04:14,725 - cluster_profile - INFO - LTIM         |    22.90 |   0.10 |        30.33 |        22.08 |    17.98 |   1.6747
+2026-08-12 15:04:14,726 - cluster_profile - INFO - TATACONSUM   |     7.57 |   0.22 |        15.96 |       -37.05 |    15.02 |   1.8006
+2026-08-12 15:04:14,726 - cluster_profile - INFO - JIOFIN       |     1.15 |   0.00 |        17.37 |        -7.36 |    84.04 |   1.8512
+2026-08-12 15:04:14,726 - cluster_profile - INFO - TRENT        |    36.31 |   0.43 |        36.31 |        10.03 |    15.93 |   2.3298
+2026-08-12 15:04:14,727 - cluster_profile - INFO - HDFCLIFE     |    10.73 |   0.06 |        21.17 |        -7.36 |    99.48 |   2.3369
+2026-08-12 15:04:14,727 - cluster_profile - INFO - BAJAJHLDNG   |    13.58 |   0.00 |        31.61 |        25.87 |    91.77 |   2.6101
+2026-08-12 15:04:14,727 - cluster_profile - INFO - ICICIPRULI   |     7.73 |   0.11 |        16.85 |       -51.26 |   102.03 |   3.0743
+2026-08-12 15:04:14,728 - cluster_profile - INFO - 
+Cluster 4 — Stable Blue Chips & Defensives (47 companies):
+2026-08-12 15:04:14,728 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,728 - cluster_profile - INFO - Company ID   | ROE (%)  | D/E    | Rev CAGR (%) | FCF CAGR (%) | OPM (%)  | Distance
+2026-08-12 15:04:14,728 - cluster_profile - INFO - --------------------------------------------------------------------------------------------------------------
+2026-08-12 15:04:14,730 - cluster_profile - INFO - RELIANCE     |     9.96 |   0.58 |         9.61 |        12.69 |    18.07 |   0.1496
+2026-08-12 15:04:14,731 - cluster_profile - INFO - ONGC         |    16.94 |   0.45 |         7.00 |        11.57 |    17.39 |   0.2465
+2026-08-12 15:04:14,731 - cluster_profile - INFO - SHREECEM     |     8.37 |   0.08 |        10.33 |         7.24 |    22.02 |   0.3231
+2026-08-12 15:04:14,731 - cluster_profile - INFO - GODREJCP     |    -4.45 |   0.26 |         6.45 |         8.96 |    20.98 |   0.3379
+2026-08-12 15:04:14,731 - cluster_profile - INFO - TATAMOTORS   |    37.46 |   1.26 |         7.72 |        10.03 |    13.60 |   0.3505
+2026-08-12 15:04:14,731 - cluster_profile - INFO - BPCL         |    35.51 |   0.72 |         8.48 |        12.69 |     9.84 |   0.3619
+2026-08-12 15:04:14,731 - cluster_profile - INFO - IOC          |    23.53 |   0.72 |         8.01 |        12.69 |     9.74 |   0.3753
+2026-08-12 15:04:14,732 - cluster_profile - INFO - MARUTI       |    15.75 |   0.00 |        10.51 |        10.03 |    13.13 |   0.3956
+2026-08-12 15:04:14,732 - cluster_profile - INFO - TCS          |    50.94 |   0.09 |        10.46 |        10.77 |    26.69 |   0.4015
+2026-08-12 15:04:14,732 - cluster_profile - INFO - TATASTEEL    |    -5.33 |   0.95 |         7.77 |         9.99 |     9.71 |   0.4037
+2026-08-12 15:04:14,732 - cluster_profile - INFO - BAJAJ-AUTO   |    26.61 |   0.07 |         8.13 |        23.98 |    19.53 |   0.4710
+2026-08-12 15:04:14,733 - cluster_profile - INFO - TECHM        |     8.99 |   0.10 |         8.40 |        16.79 |     8.67 |   0.4717
+2026-08-12 15:04:14,733 - cluster_profile - INFO - TORNTPHARM   |    24.15 |   0.59 |         6.93 |        14.88 |    31.39 |   0.5183
+2026-08-12 15:04:14,733 - cluster_profile - INFO - M&M          |    18.54 |   1.64 |         5.84 |        10.03 |    17.90 |   0.5442
+2026-08-12 15:04:14,733 - cluster_profile - INFO - GAIL         |    12.86 |   0.28 |        11.83 |        13.81 |    10.74 |   0.5534
+2026-08-12 15:04:14,733 - cluster_profile - INFO - MOTHERSON    |    11.55 |   0.76 |         9.21 |        -1.43 |     9.45 |   0.5542
+2026-08-12 15:04:14,734 - cluster_profile - INFO - EICHERMOT    |    22.17 |   0.02 |        11.04 |        -0.55 |    26.18 |   0.5866
+2026-08-12 15:04:14,734 - cluster_profile - INFO - ABB          |    32.47 |   0.02 |         9.72 |        26.92 |    24.84 |   0.6126
+2026-08-12 15:04:14,734 - cluster_profile - INFO - PIDILITIND   |    20.78 |   0.05 |        11.84 |        23.53 |    21.87 |   0.6328
+2026-08-12 15:04:14,734 - cluster_profile - INFO - AMBUJACEM    |    11.43 |   0.02 |         4.12 |         9.99 |    19.30 |   0.6538
+2026-08-12 15:04:14,734 - cluster_profile - INFO - ASIANPAINT   |    29.68 |   0.13 |        13.03 |        18.04 |    21.37 |   0.6615
+2026-08-12 15:04:14,734 - cluster_profile - INFO - INFY         |    29.79 |   0.09 |        13.20 |         7.20 |    23.70 |   0.6703
+2026-08-12 15:04:14,735 - cluster_profile - INFO - NTPC         |    13.27 |   1.48 |        12.22 |        12.69 |    28.83 |   0.6779
+2026-08-12 15:04:14,735 - cluster_profile - INFO - HCLTECH      |    23.01 |   0.08 |        12.71 |        22.62 |    22.02 |   0.7004
+2026-08-12 15:04:14,735 - cluster_profile - INFO - DABUR        |    18.36 |   0.14 |         7.81 |       -10.72 |    19.35 |   0.7351
+2026-08-12 15:04:14,735 - cluster_profile - INFO - DIVISLAB     |    11.79 |   0.00 |         9.66 |        29.82 |    28.17 |   0.7410
+2026-08-12 15:04:14,735 - cluster_profile - INFO - BOSCHLTD     |    20.64 |   0.00 |         6.72 |        -8.22 |    12.52 |   0.7547
+2026-08-12 15:04:14,735 - cluster_profile - INFO - ITC          |    27.85 |   0.00 |         7.95 |        21.64 |    37.02 |   0.7708
+2026-08-12 15:04:14,736 - cluster_profile - INFO - LT           |    77.67 |   0.10 |        10.34 |        32.36 |    13.51 |   0.7942
+2026-08-12 15:04:14,736 - cluster_profile - INFO - GRASIM       |    11.20 |   1.55 |        11.15 |        32.36 |    20.76 |   0.8559
+2026-08-12 15:04:14,736 - cluster_profile - INFO - APOLLOHOSP   |    13.48 |   0.77 |        14.66 |        14.57 |    12.56 |   0.8663
+2026-08-12 15:04:14,736 - cluster_profile - INFO - NESTLEIND    |   117.75 |   0.10 |        14.55 |         4.32 |    23.83 |   0.8753
+2026-08-12 15:04:14,736 - cluster_profile - INFO - JSWSTEEL     |    11.55 |   1.13 |        15.60 |         9.99 |    16.09 |   0.9739
+2026-08-12 15:04:14,736 - cluster_profile - INFO - JINDALSTEL   |    13.41 |   0.37 |         1.40 |         9.99 |    20.26 |   0.9989
+2026-08-12 15:04:14,737 - cluster_profile - INFO - HAVELLS      |    17.07 |   0.04 |        13.04 |       -13.35 |    10.12 |   1.0672
+2026-08-12 15:04:14,737 - cluster_profile - INFO - SUNPHARMA    |    15.09 |   0.05 |        10.78 |        43.24 |    26.84 |   1.1490
+2026-08-12 15:04:14,737 - cluster_profile - INFO - JSWENERGY    |     8.28 |   1.52 |         4.68 |        12.69 |    46.86 |   1.1968
+2026-08-12 15:04:14,737 - cluster_profile - INFO - DRREDDY      |    19.74 |   0.07 |        12.64 |       -24.69 |    28.32 |   1.3399
+2026-08-12 15:04:14,737 - cluster_profile - INFO - TVSMOTOR     |    26.22 |   3.83 |        14.19 |        10.03 |    14.05 |   1.3849
+2026-08-12 15:04:14,737 - cluster_profile - INFO - SIEMENS      |    17.70 |   0.02 |        11.19 |        53.29 |    13.96 |   1.4613
+2026-08-12 15:04:14,737 - cluster_profile - INFO - BRITANNIA    |    54.15 |   0.52 |         8.69 |        58.59 |    18.89 |   1.5681
+2026-08-12 15:04:14,738 - cluster_profile - INFO - LODHA        |     8.90 |   0.44 |        -2.83 |       -13.17 |    25.83 |   1.7771
+2026-08-12 15:04:14,738 - cluster_profile - INFO - NHPC         |    10.41 |   0.84 |         1.40 |       -18.16 |    49.91 |   1.7793
+2026-08-12 15:04:14,738 - cluster_profile - INFO - SBIN         |    15.74 |   4.39 |        11.63 |        -9.42 |   -13.73 |   1.9735
+2026-08-12 15:04:14,738 - cluster_profile - INFO - LICI         |    49.45 |   0.00 |         8.16 |       -48.22 |     3.87 |   2.0348
+2026-08-12 15:04:14,738 - cluster_profile - INFO - BHEL         |     1.15 |   0.36 |        -4.73 |        32.36 |     2.98 |   2.0565
+2026-08-12 15:04:14,739 - cluster_profile - INFO - DLF          |     6.91 |   0.12 |        -5.14 |       -13.17 |    33.05 |   2.1143
+2026-08-12 15:04:14,739 - cluster_profile - INFO - Computing Pearson correlation matrix for 10 KPIs...
+2026-08-12 15:04:14,751 - cluster_profile - INFO - Correlation matrix validations passed (10x10, symmetric, diagonal=1).
+2026-08-12 15:04:18,153 - cluster_profile - INFO - Correlation heatmap saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\reports\correlation_heatmap.png
+2026-08-12 15:04:18,153 - cluster_profile - INFO - Detecting sector-based outliers using Z-score method (|Z| > 3)...
+2026-08-12 15:04:18,287 - cluster_profile - INFO - Sector-based outlier report saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\outlier_report.csv. Flagged 10 outliers.
+2026-08-12 15:04:18,288 - cluster_profile - INFO - Generating portfolio percentile statistics...
+2026-08-12 15:04:18,330 - cluster_profile - INFO - Portfolio statistics saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\portfolio_stats.csv
+2026-08-12 15:04:18,331 - cluster_profile - INFO - =========================================
+2026-08-12 15:04:18,331 - cluster_profile - INFO - S6 Day 37 Execution Completed Successfully
+2026-08-12 15:04:18,331 - cluster_profile - INFO - =========================================
+2026-08-12 15:05:02,172 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:03,015 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:03,024 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:03,028 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:03,901 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:03,908 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:03,916 - cluster_profile - INFO - Calculating cluster statistics (mean and median)...
+2026-08-12 15:05:03,931 - cluster_profile - INFO - Cluster profiles successfully saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_profiles.csv
+2026-08-12 15:05:03,942 - cluster_profile - INFO - Detecting sector-based outliers using Z-score method (|Z| > 3)...
+2026-08-12 15:05:03,968 - cluster_profile - INFO - Sector-based outlier report saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\outlier_report.csv. Flagged 0 outliers.
+2026-08-12 15:05:03,970 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:04,865 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:04,878 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:04,878 - cluster_profile - INFO - Detecting sector-based outliers using Z-score method (|Z| > 3)...
+2026-08-12 15:05:05,031 - cluster_profile - INFO - Sector-based outlier report saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\outlier_report.csv. Flagged 10 outliers.
+2026-08-12 15:05:05,042 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:05,997 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:06,007 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:06,007 - cluster_profile - INFO - Generating portfolio percentile statistics...
+2026-08-12 15:05:06,041 - cluster_profile - INFO - Portfolio statistics saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\portfolio_stats.csv
+2026-08-12 15:05:48,044 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:48,953 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:48,958 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:48,960 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:49,777 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:49,790 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:49,807 - cluster_profile - INFO - Calculating cluster statistics (mean and median)...
+2026-08-12 15:05:49,829 - cluster_profile - INFO - Cluster profiles successfully saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_profiles.csv
+2026-08-12 15:05:49,842 - cluster_profile - INFO - Detecting sector-based outliers using Z-score method (|Z| > 3)...
+2026-08-12 15:05:49,863 - cluster_profile - INFO - Sector-based outlier report saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\outlier_report.csv. Flagged 0 outliers.
+2026-08-12 15:05:49,866 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:50,756 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:50,763 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:50,763 - cluster_profile - INFO - Detecting sector-based outliers using Z-score method (|Z| > 3)...
+2026-08-12 15:05:50,877 - cluster_profile - INFO - Sector-based outlier report saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\outlier_report.csv. Flagged 10 outliers.
+2026-08-12 15:05:50,887 - cluster_profile - INFO - Loading company ratio data from db: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:51,775 - cluster_profile - INFO - Loading cluster labels from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\cluster_labels.csv
+2026-08-12 15:05:51,782 - cluster_profile - INFO - Successfully merged cluster assignments and ratio data.
+2026-08-12 15:05:51,783 - cluster_profile - INFO - Generating portfolio percentile statistics...
+2026-08-12 15:05:51,811 - cluster_profile - INFO - Portfolio statistics saved to: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\output\portfolio_stats.csv
+2026-08-12 15:05:51,818 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:52,616 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-12 15:05:52,621 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-12 15:05:52,624 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-12 15:05:52,624 - clustering - INFO - Detected 2 missing values in feature: 'debt_to_equity'
+2026-08-12 15:05:52,626 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'debt_to_equity'. Applying global-median safety fallback.
+2026-08-12 15:05:52,627 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-12 15:05:52,628 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-12 15:05:52,630 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:05:52,630 - clustering - INFO - Detected 1 missing values in feature: 'fcf_cagr_5yr'
+2026-08-12 15:05:52,633 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:05:52,638 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:53,491 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-12 15:05:53,493 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-12 15:05:53,495 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-12 15:05:53,495 - clustering - INFO - Detected 1 missing values in feature: 'debt_to_equity'
+2026-08-12 15:05:53,497 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-12 15:05:53,497 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-12 15:05:53,499 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:05:53,499 - clustering - INFO - Detected 43 missing values in feature: 'fcf_cagr_5yr'
+2026-08-12 15:05:53,500 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'fcf_cagr_5yr'. Applying global-median safety fallback.
+2026-08-12 15:05:53,501 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:05:53,501 - clustering - INFO - Detected 1 missing values in feature: 'operating_profit_margin_pct'
+2026-08-12 15:05:53,504 - clustering - INFO - Imputed missing values for 'operating_profit_margin_pct'. Remaining NaNs: 0
+2026-08-12 15:05:53,506 - clustering - INFO - Feature matrix validations passed (92 rows, 0 NaNs). Applying StandardScaler.
+2026-08-12 15:05:53,584 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:05:54,478 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-12 15:05:54,480 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-12 15:05:54,481 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-12 15:05:54,482 - clustering - INFO - Detected 1 missing values in feature: 'debt_to_equity'
+2026-08-12 15:05:54,483 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-12 15:05:54,484 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-12 15:05:54,487 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:05:54,487 - clustering - INFO - Detected 43 missing values in feature: 'fcf_cagr_5yr'
+2026-08-12 15:05:54,490 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'fcf_cagr_5yr'. Applying global-median safety fallback.
+2026-08-12 15:05:54,491 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:05:54,491 - clustering - INFO - Detected 1 missing values in feature: 'operating_profit_margin_pct'
+2026-08-12 15:05:54,494 - clustering - INFO - Imputed missing values for 'operating_profit_margin_pct'. Remaining NaNs: 0
+2026-08-12 15:05:54,497 - clustering - INFO - Feature matrix validations passed (92 rows, 0 NaNs). Applying StandardScaler.
+2026-08-12 15:05:54,503 - clustering - INFO - Training final KMeans model (k=5, random_state=42)...
+2026-08-12 15:05:59,924 - clustering - INFO - Loading company and financial ratio data from: C:\Users\Krishna\Documents\n100-financial-intelligence-platform\db\nifty100.db
+2026-08-12 15:06:00,914 - clustering - INFO - Loaded 92 companies' latest financial records.
+2026-08-12 15:06:00,915 - clustering - INFO - Detected 1 missing values in feature: 'return_on_equity_pct'
+2026-08-12 15:06:00,918 - clustering - INFO - Imputed missing values for 'return_on_equity_pct'. Remaining NaNs: 0
+2026-08-12 15:06:00,918 - clustering - INFO - Detected 1 missing values in feature: 'debt_to_equity'
+2026-08-12 15:06:00,922 - clustering - INFO - Imputed missing values for 'debt_to_equity'. Remaining NaNs: 0
+2026-08-12 15:06:00,922 - clustering - INFO - Detected 1 missing values in feature: 'revenue_cagr_5yr'
+2026-08-12 15:06:00,924 - clustering - INFO - Imputed missing values for 'revenue_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:06:00,924 - clustering - INFO - Detected 43 missing values in feature: 'fcf_cagr_5yr'
+2026-08-12 15:06:00,927 - clustering - WARNING - Sector-median imputation left 2 NaNs for 'fcf_cagr_5yr'. Applying global-median safety fallback.
+2026-08-12 15:06:00,928 - clustering - INFO - Imputed missing values for 'fcf_cagr_5yr'. Remaining NaNs: 0
+2026-08-12 15:06:00,929 - clustering - INFO - Detected 1 missing values in feature: 'operating_profit_margin_pct'
+2026-08-12 15:06:00,932 - clustering - INFO - Imputed missing values for 'operating_profit_margin_pct'. Remaining NaNs: 0
+2026-08-12 15:06:00,933 - clustering - INFO - Feature matrix validations passed (92 rows, 0 NaNs). Applying StandardScaler.
+2026-08-12 15:06:00,938 - clustering - INFO - Training final KMeans model (k=5, random_state=42)...
+2026-08-12 15:06:00,965 - clustering - INFO - Computing centroid means in original feature space to assign archetype names:
+2026-08-12 15:06:00,967 - clustering - INFO - Cluster 1 mapped to 'Highly Leveraged Financials & Utilities' (Mean D/E: 8.02)
+2026-08-12 15:06:00,969 - clustering - INFO - Cluster 2 mapped to 'Capital-Efficient Outliers (High ROE)' (Mean ROE: 4280.32)
+2026-08-12 15:06:00,970 - clustering - INFO - Cluster 0 mapped to 'High-Quality Cash Compounders' (Mean OPM: 80.49%)
+2026-08-12 15:06:00,972 - clustering - INFO - Cluster 3 mapped to 'Emerging Growth Leaders' (Mean 5Y Rev CAGR: 20.54%)
+2026-08-12 15:06:00,972 - clustering - INFO - Cluster 4 mapped to 'Stable Blue Chips & Defensives' (Mean 5Y Rev CAGR: 8.68%, Mean D/E: 0.57)
