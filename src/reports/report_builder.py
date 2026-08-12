@@ -11,19 +11,35 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
 
-from src.reports.report_styles import (A4_HEIGHT, A4_WIDTH, BORDER_LIGHT,
-                                       CON_RED, GREY_SLATE, MARGIN_POINTS,
-                                       NAVY_PRIMARY, PRINTABLE_WIDTH,
-                                       PRO_GREEN, TEXT_LIGHT, TEXT_NEUTRAL,
-                                       badge_style, bullet_heading_con,
-                                       bullet_heading_pro, bullet_style,
-                                       kpi_label_style, kpi_unit_style,
-                                       kpi_value_style, meta_style,
-                                       meta_subtitle_style,
-                                       section_heading_style, subtitle_style,
-                                       title_style, trend_arrow_style,
-                                       trend_label_style, val_label_style,
-                                       val_value_style)
+from src.reports.report_styles import (
+    A4_HEIGHT,
+    A4_WIDTH,
+    BORDER_LIGHT,
+    CON_RED,
+    GREY_SLATE,
+    MARGIN_POINTS,
+    NAVY_PRIMARY,
+    PRINTABLE_WIDTH,
+    PRO_GREEN,
+    TEXT_LIGHT,
+    TEXT_NEUTRAL,
+    badge_style,
+    bullet_heading_con,
+    bullet_heading_pro,
+    bullet_style,
+    kpi_label_style,
+    kpi_unit_style,
+    kpi_value_style,
+    meta_style,
+    meta_subtitle_style,
+    section_heading_style,
+    subtitle_style,
+    title_style,
+    trend_arrow_style,
+    trend_label_style,
+    val_label_style,
+    val_value_style,
+)
 
 # Badge Mappings
 ALLOC_BADGE_COLORS = {

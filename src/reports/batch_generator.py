@@ -13,8 +13,12 @@ from pathlib import Path
 from typing import List, Optional
 
 from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
-from src.reports.report_utils import (check_eligibility, map_sector,
-                                      save_summary_reports, validate_pdf)
+from src.reports.report_utils import (
+    check_eligibility,
+    map_sector,
+    save_summary_reports,
+    validate_pdf,
+)
 from src.reports.tearsheet import generate_tearsheet
 from src.utils.logger import get_logger
 

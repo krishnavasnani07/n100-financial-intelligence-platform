@@ -56,16 +56,15 @@ def test_pdf_validation_missing_file():
 def test_sector_report_generation(tmp_path):
     """Test generating sector reports and validating them."""
     from src.reports.sector_report import generate_all_sector_reports
-    
+
     # Generate reports to the temp path
     generate_all_sector_reports(db_path=DB_PATH, out_dir=tmp_path)
-    
+
     # Check that sector PDFs were created
     pdf_files = list(tmp_path.glob("*.pdf"))
     assert len(pdf_files) > 0, "No sector reports were generated"
-    
+
     # Validate each generated PDF
     for pdf_file in pdf_files:
         valid, msg = validate_pdf(pdf_file, min_size_kb=4.0)
         assert valid is True, f"PDF {pdf_file.name} failed validation: {msg}"
-

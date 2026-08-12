@@ -18,14 +18,22 @@ def test_valuation_pipeline():
 
     # Validations
     assert not df_val.empty
-    
+
     # 92 Nifty 100 companies expected
     assert len(df_val) == 92 or len(df_val) == 93  # Handle minor database variance
 
     # Check required columns
     expected_cols = [
-        "company_id", "company_name", "sector", "PE", "PB", "EV/EBITDA",
-        "FCF_yield_pct", "5yr_median_PE", "PE_vs_sector_median_pct", "flag"
+        "company_id",
+        "company_name",
+        "sector",
+        "PE",
+        "PB",
+        "EV/EBITDA",
+        "FCF_yield_pct",
+        "5yr_median_PE",
+        "PE_vs_sector_median_pct",
+        "flag",
     ]
     for col in expected_cols:
         assert col in df_val.columns

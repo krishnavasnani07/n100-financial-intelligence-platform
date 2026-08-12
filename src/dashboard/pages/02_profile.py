@@ -2,9 +2,11 @@ import pandas as pd
 import streamlit as st
 
 from src.dashboard.components.cards import kpi_card
-from src.dashboard.components.charts import (render_profit_chart,
-                                             render_revenue_chart,
-                                             render_roe_roce_trend)
+from src.dashboard.components.charts import (
+    render_profit_chart,
+    render_revenue_chart,
+    render_roe_roce_trend,
+)
 from src.dashboard.utils import db
 from src.dashboard.utils.helpers import extract_year_int
 

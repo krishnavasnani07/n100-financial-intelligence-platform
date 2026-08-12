@@ -21,17 +21,21 @@ import pandas as pd
 
 from src.analytics.cagr import calculate_cagr
 from src.analytics.ratio_base import RatioCalculator
-from src.config.cashflow_config import (CAPEX_ASSET_LIGHT_THRESHOLD,
-                                        CAPEX_INTENSIVE_THRESHOLD,
-                                        CFO_QUALITY_HIGH_THRESHOLD,
-                                        CFO_QUALITY_MODERATE_THRESHOLD,
-                                        DEFAULT_CASHFLOW_PRECISION,
-                                        LABEL_CAPEX_ASSET_LIGHT,
-                                        LABEL_CAPEX_INTENSIVE,
-                                        LABEL_CAPEX_MODERATE,
-                                        LABEL_CFO_ACCRUAL_RISK, LABEL_CFO_HIGH,
-                                        LABEL_CFO_MODERATE,
-                                        LABEL_SHAREHOLDER_RETURNS, PATTERN_MAP)
+from src.config.cashflow_config import (
+    CAPEX_ASSET_LIGHT_THRESHOLD,
+    CAPEX_INTENSIVE_THRESHOLD,
+    CFO_QUALITY_HIGH_THRESHOLD,
+    CFO_QUALITY_MODERATE_THRESHOLD,
+    DEFAULT_CASHFLOW_PRECISION,
+    LABEL_CAPEX_ASSET_LIGHT,
+    LABEL_CAPEX_INTENSIVE,
+    LABEL_CAPEX_MODERATE,
+    LABEL_CFO_ACCRUAL_RISK,
+    LABEL_CFO_HIGH,
+    LABEL_CFO_MODERATE,
+    LABEL_SHAREHOLDER_RETURNS,
+    PATTERN_MAP,
+)
 from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR, RAW_DATA_DIR
 from src.utils.helpers import extract_year_int
 from src.utils.logger import get_logger

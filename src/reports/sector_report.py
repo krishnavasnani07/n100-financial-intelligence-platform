@@ -15,25 +15,47 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 import pandas as pd
 from reportlab.lib import colors
+
 # ReportLab imports
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import (PageBreak, Paragraph, SimpleDocTemplate,
-                                Spacer, Table, TableStyle)
+from reportlab.platypus import (
+    PageBreak,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
+)
 
 from src.analytics.valuation import load_market_cap
+
 # Custom imports
 from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
 from src.reports.layouts import NumberedCanvas
 from src.reports.report_utils import check_eligibility, map_sector
-from src.reports.styles import (BORDER_LIGHT, CON_RED, GOLD_ACCENT, GREY_SLATE,
-                                NAVY_PRIMARY, PRINTABLE_WIDTH, PRO_GREEN,
-                                TEXT_LIGHT, TEXT_NEUTRAL, kpi_label_style,
-                                kpi_unit_style, kpi_value_style, meta_style,
-                                meta_subtitle_style, section_heading_style,
-                                subtitle_style, table_cell_bold_style,
-                                table_cell_style, table_header_style,
-                                title_style)
+from src.reports.styles import (
+    BORDER_LIGHT,
+    CON_RED,
+    GOLD_ACCENT,
+    GREY_SLATE,
+    NAVY_PRIMARY,
+    PRINTABLE_WIDTH,
+    PRO_GREEN,
+    TEXT_LIGHT,
+    TEXT_NEUTRAL,
+    kpi_label_style,
+    kpi_unit_style,
+    kpi_value_style,
+    meta_style,
+    meta_subtitle_style,
+    section_heading_style,
+    subtitle_style,
+    table_cell_bold_style,
+    table_cell_style,
+    table_header_style,
+    title_style,
+)
 from src.utils.logger import get_logger
 
 logger = get_logger("sector_report")

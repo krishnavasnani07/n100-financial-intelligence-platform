@@ -108,13 +108,17 @@ class TestFCFConversion:
 class TestCapitalAllocationClassifier:
     def test_reinvestor(self):
         # CFO (+), CFI (-), CFF (-) with normal/low CFO/PAT
-        cfo_s, cfi_s, cff_s, label = classify_capital_allocation(500, -200, -100, cfo_pat_ratio=0.9)
+        cfo_s, cfi_s, cff_s, label = classify_capital_allocation(
+            500, -200, -100, cfo_pat_ratio=0.9
+        )
         assert (cfo_s, cfi_s, cff_s) == ("+", "-", "-")
         assert label == "Reinvestor"
 
     def test_shareholder_returns(self):
         # CFO (+), CFI (-), CFF (-) with high CFO/PAT (>1.0)
-        cfo_s, cfi_s, cff_s, label = classify_capital_allocation(500, -100, -300, cfo_pat_ratio=1.2)
+        cfo_s, cfi_s, cff_s, label = classify_capital_allocation(
+            500, -100, -300, cfo_pat_ratio=1.2
+        )
         assert (cfo_s, cfi_s, cff_s) == ("+", "-", "-")
         assert label == "Shareholder Returns"
 
@@ -153,11 +157,56 @@ class TestCashFlowEngineIntegration:
     def test_engine_company_kpis_calculation(self):
         # TCS multi-year mock data
         data = [
-            {"company_id": "TCS", "year": "2020", "operating_activity": 35000, "investing_activity": -8000, "financing_activity": -25000, "sales": 156000, "operating_profit": 42000, "net_profit": 32000},
-            {"company_id": "TCS", "year": "2021", "operating_activity": 38000, "investing_activity": -7000, "financing_activity": -28000, "sales": 164000, "operating_profit": 46000, "net_profit": 35000},
-            {"company_id": "TCS", "year": "2022", "operating_activity": 39000, "investing_activity": -6000, "financing_activity": -30000, "sales": 191000, "operating_profit": 53000, "net_profit": 38000},
-            {"company_id": "TCS", "year": "2023", "operating_activity": 42000, "investing_activity": -5000, "financing_activity": -35000, "sales": 225000, "operating_profit": 59000, "net_profit": 42000},
-            {"company_id": "TCS", "year": "2024", "operating_activity": 45000, "investing_activity": -4000, "financing_activity": -38000, "sales": 240000, "operating_profit": 64000, "net_profit": 46000},
+            {
+                "company_id": "TCS",
+                "year": "2020",
+                "operating_activity": 35000,
+                "investing_activity": -8000,
+                "financing_activity": -25000,
+                "sales": 156000,
+                "operating_profit": 42000,
+                "net_profit": 32000,
+            },
+            {
+                "company_id": "TCS",
+                "year": "2021",
+                "operating_activity": 38000,
+                "investing_activity": -7000,
+                "financing_activity": -28000,
+                "sales": 164000,
+                "operating_profit": 46000,
+                "net_profit": 35000,
+            },
+            {
+                "company_id": "TCS",
+                "year": "2022",
+                "operating_activity": 39000,
+                "investing_activity": -6000,
+                "financing_activity": -30000,
+                "sales": 191000,
+                "operating_profit": 53000,
+                "net_profit": 38000,
+            },
+            {
+                "company_id": "TCS",
+                "year": "2023",
+                "operating_activity": 42000,
+                "investing_activity": -5000,
+                "financing_activity": -35000,
+                "sales": 225000,
+                "operating_profit": 59000,
+                "net_profit": 42000,
+            },
+            {
+                "company_id": "TCS",
+                "year": "2024",
+                "operating_activity": 45000,
+                "investing_activity": -4000,
+                "financing_activity": -38000,
+                "sales": 240000,
+                "operating_profit": 64000,
+                "net_profit": 46000,
+            },
         ]
         df_tcs = pd.DataFrame(data)
 
@@ -174,19 +223,35 @@ class TestCashFlowEngineIntegration:
     def test_engine_export_reports(self, tmp_path):
         results = [
             {
-                "company_id": "INFY", "year": "2024", "free_cash_flow": 22000.0,
-                "cfo_quality_period": 1.05, "cfo_quality_5yr_avg": 1.02, "cfo_quality_label": "High",
-                "capex_intensity_pct": 2.5, "capex_intensity_label": "Asset Light",
-                "fcf_conversion": 0.85, "cfo_sign": "+", "cfi_sign": "-", "cff_sign": "-",
-                "pattern_label": "Shareholder Returns"
+                "company_id": "INFY",
+                "year": "2024",
+                "free_cash_flow": 22000.0,
+                "cfo_quality_period": 1.05,
+                "cfo_quality_5yr_avg": 1.02,
+                "cfo_quality_label": "High",
+                "capex_intensity_pct": 2.5,
+                "capex_intensity_label": "Asset Light",
+                "fcf_conversion": 0.85,
+                "cfo_sign": "+",
+                "cfi_sign": "-",
+                "cff_sign": "-",
+                "pattern_label": "Shareholder Returns",
             },
             {
-                "company_id": "RELIANCE", "year": "2024", "free_cash_flow": 15000.0,
-                "cfo_quality_period": 0.9, "cfo_quality_5yr_avg": 0.88, "cfo_quality_label": "Moderate",
-                "capex_intensity_pct": 11.2, "capex_intensity_label": "Capital Intensive",
-                "fcf_conversion": 0.45, "cfo_sign": "+", "cfi_sign": "-", "cff_sign": "+",
-                "pattern_label": "Mixed"
-            }
+                "company_id": "RELIANCE",
+                "year": "2024",
+                "free_cash_flow": 15000.0,
+                "cfo_quality_period": 0.9,
+                "cfo_quality_5yr_avg": 0.88,
+                "cfo_quality_label": "Moderate",
+                "capex_intensity_pct": 11.2,
+                "capex_intensity_label": "Capital Intensive",
+                "fcf_conversion": 0.45,
+                "cfo_sign": "+",
+                "cfi_sign": "-",
+                "cff_sign": "+",
+                "pattern_label": "Mixed",
+            },
         ]
 
         files = CashFlowEngine.export_cashflow_reports(results, output_dir=tmp_path)

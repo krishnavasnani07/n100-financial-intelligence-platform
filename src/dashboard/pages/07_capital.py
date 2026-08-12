@@ -6,7 +6,9 @@ import streamlit as st
 
 from src.config.settings import OUTPUT_DIR
 from src.dashboard.components.treemap import (
-    classify_company_capital_allocation, render_capital_allocation_treemap)
+    classify_company_capital_allocation,
+    render_capital_allocation_treemap,
+)
 from src.dashboard.utils import db
 from src.screener.presets import load_screener_master_data
 

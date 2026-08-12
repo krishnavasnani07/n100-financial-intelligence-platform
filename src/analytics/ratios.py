@@ -14,14 +14,20 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 from src.analytics.ratio_base import RatioCalculator, RatioResult
-from src.config.ratio_config import (ASSET_TURNOVER_BENCHMARKS,
-                                     DEBT_TO_EQUITY_BENCHMARKS,
-                                     DEFAULT_PRECISION,
-                                     HIGH_LEVERAGE_THRESHOLD, ICR_BENCHMARKS,
-                                     ICR_WARNING_THRESHOLD, NPM_BENCHMARKS,
-                                     OPM_BENCHMARKS, OPM_TOLERANCE,
-                                     ROA_BENCHMARKS, ROCE_BENCHMARKS,
-                                     ROE_BENCHMARKS)
+from src.config.ratio_config import (
+    ASSET_TURNOVER_BENCHMARKS,
+    DEBT_TO_EQUITY_BENCHMARKS,
+    DEFAULT_PRECISION,
+    HIGH_LEVERAGE_THRESHOLD,
+    ICR_BENCHMARKS,
+    ICR_WARNING_THRESHOLD,
+    NPM_BENCHMARKS,
+    OPM_BENCHMARKS,
+    OPM_TOLERANCE,
+    ROA_BENCHMARKS,
+    ROCE_BENCHMARKS,
+    ROE_BENCHMARKS,
+)
 from src.config.settings import BASE_DIR
 from src.utils.logger import get_logger
 

@@ -10,27 +10,47 @@ from typing import Any, Dict, Optional, Tuple
 
 import pandas as pd
 from reportlab.lib import colors
+
 # ReportLab imports
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Image as RLImage
-from reportlab.platypus import (PageBreak, Paragraph, SimpleDocTemplate,
-                                Spacer, Table, TableStyle)
+from reportlab.platypus import (
+    PageBreak,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
+)
 
 # Package relative imports
 from src.config.settings import BASE_DIR, DB_PATH
-from src.reports.charts import (generate_balancesheet_composition_chart,
-                                generate_cashflow_waterfall_chart,
-                                generate_revenue_net_profit_charts,
-                                generate_roe_roce_chart)
+from src.reports.charts import (
+    generate_balancesheet_composition_chart,
+    generate_cashflow_waterfall_chart,
+    generate_revenue_net_profit_charts,
+    generate_roe_roce_chart,
+)
 from src.reports.layouts import NumberedCanvas
-from src.reports.styles import (CON_RED, GREY_SLATE,
-                                NAVY_PRIMARY, PRINTABLE_WIDTH, PRO_GREEN,
-                                TEXT_LIGHT, badge_style,
-                                bullet_style, kpi_label_style, kpi_unit_style,
-                                kpi_value_style, meta_style,
-                                meta_subtitle_style, section_heading_style,
-                                subtitle_style, title_style)
+from src.reports.styles import (
+    CON_RED,
+    GREY_SLATE,
+    NAVY_PRIMARY,
+    PRINTABLE_WIDTH,
+    PRO_GREEN,
+    TEXT_LIGHT,
+    badge_style,
+    bullet_style,
+    kpi_label_style,
+    kpi_unit_style,
+    kpi_value_style,
+    meta_style,
+    meta_subtitle_style,
+    section_heading_style,
+    subtitle_style,
+    title_style,
+)
 from src.utils.helpers import extract_year_int
 from src.utils.logger import get_logger
 

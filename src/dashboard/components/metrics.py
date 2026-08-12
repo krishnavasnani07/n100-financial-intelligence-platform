@@ -1,6 +1,9 @@
 from src.dashboard.components.cards import kpi_card
-from src.dashboard.utils.formatting import (format_currency_cr,
-                                            format_percentage, format_ratio)
+from src.dashboard.utils.formatting import (
+    format_currency_cr,
+    format_percentage,
+    format_ratio,
+)
 
 
 def render_financial_metric(

@@ -7,6 +7,7 @@ from pathlib import Path
 from src.config.settings import BASE_DIR
 from src.analytics.charts import generate_profitability_charts
 
+
 def test_generate_profitability_charts(tmp_path):
     log_csv = BASE_DIR / "output" / "ratio_calculation_log.csv"
     if not log_csv.exists():

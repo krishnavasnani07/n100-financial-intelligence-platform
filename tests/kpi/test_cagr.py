@@ -33,17 +33,23 @@ from src.config.growth_config import (
 
 class TestGenericCAGREngine:
     def test_calculate_cagr_valid_revenue(self):
-        cagr, flag = calculate_cagr(start_value=100, end_value=200, years=5, metric_name="Revenue")
+        cagr, flag = calculate_cagr(
+            start_value=100, end_value=200, years=5, metric_name="Revenue"
+        )
         assert cagr == 14.87
         assert flag == FLAG_VALID
 
     def test_calculate_cagr_valid_pat(self):
-        cagr, flag = calculate_cagr(start_value=50, end_value=150, years=3, metric_name="PAT")
+        cagr, flag = calculate_cagr(
+            start_value=50, end_value=150, years=3, metric_name="PAT"
+        )
         assert cagr == 44.22
         assert flag == FLAG_VALID
 
     def test_calculate_cagr_valid_eps(self):
-        cagr, flag = calculate_cagr(start_value=10, end_value=25, years=10, metric_name="EPS")
+        cagr, flag = calculate_cagr(
+            start_value=10, end_value=25, years=10, metric_name="EPS"
+        )
         assert cagr == 9.60
         assert flag == FLAG_VALID
 
@@ -122,7 +128,9 @@ class TestCAGREngineBatchAndExport:
         # Expect 3 metrics * 3 time windows = 9 results
         assert len(results) == 9
 
-        rev_5y = [r for r in results if r.metric_name == "Revenue" and r.period_years == 5][0]
+        rev_5y = [
+            r for r in results if r.metric_name == "Revenue" and r.period_years == 5
+        ][0]
         assert rev_5y.cagr == round(((2500.0 / 1500.0) ** (1 / 5) - 1) * 100, 2)
         assert rev_5y.flag == FLAG_VALID
         assert rev_5y.growth_label == LABEL_STRONG_GROWTH

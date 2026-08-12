@@ -13,8 +13,11 @@ import pandas as pd
 
 from src.analytics.cagr import calculate_cagr
 from src.analytics.ratios import calculate_icr_label
-from src.config.constants import (QUALITY_SCORE_WEIGHTS, WINSOR_LOWER_QUANTILE,
-                                  WINSOR_UPPER_QUANTILE)
+from src.config.constants import (
+    QUALITY_SCORE_WEIGHTS,
+    WINSOR_LOWER_QUANTILE,
+    WINSOR_UPPER_QUANTILE,
+)
 from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.utils.helpers import extract_year_int, map_year_to_price_date
 

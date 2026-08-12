@@ -8,6 +8,7 @@ from pathlib import Path
 from src.config.settings import BASE_DIR
 from scripts.verify_ratios import run_spot_check_verification
 
+
 def test_spot_check_verification(tmp_path):
     db_path = BASE_DIR / "db" / "nifty100.db"
     if not db_path.exists():

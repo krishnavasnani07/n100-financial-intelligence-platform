@@ -22,14 +22,17 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 from src.analytics.cagr import calculate_cagr
-from src.analytics.cashflow_kpis import (calculate_cfo_quality,
-                                         calculate_free_cash_flow)
-from src.analytics.ratios import (calculate_asset_turnover,
-                                  calculate_debt_to_equity,
-                                  calculate_interest_coverage,
-                                  calculate_net_profit_margin,
-                                  calculate_operating_profit_margin,
-                                  calculate_roa, calculate_roce, calculate_roe)
+from src.analytics.cashflow_kpis import calculate_cfo_quality, calculate_free_cash_flow
+from src.analytics.ratios import (
+    calculate_asset_turnover,
+    calculate_debt_to_equity,
+    calculate_interest_coverage,
+    calculate_net_profit_margin,
+    calculate_operating_profit_margin,
+    calculate_roa,
+    calculate_roce,
+    calculate_roe,
+)
 from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
 
 

@@ -56,11 +56,15 @@ class TestNetProfitMargin:
 
 class TestOperatingProfitMargin:
     def test_opm_normal_match(self):
-        opm = calculate_operating_profit_margin(30, 100, reported_opm=30.0, company_id="TCS", year="2024")
+        opm = calculate_operating_profit_margin(
+            30, 100, reported_opm=30.0, company_id="TCS", year="2024"
+        )
         assert opm == 30.0
 
     def test_opm_mismatch_anomaly_logged(self, caplog):
-        opm = calculate_operating_profit_margin(30, 100, reported_opm=25.0, company_id="TCS", year="2024")
+        opm = calculate_operating_profit_margin(
+            30, 100, reported_opm=25.0, company_id="TCS", year="2024"
+        )
         assert opm == 30.0
         assert "OPM mismatch for TCS" in caplog.text or opm == 30.0
 
@@ -84,7 +88,9 @@ class TestReturnOnCapitalEmployed:
         assert calculate_roce(300, 100, 400, 500) == 30.0
 
     def test_roce_financial_company_flag(self):
-        roce = calculate_roce(150, 100, 900, 5000, is_financial=True, company_id="HDFCBANK", year="2024")
+        roce = calculate_roce(
+            150, 100, 900, 5000, is_financial=True, company_id="HDFCBANK", year="2024"
+        )
         assert roce == 2.5
 
     def test_roce_zero_capital_employed(self):
@@ -119,7 +125,7 @@ class TestRatioCalculatorBase:
             status="VALID",
             formula="PAT/(Equity+Reserves)",
             source_tables="profitandloss+balancesheet",
-            benchmarks=ROE_BENCHMARKS
+            benchmarks=ROE_BENCHMARKS,
         )
         assert isinstance(res, RatioResult)
         assert res.classification == "EXCELLENT"
