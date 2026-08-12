@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
+from typing import Optional
 
 from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.utils.logger import get_logger

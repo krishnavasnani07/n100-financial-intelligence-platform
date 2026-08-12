@@ -6,6 +6,7 @@ Portfolio builder, Watchlist persistence, and 3-Year Forecasting.
 """
 
 from __future__ import annotations
+from typing import Optional
 import sqlite3
 import hashlib
 import numpy as np
