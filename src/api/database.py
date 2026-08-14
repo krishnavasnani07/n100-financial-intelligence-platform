@@ -17,7 +17,15 @@ def get_db_connection() -> sqlite3.Connection:
 
 def clean_dict_nans(d: Dict[str, Any]) -> Dict[str, Any]:
     """Replaces any NaN values in a dictionary with None (JSON null)."""
-    return {k: (None if pd.isna(v) else v) for k, v in d.items()}
+    cleaned = {}
+    for k, v in d.items():
+        if isinstance(v, (list, dict, set, tuple)):
+            cleaned[k] = v
+        elif pd.isna(v):
+            cleaned[k] = None
+        else:
+            cleaned[k] = v
+    return cleaned
 
 
 def clean_df_nans(df: pd.DataFrame) -> List[Dict[str, Any]]:
