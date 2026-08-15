@@ -1,0 +1,881 @@
+{
+  "info": {
+    "name": "N100 Financial Intelligence API",
+    "_postman_id": "n100-financial-intelligence-api-collection",
+    "description": "API collection for Nifty 100 Financial Intelligence Platform REST endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "Get Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies?sector=&market_cap_category=&search=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies"
+              ],
+              "query": [
+                {
+                  "key": "sector",
+                  "value": "",
+                  "description": "Broad sector to filter by"
+                },
+                {
+                  "key": "market_cap_category",
+                  "value": "",
+                  "description": "Market cap category to filter by"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "Partial search on ticker or company name"
+                }
+              ]
+            },
+            "description": "Returns a list of all companies with their ID, name, sector, sub-sector, market cap category, ROE, and ROCE.\nSupports query parameters for filtering and searching."
+          }
+        },
+        {
+          "name": "Get Company Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}"
+              ]
+            },
+            "description": "Returns general details and the latest year's financial ratios/KPIs, sector details,\nas well as pros and cons from pre-analyzed outputs for a specific company ticker."
+          }
+        },
+        {
+          "name": "Get Company Pl",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}/pl?from_year=&to_year=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}",
+                "pl"
+              ],
+              "query": [
+                {
+                  "key": "from_year",
+                  "value": "",
+                  "description": "Filter from year (inclusive)"
+                },
+                {
+                  "key": "to_year",
+                  "value": "",
+                  "description": "Filter to year (inclusive)"
+                }
+              ]
+            },
+            "description": "Returns the company's historical P&L records, with optional from_year and to_year filters."
+          }
+        },
+        {
+          "name": "Get Company Bs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}/bs?from_year=&to_year=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}",
+                "bs"
+              ],
+              "query": [
+                {
+                  "key": "from_year",
+                  "value": "",
+                  "description": "Filter from year (inclusive)"
+                },
+                {
+                  "key": "to_year",
+                  "value": "",
+                  "description": "Filter to year (inclusive)"
+                }
+              ]
+            },
+            "description": "Returns the company's historical Balance Sheet records, with optional from_year and to_year filters."
+          }
+        },
+        {
+          "name": "Get Company Cashflow",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}/cashflow?from_year=&to_year=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}",
+                "cashflow"
+              ],
+              "query": [
+                {
+                  "key": "from_year",
+                  "value": "",
+                  "description": "Filter from year (inclusive)"
+                },
+                {
+                  "key": "to_year",
+                  "value": "",
+                  "description": "Filter to year (inclusive)"
+                }
+              ]
+            },
+            "description": "Returns the company's historical Cash Flow records, with optional from_year and to_year filters."
+          }
+        },
+        {
+          "name": "Get Company Ratios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}/ratios?year=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}",
+                "ratios"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "",
+                  "description": "Filter by specific year"
+                }
+              ]
+            },
+            "description": "Returns the company's historical financial ratios, with optional year filter.\nIncludes custom interest coverage ratio labelling."
+          }
+        },
+        {
+          "name": "Get Company Tearsheet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}/tearsheet",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}",
+                "tearsheet"
+              ]
+            },
+            "description": "Returns the pre-generated company tearsheet PDF as a binary download file response.\nReturns a 404 if the company ticker is invalid or the tearsheet PDF is missing."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Get Portfolio Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/portfolio-summary",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "documents",
+                "portfolio-summary"
+              ]
+            },
+            "description": "Downloads the pre-generated portfolio summary PDF report."
+          }
+        },
+        {
+          "name": "Get Peer Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/peer-report",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "documents",
+                "peer-report"
+              ]
+            },
+            "description": "Downloads the pre-generated peer comparison PDF report."
+          }
+        },
+        {
+          "name": "Get Sector Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/sector-report/{sector}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "documents",
+                "sector-report",
+                "{sector}"
+              ]
+            },
+            "description": "Downloads the pre-generated sector PDF report for the given sector name."
+          }
+        },
+        {
+          "name": "Get Company Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}/documents",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}",
+                "documents"
+              ]
+            },
+            "description": "Returns list of official documents (e.g. annual reports) available for the company."
+          }
+        },
+        {
+          "name": "Get Documents Placeholder",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/placeholder",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "documents",
+                "placeholder"
+              ]
+            },
+            "description": "Placeholder endpoint for scaffold tests."
+          }
+        }
+      ]
+    },
+    {
+      "name": "General",
+      "item": [
+        {
+          "name": "Read Root",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": []
+            },
+            "description": "Root endpoint returning basic API info for backwards compatibility and checks."
+          }
+        },
+        {
+          "name": "Get Company Ratios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/company/{company_id}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "company",
+                "{company_id}"
+              ]
+            },
+            "description": "Legacy route to fetch company details (delegates to companies router)."
+          }
+        },
+        {
+          "name": "Get Sector Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/sector/{sector_name}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "sector",
+                "{sector_name}"
+              ]
+            },
+            "description": "Legacy route to fetch sector details (delegates to sectors router)."
+          }
+        },
+        {
+          "name": "Run Screener Preset",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/screener/{preset_name}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "screener",
+                "{preset_name}"
+              ]
+            },
+            "description": "Legacy route to run screener presets (delegates to screener router)."
+          }
+        },
+        {
+          "name": "Get Top Performers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/topperformers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "topperformers"
+              ]
+            },
+            "description": "Legacy route to fetch top performers (delegates to peers router)."
+          }
+        },
+        {
+          "name": "Get Peer Comparison Legacy",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/peercomparison",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "peercomparison"
+              ]
+            },
+            "description": "Legacy route to fetch peer comparison (delegates to peers router)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Get Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "health"
+              ]
+            },
+            "description": "Returns the health status of the API, database row counts, server uptime, and version."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Peers",
+      "item": [
+        {
+          "name": "Get Peer Comparison",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/peer?sector=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "peer"
+              ],
+              "query": [
+                {
+                  "key": "sector",
+                  "value": "",
+                  "description": "Sector name to filter peers"
+                }
+              ]
+            },
+            "description": "Legacy route to return peer comparisons, top performers, and sector statistics.\nIf a sector name is provided, filters the results to that specific sector."
+          }
+        },
+        {
+          "name": "Get Peer Group",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/peers/{group_name}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "peers",
+                "{group_name}"
+              ]
+            },
+            "description": "Returns all companies in that peer group along with their percentile ranks for the 10 KPIs."
+          }
+        },
+        {
+          "name": "Compare Peers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/companies/{ticker}/peers/compare",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "{ticker}",
+                "peers",
+                "compare"
+              ]
+            },
+            "description": "Returns radar-chart-ready comparison data across 8 axes/metrics."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Portfolio",
+      "item": [
+        {
+          "name": "Analyze Portfolio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/portfolio/analyze",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "portfolio",
+                "analyze"
+              ]
+            },
+            "description": "Computes portfolio metrics: Expected Return, Volatility, Sharpe Ratio, Beta, and Diversification.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"allocations\": {\n    \"TCS\": 0.6,\n    \"INFY\": 0.4\n  },\n  \"risk_free_rate\": 7.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Portfolio Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/portfolio/stats",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "portfolio",
+                "stats"
+              ]
+            },
+            "description": "Returns a percentile breakdown (P10, P25, P50, P75, P90) of 10 core KPIs across all 92 companies."
+          }
+        },
+        {
+          "name": "Get Portfolio Placeholder",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/portfolio/placeholder",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "portfolio",
+                "placeholder"
+              ]
+            },
+            "description": "Placeholder endpoint for scaffold tests."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Screener",
+      "item": [
+        {
+          "name": "Screen Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/screen?preset=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "screen"
+              ],
+              "query": [
+                {
+                  "key": "preset",
+                  "value": "",
+                  "description": "Preset strategy name (e.g. 'Value Pick')"
+                }
+              ]
+            },
+            "description": "Executes an investment screener preset and returns matching companies.\nIf no preset is provided, returns the list of available presets."
+          }
+        },
+        {
+          "name": "Get Screener",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/screener?min_roe=&max_de=&min_fcf=&sector=&min_rev_cagr_5yr=&min_pat_cagr_5yr=&max_pe=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "screener"
+              ],
+              "query": [
+                {
+                  "key": "min_roe",
+                  "value": "",
+                  "description": "Minimum ROE %"
+                },
+                {
+                  "key": "max_de",
+                  "value": "",
+                  "description": "Maximum Debt to Equity ratio"
+                },
+                {
+                  "key": "min_fcf",
+                  "value": "",
+                  "description": "Minimum Free Cash Flow (Cr)"
+                },
+                {
+                  "key": "sector",
+                  "value": "",
+                  "description": "Standardized sector name"
+                },
+                {
+                  "key": "min_rev_cagr_5yr",
+                  "value": "",
+                  "description": "Minimum 5Y Revenue CAGR %"
+                },
+                {
+                  "key": "min_pat_cagr_5yr",
+                  "value": "",
+                  "description": "Minimum 5Y PAT CAGR %"
+                },
+                {
+                  "key": "max_pe",
+                  "value": "",
+                  "description": "Maximum PE ratio"
+                }
+              ]
+            },
+            "description": "Filters and screens companies based on latest-year KPI metrics."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sectors",
+      "item": [
+        {
+          "name": "Get Sector Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/sector?name=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "sector"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "",
+                  "description": "Sector name (e.g. 'IT')"
+                }
+              ]
+            },
+            "description": "Legacy route to return statistics and list of companies for a given sector name.\nIf no sector name is provided, returns summary stats for all sectors."
+          }
+        },
+        {
+          "name": "Get Sectors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/sectors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "sectors"
+              ]
+            },
+            "description": "Returns statistics (median ROE, PE, DE, and company counts) for all 11 standardized sectors."
+          }
+        },
+        {
+          "name": "Get Sector Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/sectors/{sector}/companies",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "sectors",
+                "{sector}",
+                "companies"
+              ]
+            },
+            "description": "Returns companies belonging to the requested standardized sector."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Valuation",
+      "item": [
+        {
+          "name": "Get Valuation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/valuation",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "valuation"
+              ]
+            },
+            "description": "Triggers the valuation engine to compute and return PE, PB, EV/EBITDA, FCF Yield,\n5Y Median PE, and Valuation Flags for all constituents."
+          }
+        },
+        {
+          "name": "Get Market Cap History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/market-cap/{ticker}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "market-cap",
+                "{ticker}"
+              ]
+            },
+            "description": "Returns historical valuation multiples (P/E, P/B, EV/EBITDA, Dividend yield) for 2019-2024."
+          }
+        }
+      ]
+    }
+  ]
+}

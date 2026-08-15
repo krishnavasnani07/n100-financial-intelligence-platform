@@ -1,6 +1,10 @@
+import sqlite3
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
+
+from src.api.database import clean_dict_nans
+from src.config.settings import DB_PATH
 
 router = APIRouter(tags=["Documents"])
 
@@ -60,3 +64,46 @@ def get_sector_report(sector: str):
                 detail=f"Sector report PDF not found for sector '{sector}'.",
             )
     return FileResponse(pdf_path, media_type="application/pdf", filename=pdf_path.name)
+
+
+@router.get("/companies/{ticker}/documents")
+def get_company_documents(ticker: str):
+    """
+    Returns list of official documents (e.g. annual reports) available for the company.
+    """
+    ticker = ticker.strip().upper()
+    
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        # Check company existence
+        exists = conn.execute("SELECT id FROM companies WHERE UPPER(id) = ?", [ticker]).fetchone()
+        if not exists:
+            raise HTTPException(status_code=404, detail=f"Company '{ticker}' does not exist.")
+            
+        rows = conn.execute(
+            "SELECT id, company_id, year, annual_report, created_at FROM documents WHERE UPPER(company_id) = ?",
+            [ticker]
+        ).fetchall()
+        
+        # Enable row-dict mapping
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT id, company_id, year, annual_report, created_at FROM documents WHERE UPPER(company_id) = ?",
+            [ticker]
+        )
+        dict_rows = cursor.fetchall()
+        return [clean_dict_nans(dict(r)) for r in dict_rows]
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Documents query error: {e}")
+    finally:
+        conn.close()
+
+
+@router.get("/documents/placeholder")
+def get_documents_placeholder():
+    """Placeholder endpoint for scaffold tests."""
+    return {"message": "under construction"}
+
