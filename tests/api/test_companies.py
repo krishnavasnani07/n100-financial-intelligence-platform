@@ -75,6 +75,10 @@ def test_get_company_profile():
     assert response.status_code == 404
     assert "detail" in response.json()
 
+    response2 = client.get("/api/v1/companies/INVALID")
+    assert response2.status_code == 404
+    assert "detail" in response2.json()
+
 
 def test_get_company_pl():
     """Verify GET /api/v1/companies/{ticker}/pl historical endpoint and filters."""

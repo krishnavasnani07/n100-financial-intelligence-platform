@@ -156,7 +156,7 @@ def get_screener(
         if roe is not None:
             df = df[df["return_on_equity_pct"] >= roe]
         if de is not None:
-            df = df[df["debt_to_equity"] <= de]
+            df = df[(df["debt_to_equity"] <= de) | (df["sector"].astype(str).str.lower() == "financials")]
         if fcf is not None:
             df = df[df["free_cash_flow_cr"] >= fcf]
         if rev_cagr is not None:
