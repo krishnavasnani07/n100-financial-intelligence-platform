@@ -1,9 +1,9 @@
-from typing import Optional, Dict, Any, List
 import sqlite3
+
 import pandas as pd
 from fastapi import APIRouter, HTTPException, Query
 
-from src.api.database import get_db_connection, clean_dict_nans, clean_df_nans
+from src.api.database import clean_df_nans, clean_dict_nans, get_db_connection
 from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.reports.report_utils import map_sector
 from src.screener.ranking import calculate_rankings
@@ -21,11 +21,12 @@ VALID_SECTORS = [
     "IT Services",
     "Materials",
     "Real Estate",
-    "Utilities"
+    "Utilities",
 ]
 
 
-def normalize_sector_name(sector_name: str) -> Optional[str]:
+def normalize_sector_name(sector_name: str) -> str | None:
+    """Normalize sector name."""
     s = sector_name.strip().upper()
     if s in ["IT", "IT SERVICES", "INFORMATION TECHNOLOGY"]:
         return "IT Services"
@@ -37,7 +38,8 @@ def normalize_sector_name(sector_name: str) -> Optional[str]:
     return None
 
 
-def get_companies_map() -> Dict[str, str]:
+def get_companies_map() -> dict[str, str]:
+    """Get companies map."""
     conn = sqlite3.connect(DB_PATH)
     try:
         rows = conn.execute("SELECT id, company_name FROM companies").fetchall()
@@ -50,7 +52,7 @@ def get_companies_map() -> Dict[str, str]:
 
 @router.get("/sector")
 def get_sector_info(
-    name: Optional[str] = Query(None, description="Sector name (e.g. 'IT')")
+    name: str | None = Query(None, description="Sector name (e.g. 'IT')")
 ):
     """
     Legacy route to return statistics and list of companies for a given sector name.
@@ -147,13 +149,23 @@ def get_sectors():
                 median_pe = 0.0
                 median_de = 0.0
 
-            results.append(clean_dict_nans({
-                "sector": sector,
-                "company_count": count,
-                "median_roe": None if pd.isna(median_roe) else round(float(median_roe), 2),
-                "median_pe": None if pd.isna(median_pe) else round(float(median_pe), 2),
-                "median_de": None if pd.isna(median_de) else round(float(median_de), 2),
-            }))
+            results.append(
+                clean_dict_nans(
+                    {
+                        "sector": sector,
+                        "company_count": count,
+                        "median_roe": (
+                            None if pd.isna(median_roe) else round(float(median_roe), 2)
+                        ),
+                        "median_pe": (
+                            None if pd.isna(median_pe) else round(float(median_pe), 2)
+                        ),
+                        "median_de": (
+                            None if pd.isna(median_de) else round(float(median_de), 2)
+                        ),
+                    }
+                )
+            )
         return results
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Sectors query error: {e}")
@@ -187,19 +199,22 @@ def get_sector_companies(sector: str):
         companies_map = get_companies_map()
         results = []
         for _, row in sec_df.iterrows():
-            results.append(clean_dict_nans({
-                "company_id": str(row["company_id"]),
-                "company_name": companies_map.get(str(row["company_id"]), ""),
-                "ticker": str(row["company_id"]),
-                "sector": row["sector_standardized"],
-                "roe_pct": row["return_on_equity_pct"],
-                "debt_to_equity": row["debt_to_equity"],
-                "fcf": row["free_cash_flow_cr"],
-                "revenue_cagr_5yr": row["revenue_cagr_5yr"],
-                "pat_cagr_5yr": row["pat_cagr_5yr"],
-                "pe": row.get("pe"),
-            }))
+            results.append(
+                clean_dict_nans(
+                    {
+                        "company_id": str(row["company_id"]),
+                        "company_name": companies_map.get(str(row["company_id"]), ""),
+                        "ticker": str(row["company_id"]),
+                        "sector": row["sector_standardized"],
+                        "roe_pct": row["return_on_equity_pct"],
+                        "debt_to_equity": row["debt_to_equity"],
+                        "fcf": row["free_cash_flow_cr"],
+                        "revenue_cagr_5yr": row["revenue_cagr_5yr"],
+                        "pat_cagr_5yr": row["pat_cagr_5yr"],
+                        "pe": row.get("pe"),
+                    }
+                )
+            )
         return results
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Sectors query error: {e}")
-

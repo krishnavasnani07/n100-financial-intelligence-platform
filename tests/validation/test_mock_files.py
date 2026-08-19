@@ -1,13 +1,14 @@
 from pathlib import Path
-from src.validation.report import ValidationReport
+
+from src.etl.loader import load_excel
 from src.validation.dq_rules import (
     validate_dq01_company_pk,
+    validate_dq04_balancesheet_balance,
+    validate_dq06_positive_sales,
     validate_dq07_year_format,
     validate_dq08_ticker_format,
-    validate_dq06_positive_sales,
-    validate_dq04_balancesheet_balance,
 )
-from src.etl.loader import load_excel
+from src.validation.report import ValidationReport
 
 test_data_dir = Path(__file__).resolve().parent.parent / "data"
 

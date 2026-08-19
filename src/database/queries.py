@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 import pandas as pd
 
@@ -9,7 +9,7 @@ from src.utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-def get_table_counts(db_path: Optional[Union[Path, str]] = None) -> Dict[str, int]:
+def get_table_counts(db_path: Path | str | None = None) -> dict[str, int]:
     """
     Returns a dictionary mapping table names to row counts.
     """
@@ -31,8 +31,8 @@ def get_table_counts(db_path: Optional[Union[Path, str]] = None) -> Dict[str, in
 
 
 def check_foreign_key_violations(
-    db_path: Optional[Union[Path, str]] = None,
-) -> List[Tuple]:
+    db_path: Path | str | None = None,
+) -> list[tuple]:
     """
     Runs 'PRAGMA foreign_key_check;' and returns any constraint violation records.
     Expected output for valid DB load: empty list (0 rows).
@@ -54,8 +54,8 @@ def check_foreign_key_violations(
 
 def query_to_dataframe(
     sql: str,
-    db_path: Optional[Union[Path, str]] = None,
-    params: Optional[Union[List, Dict, Tuple, Any]] = None,
+    db_path: Path | str | None = None,
+    params: list | dict | tuple | Any | None = None,
 ) -> pd.DataFrame:
     """
     Executes a SELECT query and returns the result as a pandas DataFrame.

@@ -3,18 +3,18 @@ Unit and Integration Tests for Visualizations.
 """
 
 from __future__ import annotations
+
 import pytest
-from pathlib import Path
-from src.config.settings import DB_PATH, OUTPUT_DIR
-from src.visualization.radar_chart import (
-    generate_single_radar,
-    generate_peer_radar,
-    load_universe_data,
-    calculate_normalized_metrics,
-)
+
 from src.visualization.charts import generate_trend_charts
-from src.visualization.heatmaps import generate_sector_heatmap
 from src.visualization.export import export_all_charts
+from src.visualization.heatmaps import generate_sector_heatmap
+from src.visualization.radar_chart import (
+    calculate_normalized_metrics,
+    generate_peer_radar,
+    generate_single_radar,
+    load_universe_data,
+)
 
 
 def test_load_universe_data():

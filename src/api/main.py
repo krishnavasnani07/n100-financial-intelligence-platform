@@ -12,13 +12,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.middleware import RequestLoggingMiddleware
 from src.api.routers import (
     companies,
-    screener,
-    sectors,
-    peers,
-    valuation,
-    portfolio,
     documents,
     health,
+    peers,
+    portfolio,
+    screener,
+    sectors,
+    valuation,
 )
 
 # Initialize the FastAPI application with custom metadata

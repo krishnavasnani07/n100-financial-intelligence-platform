@@ -7,10 +7,8 @@ elbow analysis, centroid distance calculation, dynamic cluster naming, and valid
 from __future__ import annotations
 
 import logging
-import os
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -57,7 +55,7 @@ def get_clustering_logger() -> logging.Logger:
 logger = get_clustering_logger()
 
 
-def load_clustering_data(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_clustering_data(db_path: Path | None = None) -> pd.DataFrame:
     """
     Loads latest company ratio data by joining financial ratios and company information.
     """
@@ -108,7 +106,7 @@ def impute_sector_medians(df: pd.DataFrame) -> pd.DataFrame:
     return df_imputed
 
 
-def prepare_features(df: pd.DataFrame) -> Tuple[np.ndarray, StandardScaler]:
+def prepare_features(df: pd.DataFrame) -> tuple[np.ndarray, StandardScaler]:
     """
     Extracts the feature matrix X, runs assertions, and normalizes using StandardScaler.
     """
@@ -170,7 +168,7 @@ def generate_elbow_plot(X_scaled: np.ndarray) -> None:
     logger.info(f"Elbow plot saved successfully to: {plot_path}")
 
 
-def run_kmeans(X_scaled: np.ndarray) -> Tuple[np.ndarray, np.ndarray, KMeans]:
+def run_kmeans(X_scaled: np.ndarray) -> tuple[np.ndarray, np.ndarray, KMeans]:
     """
     Trains final KMeans model (k=5) and calculates distance from centroid for each company.
     """
@@ -254,7 +252,7 @@ def assign_cluster_names(df: pd.DataFrame, kmeans: KMeans) -> pd.DataFrame:
     )
 
     # 5. Last remaining -> Stable Blue Chips & Defensives
-    last_cid = list(unassigned)[0]
+    last_cid = next(iter(unassigned))
     cluster_names[last_cid] = "Stable Blue Chips & Defensives"
     logger.info(
         f"Cluster {last_cid} mapped to 'Stable Blue Chips & Defensives' (Mean 5Y Rev CAGR: {cluster_means.loc[last_cid, 'revenue_cagr_5yr']:.2f}%, Mean D/E: {cluster_means.loc[last_cid, 'debt_to_equity']:.2f})"
@@ -299,7 +297,7 @@ def main() -> None:
         df_imputed = impute_sector_medians(df_raw)
 
         # Scale
-        X_scaled, scaler = prepare_features(df_imputed)
+        X_scaled, _scaler = prepare_features(df_imputed)
 
         # Elbow analysis
         generate_elbow_plot(X_scaled)

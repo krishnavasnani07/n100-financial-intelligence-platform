@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import pandas as pd
 import yaml
@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 CONFIG_PATH = BASE_DIR / "config" / "screener_config.yaml"
 
 
-def load_screener_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
+def load_screener_config(config_path: Path | None = None) -> dict[str, Any]:
     """
     Load screener thresholds from YAML and return them as a dictionary.
 
@@ -35,7 +35,7 @@ def load_screener_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
 
 
 def load_financial_ratios_dataframe(
-    source: Optional[Union[str, Path, pd.DataFrame]] = None,
+    source: str | Path | pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     """
     Load the sprint-2 financial ratios dataset into a DataFrame.
@@ -69,8 +69,8 @@ def load_financial_ratios_dataframe(
 
 
 def filter_companies(
-    data: Optional[Union[pd.DataFrame, str, Path]],
-    config: Optional[Dict[str, Any]] = None,
+    data: pd.DataFrame | str | Path | None,
+    config: dict[str, Any] | None = None,
 ) -> pd.DataFrame:
     """
     Apply the configured screening rules and return the filtered DataFrame.
@@ -99,7 +99,7 @@ def filter_companies(
             f"Input data is missing required screener columns: {missing_list}"
         )
 
-    def _get_threshold(name: str, default: Optional[float] = None) -> Optional[float]:
+    def _get_threshold(name: str, default: float | None = None) -> float | None:
         raw_value = thresholds.get(name)
         if raw_value is None:
             return default

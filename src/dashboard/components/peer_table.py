@@ -47,6 +47,7 @@ def render_peer_table(df_sector: pd.DataFrame, selected_company_id: str):
 
     # Styling row for selected company
     def highlight_row(row):
+        """Highlight row."""
         if row["Ticker"] == selected_company_id:
             # Highlight with a subtle background color
             return [

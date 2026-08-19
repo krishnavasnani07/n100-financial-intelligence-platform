@@ -42,12 +42,12 @@ def render_sector_donut_chart(df: pd.DataFrame):
 
     fig.update_layout(
         showlegend=True,
-        legend=dict(orientation="h", yanchor="bottom", y=-0.5, xanchor="center", x=0.5),
-        margin=dict(t=10, b=10, l=10, r=10),
+        legend={"orientation": "h", "yanchor": "bottom", "y": -0.5, "xanchor": "center", "x": 0.5},
+        margin={"t": 10, "b": 10, "l": 10, "r": 10},
         height=450,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#ffffff", size=11),
+        font={"color": "#ffffff", "size": 11},
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -82,17 +82,17 @@ def render_revenue_chart(df_pl: pd.DataFrame):
     )
 
     fig.update_layout(
-        margin=dict(t=30, b=10, l=10, r=10),
+        margin={"t": 30, "b": 10, "l": 10, "r": 10},
         height=320,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#ffffff"),
-        xaxis=dict(showgrid=False, title="Financial Year"),
-        yaxis=dict(
-            showgrid=True,
-            gridcolor="rgba(255, 255, 255, 0.1)",
-            title="Revenue (INR Cr)",
-        ),
+        font={"color": "#ffffff"},
+        xaxis={"showgrid": False, "title": "Financial Year"},
+        yaxis={
+            "showgrid": True,
+            "gridcolor": "rgba(255, 255, 255, 0.1)",
+            "title": "Revenue (INR Cr)",
+        },
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -126,17 +126,17 @@ def render_profit_chart(df_pl: pd.DataFrame):
     )
 
     fig.update_layout(
-        margin=dict(t=30, b=10, l=10, r=10),
+        margin={"t": 30, "b": 10, "l": 10, "r": 10},
         height=320,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#ffffff"),
-        xaxis=dict(showgrid=False, title="Financial Year"),
-        yaxis=dict(
-            showgrid=True,
-            gridcolor="rgba(255, 255, 255, 0.1)",
-            title="Net Profit (INR Cr)",
-        ),
+        font={"color": "#ffffff"},
+        xaxis={"showgrid": False, "title": "Financial Year"},
+        yaxis={
+            "showgrid": True,
+            "gridcolor": "rgba(255, 255, 255, 0.1)",
+            "title": "Net Profit (INR Cr)",
+        },
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -166,7 +166,7 @@ def render_roe_roce_trend(df_ratios: pd.DataFrame):
             y=df_sorted["return_on_equity_pct"],
             name="ROE (%)",
             mode="lines+markers",
-            line=dict(color="#a29bfe", width=3),
+            line={"color": "#a29bfe", "width": 3},
             hovertemplate="Year: %{x}<br>ROE: %{y:.2f}%<extra></extra>",
         )
     )
@@ -177,22 +177,22 @@ def render_roe_roce_trend(df_ratios: pd.DataFrame):
             y=df_sorted["return_on_capital_employed_pct"],
             name="ROCE (%)",
             mode="lines+markers",
-            line=dict(color="#00b894", width=3),
+            line={"color": "#00b894", "width": 3},
             hovertemplate="Year: %{x}<br>ROCE: %{y:.2f}%<extra></extra>",
         )
     )
 
     fig.update_layout(
-        margin=dict(t=30, b=10, l=10, r=10),
+        margin={"t": 30, "b": 10, "l": 10, "r": 10},
         height=320,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#ffffff"),
-        xaxis=dict(showgrid=False, title="Financial Year"),
-        yaxis=dict(
-            showgrid=True, gridcolor="rgba(255, 255, 255, 0.1)", title="Percentage (%)"
-        ),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        font={"color": "#ffffff"},
+        xaxis={"showgrid": False, "title": "Financial Year"},
+        yaxis={
+            "showgrid": True, "gridcolor": "rgba(255, 255, 255, 0.1)", "title": "Percentage (%)"
+        },
+        legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "right", "x": 1},
     )
 
     st.plotly_chart(fig, use_container_width=True)

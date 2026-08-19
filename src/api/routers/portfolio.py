@@ -1,11 +1,9 @@
-import sqlite3
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from typing import Dict, List, Any
 
-from src.api.database import clean_dict_nans
 from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.portfolio.portfolio_engine import calculate_portfolio_metrics
 from src.screener.ranking import calculate_rankings
@@ -14,7 +12,7 @@ router = APIRouter(tags=["Portfolio"])
 
 
 class PortfolioAnalysisRequest(BaseModel):
-    allocations: Dict[str, float] = Field(
+    allocations: dict[str, float] = Field(
         ...,
         description="Dictionary mapping company ticker (keys) to their weight/allocation (values)",
         json_schema_extra={"example": {"TCS": 0.4, "INFY": 0.4, "ABB": 0.2}},
@@ -76,7 +74,7 @@ def get_portfolio_stats():
             "free_cash_flow_cr",
             "revenue_cagr_5yr",
             "pat_cagr_5yr",
-            "composite_quality_score"
+            "composite_quality_score",
         ]
 
         percentiles = [10, 25, 50, 75, 90]
@@ -90,14 +88,16 @@ def get_portfolio_stats():
             else:
                 p10 = p25 = p50 = p75 = p90 = 0.0
 
-            results.append({
-                "kpi": kpi,
-                "p10": round(float(p10), 2),
-                "p25": round(float(p25), 2),
-                "p50": round(float(p50), 2),
-                "p75": round(float(p75), 2),
-                "p90": round(float(p90), 2),
-            })
+            results.append(
+                {
+                    "kpi": kpi,
+                    "p10": round(float(p10), 2),
+                    "p25": round(float(p25), 2),
+                    "p50": round(float(p50), 2),
+                    "p75": round(float(p75), 2),
+                    "p90": round(float(p90), 2),
+                }
+            )
 
         # Save to output/portfolio_stats.csv if not existing
         csv_out_path = OUTPUT_DIR / "portfolio_stats.csv"
@@ -117,4 +117,3 @@ def get_portfolio_stats():
 def get_portfolio_placeholder():
     """Placeholder endpoint for scaffold tests."""
     return {"message": "under construction"}
-

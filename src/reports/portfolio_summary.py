@@ -6,14 +6,10 @@ sorts constituents by ticker ascending, and generates a cohesive 92-page PDF rep
 
 from __future__ import annotations
 
-import logging
-import os
-import re
 import sqlite3
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -32,10 +28,6 @@ from src.reports.report_builder import (
     build_trend_table,
 )
 from src.reports.report_styles import (
-    A4_HEIGHT,
-    A4_WIDTH,
-    MARGIN_POINTS,
-    PRINTABLE_WIDTH,
     section_heading_style,
 )
 from src.reports.report_utils import map_sector, validate_pdf
@@ -48,7 +40,7 @@ logger = get_logger("portfolio_summary")
 
 def load_all_data(
     db_path: Path,
-) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Loads database tables and output files required for the portfolio summary report."""
     logger.info("Loading company details and sector mapping from database...")
     conn = sqlite3.connect(str(db_path))
@@ -134,7 +126,7 @@ def validate_portfolio_cohort(
     pros_cons_df: pd.DataFrame,
     val_df: pd.DataFrame,
     cf_df: pd.DataFrame,
-) -> List[str]:
+) -> list[str]:
     """Validates data integrity and logs warnings for missing information."""
     warnings = []
 

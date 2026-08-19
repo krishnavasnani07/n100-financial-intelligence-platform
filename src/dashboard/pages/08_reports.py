@@ -18,6 +18,7 @@ st.markdown("---")
 # Load documents and company master lists
 @st.cache_data(ttl=600)
 def get_cached_report_data():
+    """Get cached report data."""
     try:
         df_docs = db.get_documents()
         df_companies = db.get_companies()
@@ -48,19 +49,17 @@ st.sidebar.markdown(
 
 # 1. Company Filter
 company_list = sorted(
-    list(
-        df_docs_all[["company_id", "company_name"]]
+    df_docs_all[["company_id", "company_name"]]
         .dropna()
         .drop_duplicates()
         .apply(lambda r: f"{r['company_id']} - {r['company_name']}", axis=1)
         .tolist()
-    )
 )
 company_options = ["All Companies"] + company_list
 selected_company = st.sidebar.selectbox("Filter by Company:", company_options)
 
 # 2. Year Filter
-years_list = sorted(list(df_docs_all["year"].dropna().unique()), reverse=True)
+years_list = sorted(df_docs_all["year"].dropna().unique(), reverse=True)
 selected_years = st.sidebar.multiselect(
     "Filter by Financial Year:", options=years_list, default=[]
 )

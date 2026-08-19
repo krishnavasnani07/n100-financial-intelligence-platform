@@ -1,5 +1,6 @@
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 # Create tests/data directory
 data_dir = Path("tests/data")

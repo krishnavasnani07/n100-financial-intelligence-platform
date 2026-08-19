@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import pandas as pd
 
@@ -45,7 +45,7 @@ class ExcelLoader:
         return True
 
     def validate_required_columns(
-        self, df: pd.DataFrame, required_columns: List[str]
+        self, df: pd.DataFrame, required_columns: list[str]
     ) -> bool:
         """
         Verifies that all specified required columns exist in the DataFrame.
@@ -67,7 +67,7 @@ class ExcelLoader:
         self,
         file_path: Path | str,
         sheet_name: str | int = 0,
-        required_columns: List[str] = None,
+        required_columns: list[str] | None = None,
         **kwargs,
     ) -> pd.DataFrame | None:
         """
@@ -103,20 +103,20 @@ class ExcelLoader:
             return df
         except Exception as e:
             logger.error(
-                f"Exception occurred while loading Excel file '{path.name}': {str(e)}",
+                f"Exception occurred while loading Excel file '{path.name}': {e!s}",
                 exc_info=True,
             )
             return None
 
     def load_all_files(
-        self, data_dir: Path | str, file_mappings: Dict[str, Any]
-    ) -> Dict[str, pd.DataFrame]:
+        self, data_dir: Path | str, file_mappings: dict[str, Any]
+    ) -> dict[str, pd.DataFrame]:
         """
         Batch loads multiple Excel files according to a mapping dictionary.
         Returns a mapping of dataset keys to DataFrames.
         """
         target_dir = Path(data_dir)
-        loaded_datasets: Dict[str, pd.DataFrame] = {}
+        loaded_datasets: dict[str, pd.DataFrame] = {}
 
         for filename, config in file_mappings.items():
             if isinstance(config, tuple):
@@ -138,5 +138,6 @@ class ExcelLoader:
 
 # Top-level standalone function for backward compatibility
 def load_excel(file_path: Path | str, sheet_name=0, **kwargs) -> pd.DataFrame | None:
+    """Load excel."""
     loader = ExcelLoader()
     return loader.load_excel(file_path, sheet_name=sheet_name, **kwargs)

@@ -29,7 +29,7 @@ def render_result_table(df: pd.DataFrame):
     }
 
     # Extract only the required columns that exist in the dataframe
-    available_cols = [c for c in col_mapping.keys() if c in df.columns]
+    available_cols = [c for c in col_mapping if c in df.columns]
     display_df = df[available_cols].copy()
     display_df = display_df.rename(columns=col_mapping)
 

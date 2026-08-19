@@ -4,12 +4,12 @@ Utility functions for Screener Engine.
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 import pandas as pd
 
 
-def coerce_float(value: Any) -> Optional[float]:
+def coerce_float(value: Any) -> float | None:
     """Safely coerce any value to a float or return None."""
     if value is None:
         return None
@@ -21,7 +21,7 @@ def coerce_float(value: Any) -> Optional[float]:
         return None
 
 
-def get_series(frame: pd.DataFrame, aliases: list[str]) -> Optional[pd.Series]:
+def get_series(frame: pd.DataFrame, aliases: list[str]) -> pd.Series | None:
     """Finds and returns the first matching column series from a list of aliases."""
     for alias in aliases:
         if alias in frame.columns:

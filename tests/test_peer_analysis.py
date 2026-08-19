@@ -1,16 +1,14 @@
-import pytest
-import pandas as pd
 import numpy as np
-from pathlib import Path
+import pandas as pd
 
 from src.config.settings import DB_PATH, OUTPUT_DIR
-from src.peer_analysis.percentile import (
-    compute_percentiles,
-    calculate_sector_statistics,
-)
 from src.peer_analysis.benchmark import benchmark_against_sector
-from src.peer_analysis.summary import get_top_performers, get_bottom_performers
 from src.peer_analysis.comparison import run_peer_analysis
+from src.peer_analysis.percentile import (
+    calculate_sector_statistics,
+    compute_percentiles,
+)
+from src.peer_analysis.summary import get_bottom_performers, get_top_performers
 
 
 def test_percentile_calculation_higher_is_better():

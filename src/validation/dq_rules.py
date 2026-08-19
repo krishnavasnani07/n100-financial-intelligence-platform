@@ -1,5 +1,4 @@
 import re
-from typing import Dict
 
 import pandas as pd
 
@@ -52,7 +51,7 @@ def validate_dq01_company_pk(df_companies: pd.DataFrame, report: ValidationRepor
 
 
 def validate_dq02_no_duplicate_company_year(
-    dfs: Dict[str, pd.DataFrame], report: ValidationReport
+    dfs: dict[str, pd.DataFrame], report: ValidationReport
 ):
     """
     DQ-02: No duplicate (company_id, year) in Profit & Loss, Balance Sheet, Cash Flow
@@ -92,7 +91,7 @@ def validate_dq02_no_duplicate_company_year(
             )
 
 
-def validate_dq03_foreign_keys(dfs: Dict[str, pd.DataFrame], report: ValidationReport):
+def validate_dq03_foreign_keys(dfs: dict[str, pd.DataFrame], report: ValidationReport):
     """
     DQ-03: Foreign Key Integrity (Every company_id must exist inside companies.id)
     Severity: CRITICAL
@@ -295,7 +294,7 @@ def validate_dq06_positive_sales(df_pl: pd.DataFrame, report: ValidationReport):
             continue
 
 
-def validate_dq07_year_format(dfs: Dict[str, pd.DataFrame], report: ValidationReport):
+def validate_dq07_year_format(dfs: dict[str, pd.DataFrame], report: ValidationReport):
     """
     DQ-07: Year format (Must match YYYY-MM after normalization)
     Severity: CRITICAL
@@ -351,7 +350,7 @@ def validate_dq07_year_format(dfs: Dict[str, pd.DataFrame], report: ValidationRe
                 )
 
 
-def validate_dq08_ticker_format(dfs: Dict[str, pd.DataFrame], report: ValidationReport):
+def validate_dq08_ticker_format(dfs: dict[str, pd.DataFrame], report: ValidationReport):
     """
     DQ-08: Ticker format (Must satisfy uppercase, stripped, length between 2 and 12, alphanumeric/hyphen/ampersand)
     Severity: CRITICAL
@@ -601,7 +600,7 @@ def validate_dq12_dividend_payout(df_pl: pd.DataFrame, report: ValidationReport)
 
 
 def validate_dq13_url_validation(
-    dfs: Dict[str, pd.DataFrame], report: ValidationReport
+    dfs: dict[str, pd.DataFrame], report: ValidationReport
 ):
     """
     DQ-13: URL Validation (Validate format of URLs in companies and documents tables)
@@ -807,7 +806,7 @@ def validate_dq15_balancesheet_info(df_bs: pd.DataFrame, report: ValidationRepor
                 continue
 
 
-def validate_dq16_coverage(dfs: Dict[str, pd.DataFrame], report: ValidationReport):
+def validate_dq16_coverage(dfs: dict[str, pd.DataFrame], report: ValidationReport):
     """
     DQ-16: Coverage (Each company should have >= MIN_HISTORY_YEARS of data in profitandloss)
     Severity: WARNING
@@ -847,7 +846,7 @@ def validate_dq16_coverage(dfs: Dict[str, pd.DataFrame], report: ValidationRepor
 
 from src.validation.report import Rule
 
-RULE_REGISTRY: Dict[str, Rule] = {
+RULE_REGISTRY: dict[str, Rule] = {
     "DQ-01": Rule(
         "DQ-01",
         "Company PK Uniqueness",

@@ -1,7 +1,10 @@
-import pytest
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
+import pytest
+
 from src.etl.loader import ExcelLoader, load_excel
+
 
 @pytest.fixture
 def temp_excel_file(tmp_path):
@@ -16,6 +19,7 @@ def temp_excel_file(tmp_path):
     df.to_excel(file_path, index=False, engine="openpyxl")
     return file_path
 
+
 def test_load_excel_success(temp_excel_file):
     loader = ExcelLoader()
     df = loader.load_excel(temp_excel_file)
@@ -25,10 +29,12 @@ def test_load_excel_success(temp_excel_file):
     assert list(df.columns) == ["Ticker", "Year", "Value"]
     assert df.iloc[0]["Ticker"] == "TCS"
 
+
 def test_load_excel_file_not_found():
     loader = ExcelLoader()
     df = loader.load_excel(Path("data/raw/does_not_exist_file.xlsx"))
     assert df is None
+
 
 def test_load_excel_wrong_extension(tmp_path):
     txt_file = tmp_path / "invalid_file.txt"
@@ -36,6 +42,7 @@ def test_load_excel_wrong_extension(tmp_path):
     loader = ExcelLoader()
     assert loader.validate_extension(txt_file) is False
     assert loader.load_excel(txt_file) is None
+
 
 def test_load_excel_empty_file(tmp_path):
     empty_df = pd.DataFrame()
@@ -46,6 +53,7 @@ def test_load_excel_empty_file(tmp_path):
     df = loader.load_excel(empty_file)
     assert df is None
 
+
 def test_load_excel_missing_required_columns(temp_excel_file):
     loader = ExcelLoader()
     # "NonExistentCol" does not exist in temp_excel_file
@@ -54,6 +62,7 @@ def test_load_excel_missing_required_columns(temp_excel_file):
     )
     assert df is None
 
+
 def test_load_excel_corrupt_file(tmp_path):
     corrupt_file = tmp_path / "corrupt.xlsx"
     corrupt_file.write_bytes(b"This is not a valid zip or excel file binary data")
@@ -61,6 +70,7 @@ def test_load_excel_corrupt_file(tmp_path):
     loader = ExcelLoader()
     df = loader.load_excel(corrupt_file)
     assert df is None
+
 
 def test_load_all_files(tmp_path):
     d1 = pd.DataFrame([{"id": "TCS", "name": "Tata"}])
@@ -74,35 +84,34 @@ def test_load_all_files(tmp_path):
     assert "companies" in datasets
     assert len(datasets["companies"]) == 1
 
+
 def test_load_excel_backward_compatibility(temp_excel_file):
     df = load_excel(temp_excel_file)
     assert df is not None
     assert len(df) == 3
+
 
 def test_load_excel_sheet_by_name(tmp_path):
     file_path = tmp_path / "multi_sheet.xlsx"
     with pd.ExcelWriter(file_path, engine="openpyxl") as writer:
         pd.DataFrame({"A": [1]}).to_excel(writer, sheet_name="Sheet1", index=False)
         pd.DataFrame({"B": [2, 3]}).to_excel(writer, sheet_name="Sheet2", index=False)
-    
+
     loader = ExcelLoader()
     df = loader.load_excel(file_path, sheet_name="Sheet2")
     assert df is not None
     assert list(df.columns) == ["B"]
     assert len(df) == 2
 
+
 def test_load_excel_header_custom(tmp_path):
     file_path = tmp_path / "header_test.xlsx"
     # Row 0: dummy label
     # Row 1: actual headers
     # Row 2: data
-    df_raw = pd.DataFrame([
-        ["Title Row", None],
-        ["Col1", "Col2"],
-        [10, 20]
-    ])
+    df_raw = pd.DataFrame([["Title Row", None], ["Col1", "Col2"], [10, 20]])
     df_raw.to_excel(file_path, header=False, index=False, engine="openpyxl")
-    
+
     loader = ExcelLoader()
     df = loader.load_excel(file_path, header=1)
     assert df is not None

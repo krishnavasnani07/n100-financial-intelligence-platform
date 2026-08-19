@@ -1,7 +1,9 @@
 import sqlite3
 from pathlib import Path
+
 import pytest
-from src.database.database import init_db, get_connection
+
+from src.database.database import get_connection, init_db
 from src.database.queries import check_foreign_key_violations
 
 

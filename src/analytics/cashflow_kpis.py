@@ -7,16 +7,13 @@ and exporters.
 
 from __future__ import annotations
 
-import logging
 import math
-import os
 import sqlite3
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
-import numpy as np
 import pandas as pd
 
 from src.analytics.cagr import calculate_cagr
@@ -36,7 +33,7 @@ from src.config.cashflow_config import (
     LABEL_SHAREHOLDER_RETURNS,
     PATTERN_MAP,
 )
-from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR, RAW_DATA_DIR
+from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
 from src.utils.helpers import extract_year_int
 from src.utils.logger import get_logger
 
@@ -49,7 +46,7 @@ def safe_divide(
     denominator: Any,
     multiplier: float = 1.0,
     precision: int = DEFAULT_CASHFLOW_PRECISION,
-) -> Optional[float]:
+) -> float | None:
     """Safe division helper handling zero, None, and non-numeric types."""
     val, _ = RatioCalculator.safe_divide(
         numerator, denominator, multiplier=multiplier, precision=precision
@@ -66,7 +63,7 @@ def get_sign(value: Any) -> str:
         return "-"
 
 
-def average_last_n_years(values: List[float], n: int = 5) -> Optional[float]:
+def average_last_n_years(values: list[float], n: int = 5) -> float | None:
     """Computes the average of non-None float values over the last n years."""
     clean_vals = [v for v in values if v is not None and not math.isnan(v)]
     if not clean_vals:
@@ -75,7 +72,7 @@ def average_last_n_years(values: List[float], n: int = 5) -> Optional[float]:
     return round(sum(recent_vals) / len(recent_vals), DEFAULT_CASHFLOW_PRECISION)
 
 
-def classify_cfo_quality(ratio: Optional[float]) -> Optional[str]:
+def classify_cfo_quality(ratio: float | None) -> str | None:
     """Classifies CFO Quality ratio into High, Moderate, or Accrual Risk."""
     if ratio is None:
         return None
@@ -87,7 +84,7 @@ def classify_cfo_quality(ratio: Optional[float]) -> Optional[str]:
         return LABEL_CFO_ACCRUAL_RISK
 
 
-def classify_capex_intensity(percentage: Optional[float]) -> Optional[str]:
+def classify_capex_intensity(percentage: float | None) -> str | None:
     """Classifies CapEx Intensity percentage into Asset Light, Moderate, or Capital Intensive."""
     if percentage is None:
         return None
@@ -106,7 +103,7 @@ def calculate_free_cash_flow(
     precision: int = DEFAULT_CASHFLOW_PRECISION,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Free Cash Flow (FCF) = Operating Cash Flow + Investing Cash Flow.
     """
@@ -125,7 +122,7 @@ def calculate_cfo_quality(
     precision: int = DEFAULT_CASHFLOW_PRECISION,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
-) -> Optional[float]:
+) -> float | None:
     """
     Computes single-period CFO Quality ratio = Operating Cash Flow / Net Profit (PAT).
     """
@@ -145,7 +142,7 @@ def calculate_capex_intensity(
     precision: int = DEFAULT_CASHFLOW_PRECISION,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
-) -> Optional[float]:
+) -> float | None:
     """
     Computes CapEx Intensity (%) = ABS(Investing Cash Flow) / Sales * 100.
     """
@@ -165,7 +162,7 @@ def calculate_fcf_conversion(
     precision: int = DEFAULT_CASHFLOW_PRECISION,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
-) -> Optional[float]:
+) -> float | None:
     """
     Computes FCF Conversion = Free Cash Flow / Operating Profit * 100.
     """
@@ -183,10 +180,10 @@ def classify_capital_allocation(
     cfo: Any,
     cfi: Any,
     cff: Any,
-    cfo_pat_ratio: Optional[float] = None,
+    cfo_pat_ratio: float | None = None,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
-) -> Tuple[str, str, str, str]:
+) -> tuple[str, str, str, str]:
     """
     Classifies company capital allocation into one of 8 patterns based on cash flow signs.
     """
@@ -208,6 +205,7 @@ def classify_capital_allocation(
 
 # Step 2: Data Loaders and Validation
 def load_cashflow(db_path: Path) -> pd.DataFrame:
+    """Load cashflow."""
     conn = sqlite3.connect(str(db_path))
     try:
         df = pd.read_sql_query(
@@ -221,6 +219,7 @@ def load_cashflow(db_path: Path) -> pd.DataFrame:
 
 
 def load_profit_loss(db_path: Path) -> pd.DataFrame:
+    """Load profit loss."""
     conn = sqlite3.connect(str(db_path))
     try:
         df = pd.read_sql_query(
@@ -234,6 +233,7 @@ def load_profit_loss(db_path: Path) -> pd.DataFrame:
 
 
 def load_balance_sheet(db_path: Path) -> pd.DataFrame:
+    """Load balance sheet."""
     conn = sqlite3.connect(str(db_path))
     try:
         df = pd.read_sql_query(
@@ -246,6 +246,7 @@ def load_balance_sheet(db_path: Path) -> pd.DataFrame:
 
 
 def load_ratios(db_path: Path) -> pd.DataFrame:
+    """Load ratios."""
     conn = sqlite3.connect(str(db_path))
     try:
         df = pd.read_sql_query(
@@ -259,6 +260,7 @@ def load_ratios(db_path: Path) -> pd.DataFrame:
 
 
 def load_companies(db_path: Path) -> pd.DataFrame:
+    """Load companies."""
     conn = sqlite3.connect(str(db_path))
     try:
         df = pd.read_sql_query(
@@ -271,6 +273,7 @@ def load_companies(db_path: Path) -> pd.DataFrame:
 
 
 def load_capital_allocation(filepath: Path) -> pd.DataFrame:
+    """Load capital allocation."""
     if not filepath.exists():
         logger.warning(f"capital_allocation.csv not found at {filepath}")
         return pd.DataFrame(columns=["company_id", "year", "pattern_label"])
@@ -286,7 +289,8 @@ def validate_inputs(
     df_ratios: pd.DataFrame,
     df_companies: pd.DataFrame,
     df_alloc: pd.DataFrame,
-) -> List[str]:
+) -> list[str]:
+    """Validate inputs."""
     warnings = []
     if df_companies.empty:
         warnings.append("Companies table is empty.")
@@ -326,8 +330,8 @@ class CashFlowEngine:
         sales: Any,
         operating_profit: Any,
         net_profit: Any,
-        cfo_pat_5yr_avg: Optional[float] = None,
-    ) -> Dict[str, Any]:
+        cfo_pat_5yr_avg: float | None = None,
+    ) -> dict[str, Any]:
         """
         Computes all cash flow KPIs for a single period.
 
@@ -397,7 +401,7 @@ class CashFlowEngine:
     @classmethod
     def compute_company_cashflow_kpis(
         cls, company_id: str, df_company: pd.DataFrame
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Computes cash flow KPIs chronologically for all available years of a company.
 
@@ -440,8 +444,8 @@ class CashFlowEngine:
 
     @classmethod
     def export_cashflow_reports(
-        cls, results: List[Dict[str, Any]], output_dir: Optional[Path] = None
-    ) -> Dict[str, Path]:
+        cls, results: list[dict[str, Any]], output_dir: Path | None = None
+    ) -> dict[str, Path]:
         """
         Exports cash flow KPI summaries and capital allocation patterns to CSV.
 
@@ -491,7 +495,7 @@ class CashFlowEngine:
 
 # Master run function for Day 31 Health Engine
 def run_cashflow_intelligence_pipeline(
-    db_path: Optional[Path] = None, output_dir: Optional[Path] = None
+    db_path: Path | None = None, output_dir: Path | None = None
 ) -> pd.DataFrame:
     """
     Executes the complete cash flow intelligence analytics pipeline.
@@ -553,7 +557,7 @@ def run_cashflow_intelligence_pipeline(
     df_merged = df_merged.dropna(subset=["year_int"])
     df_merged["year_int"] = df_merged["year_int"].astype(int)
 
-    company_histories: Dict[str, List[Dict[str, Any]]] = {}
+    company_histories: dict[str, list[dict[str, Any]]] = {}
     for cid, group in df_merged.groupby("company_id"):
         group_sorted = group.sort_values(by="year_int")
 
@@ -837,14 +841,12 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
         df_excel[c] = df_excel[c] / 100.0
 
     try:
-        import openpyxl
         from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
         from openpyxl.utils import get_column_letter
 
         writer = pd.ExcelWriter(output_path, engine="openpyxl")
         df_excel.to_excel(writer, sheet_name="Cash Flow Health", index=False)
 
-        workbook = writer.book
         worksheet = writer.sheets["Cash Flow Health"]
 
         # Design system styles
@@ -971,8 +973,7 @@ def export_excel_intelligence(df: pd.DataFrame, output_path: Path):
             max_len = 0
             for cell in col:
                 val = str(cell.value or "")
-                if len(val) > max_len:
-                    max_len = len(val)
+                max_len = max(max_len, len(val))
             col_letter = get_column_letter(col[0].column)
             worksheet.column_dimensions[col_letter].width = max(max_len + 4, 12)
 

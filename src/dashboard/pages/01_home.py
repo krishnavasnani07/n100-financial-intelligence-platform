@@ -11,7 +11,7 @@ st.title("🏠 Home Dashboard")
 # Load master data
 try:
     df_master = get_master_data()
-except Exception as e:
+except Exception:
     st.error("Unable to load data. Please verify the database is populated.")
     st.stop()
 

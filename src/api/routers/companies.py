@@ -1,12 +1,13 @@
 import csv
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 import pandas as pd
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
-from src.api.database import get_db_connection, clean_dict_nans, clean_df_nans
+from src.api.database import clean_df_nans, clean_dict_nans, get_db_connection
 
 router = APIRouter(tags=["Companies"])
 
@@ -20,17 +21,17 @@ class CompanySummary(BaseModel):
     id: str
     ticker: str
     company_name: str
-    sector: Optional[str] = None
-    broad_sector: Optional[str] = None
-    sub_sector: Optional[str] = None
-    market_cap_category: Optional[str] = None
-    roe: Optional[float] = None
-    roce: Optional[float] = None
+    sector: str | None = None
+    broad_sector: str | None = None
+    sub_sector: str | None = None
+    market_cap_category: str | None = None
+    roe: float | None = None
+    roce: float | None = None
 
 
 class CompaniesResponse(BaseModel):
     count: int
-    companies: List[CompanySummary]
+    companies: list[CompanySummary]
 
 
 class CompanyProfile(BaseModel):
@@ -38,18 +39,18 @@ class CompanyProfile(BaseModel):
     company_id: str
     ticker: str
     company_name: str
-    about_company: Optional[str] = None
-    website: Optional[str] = None
-    book_value: Optional[float] = None
-    face_value: Optional[float] = None
-    broad_sector: Optional[str] = None
-    sector: Optional[str] = None
-    sub_sector: Optional[str] = None
-    market_cap_category: Optional[str] = None
-    latest_year: Optional[int] = None
-    kpis: Dict[str, Any] = {}
-    pros: List[str] = []
-    cons: List[str] = []
+    about_company: str | None = None
+    website: str | None = None
+    book_value: float | None = None
+    face_value: float | None = None
+    broad_sector: str | None = None
+    sector: str | None = None
+    sub_sector: str | None = None
+    market_cap_category: str | None = None
+    latest_year: int | None = None
+    kpis: dict[str, Any] = {}
+    pros: list[str] = []
+    cons: list[str] = []
 
 
 # ==========================================
@@ -59,11 +60,11 @@ class CompanyProfile(BaseModel):
 
 @router.get("/companies", response_model=CompaniesResponse)
 def get_companies(
-    sector: Optional[str] = Query(None, description="Broad sector to filter by"),
-    market_cap_category: Optional[str] = Query(
+    sector: str | None = Query(None, description="Broad sector to filter by"),
+    market_cap_category: str | None = Query(
         None, description="Market cap category to filter by"
     ),
-    search: Optional[str] = Query(
+    search: str | None = Query(
         None, description="Partial search on ticker or company name"
     ),
 ):
@@ -141,6 +142,7 @@ def get_company_details(ticker: str):
 
         # Helper to parse year string to integer
         def parse_year_to_int(year_str):
+            """Parse year to int."""
             if str(year_str).upper().strip() == "TTM":
                 return 0  # ignore TTM for profile default latest year
             try:
@@ -216,8 +218,8 @@ def get_company_details(ticker: str):
 @router.get("/companies/{ticker}/pl")
 def get_company_pl(
     ticker: str,
-    from_year: Optional[int] = Query(None, description="Filter from year (inclusive)"),
-    to_year: Optional[int] = Query(None, description="Filter to year (inclusive)"),
+    from_year: int | None = Query(None, description="Filter from year (inclusive)"),
+    to_year: int | None = Query(None, description="Filter to year (inclusive)"),
 ):
     """
     Returns the company's historical P&L records, with optional from_year and to_year filters.
@@ -245,6 +247,7 @@ def get_company_pl(
         df = pd.read_sql_query(query, conn, params=params)
 
         def parse_year_to_int(year_str):
+            """Parse year to int."""
             if str(year_str).upper().strip() == "TTM":
                 return 9999
             try:
@@ -277,8 +280,8 @@ def get_company_pl(
 @router.get("/companies/{ticker}/bs")
 def get_company_bs(
     ticker: str,
-    from_year: Optional[int] = Query(None, description="Filter from year (inclusive)"),
-    to_year: Optional[int] = Query(None, description="Filter to year (inclusive)"),
+    from_year: int | None = Query(None, description="Filter from year (inclusive)"),
+    to_year: int | None = Query(None, description="Filter to year (inclusive)"),
 ):
     """
     Returns the company's historical Balance Sheet records, with optional from_year and to_year filters.
@@ -306,6 +309,7 @@ def get_company_bs(
         df = pd.read_sql_query(query, conn, params=params)
 
         def parse_year_to_int(year_str):
+            """Parse year to int."""
             if str(year_str).upper().strip() == "TTM":
                 return 9999
             try:
@@ -338,8 +342,8 @@ def get_company_bs(
 @router.get("/companies/{ticker}/cashflow")
 def get_company_cashflow(
     ticker: str,
-    from_year: Optional[int] = Query(None, description="Filter from year (inclusive)"),
-    to_year: Optional[int] = Query(None, description="Filter to year (inclusive)"),
+    from_year: int | None = Query(None, description="Filter from year (inclusive)"),
+    to_year: int | None = Query(None, description="Filter to year (inclusive)"),
 ):
     """
     Returns the company's historical Cash Flow records, with optional from_year and to_year filters.
@@ -367,6 +371,7 @@ def get_company_cashflow(
         df = pd.read_sql_query(query, conn, params=params)
 
         def parse_year_to_int(year_str):
+            """Parse year to int."""
             if str(year_str).upper().strip() == "TTM":
                 return 9999
             try:
@@ -399,7 +404,7 @@ def get_company_cashflow(
 @router.get("/companies/{ticker}/ratios")
 def get_company_ratios(
     ticker: str,
-    year: Optional[int] = Query(None, description="Filter by specific year"),
+    year: int | None = Query(None, description="Filter by specific year"),
 ):
     """
     Returns the company's historical financial ratios, with optional year filter.
@@ -423,6 +428,7 @@ def get_company_ratios(
         df = pd.read_sql_query(query, conn, params=params)
 
         def parse_year_to_int(year_str):
+            """Parse year to int."""
             if str(year_str).upper().strip() == "TTM":
                 return 9999
             try:

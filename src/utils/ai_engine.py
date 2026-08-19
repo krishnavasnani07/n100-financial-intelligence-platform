@@ -5,18 +5,14 @@ Generates dynamic financial summaries and recommendations, and exports PDF repor
 
 from __future__ import annotations
 
-import sqlite3
 from io import BytesIO
 from pathlib import Path
-from typing import Dict, List, Optional
 
-import pandas as pd
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.platypus import (
-    PageBreak,
     Paragraph,
     SimpleDocTemplate,
     Spacer,
@@ -24,11 +20,10 @@ from reportlab.platypus import (
     TableStyle,
 )
 
-from src.config.settings import DB_PATH
 from src.peer_analysis.comparison import extract_year_int, load_raw_ratios_data
 
 
-def generate_company_summary(company_id: str, row: Dict[str, any]) -> str:
+def generate_company_summary(company_id: str, row: dict[str, any]) -> str:
     """
     Generates a dynamic, professional natural language financial summary for a company.
     """
@@ -91,7 +86,7 @@ def generate_company_summary(company_id: str, row: Dict[str, any]) -> str:
 
 
 def generate_investment_recommendation(
-    company_id: str, row: Dict[str, any], matched_screeners: List[str]
+    company_id: str, row: dict[str, any], matched_screeners: list[str]
 ) -> str:
     """
     Generates a dynamic investment analysis paragraph.
@@ -127,8 +122,8 @@ def generate_investment_recommendation(
 
 
 def get_company_insights_data(
-    company_id: str, db_path: Optional[Path] = None
-) -> Dict[str, any]:
+    company_id: str, db_path: Path | None = None
+) -> dict[str, any]:
     """
     Loads company ratios, matches screeners, and generates text insights.
     """
@@ -164,7 +159,7 @@ def get_company_insights_data(
             res_df = run_preset(name, master_df)
             if not res_df.empty and company_id in res_df["company_id"].values:
                 matched.append(name)
-    except Exception as e:
+    except Exception:
         pass  # Fallback to empty match if database queries fail during preset checks
 
     summary = generate_company_summary(company_id, row_dict)
@@ -180,7 +175,7 @@ def get_company_insights_data(
     }
 
 
-def generate_pdf_report(company_id: str, insights: Dict[str, any]) -> BytesIO:
+def generate_pdf_report(company_id: str, insights: dict[str, any]) -> BytesIO:
     """
     Compiles a highly professional PDF research report for a company.
     """
@@ -258,7 +253,7 @@ def generate_pdf_report(company_id: str, insights: Dict[str, any]) -> BytesIO:
     story = []
 
     # Header
-    story.append(Paragraph(f"NIFTY 100 RESEARCH PLATFORM", subtitle_style))
+    story.append(Paragraph("NIFTY 100 RESEARCH PLATFORM", subtitle_style))
     story.append(Paragraph(f"EQUITY RESEARCH REPORT: {company_id}", title_style))
 
     # Divider line

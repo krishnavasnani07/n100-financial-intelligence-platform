@@ -2,7 +2,7 @@ import csv
 import datetime
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from src.config import settings
 from src.utils.logger import get_logger
@@ -34,7 +34,8 @@ class ValidationFailure:
         if not self.timestamp:
             self.timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    def to_row(self) -> Dict[str, Any]:
+    def to_row(self) -> dict[str, Any]:
+        """To row for ValidationFailure."""
         return {
             "rule_id": self.rule_id,
             "severity": self.severity,
@@ -56,15 +57,16 @@ class ValidationResult:
     warnings_count: int
     errors_count: int
     execution_time_sec: float
-    failures: List[ValidationFailure]
+    failures: list[ValidationFailure]
 
 
 class ValidationReport:
     def __init__(self):
-        self.failures: List[ValidationFailure] = []
-        self.rules_checked: Dict[str, int] = {}
+        self.failures: list[ValidationFailure] = []
+        self.rules_checked: dict[str, int] = {}
 
     def add_failure(self, failure: ValidationFailure):
+        """Add failure for ValidationReport."""
         self.failures.append(failure)
         # Log to application log as well
         log_msg = f"{failure.severity} - {failure.rule_id} - {failure.issue} on table {failure.table}, company {failure.company_id}, year {failure.year}, field {failure.field}, value {failure.raw_value}"
@@ -74,11 +76,13 @@ class ValidationReport:
             logger.warning(log_msg)
 
     def register_check(self, rule_id: str, count: int = 1):
+        """Register check for ValidationReport."""
         if rule_id not in self.rules_checked:
             self.rules_checked[rule_id] = 0
         self.rules_checked[rule_id] += count
 
-    def save(self, output_dir: Path = None):
+    def save(self, output_dir: Path | None = None):
+        """Save for ValidationReport."""
         if output_dir is None:
             output_dir = settings.VALIDATION_DIR
 

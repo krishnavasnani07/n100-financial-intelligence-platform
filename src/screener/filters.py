@@ -4,8 +4,6 @@ Filtering functions for the Screener Engine.
 
 from __future__ import annotations
 
-from typing import Any, Optional
-
 import pandas as pd
 
 from src.screener.utilities import coerce_float, get_series
@@ -14,7 +12,7 @@ from src.screener.utilities import coerce_float, get_series
 def apply_numeric_filter(
     frame: pd.DataFrame,
     column_aliases: list[str],
-    threshold: Optional[float],
+    threshold: float | None,
     mode: str,
     mask: pd.Series,
 ) -> pd.Series:
@@ -37,7 +35,7 @@ def apply_numeric_filter(
 
 
 def apply_debt_filter(
-    frame: pd.DataFrame, max_debt_to_equity: Optional[float], mask: pd.Series
+    frame: pd.DataFrame, max_debt_to_equity: float | None, mask: pd.Series
 ) -> pd.Series:
     """Applies a sector-aware debt-to-equity filter, skipping the Financials sector."""
     if max_debt_to_equity is None:
@@ -58,7 +56,7 @@ def apply_debt_filter(
 
 
 def apply_interest_filter(
-    frame: pd.DataFrame, min_interest_coverage: Optional[float], mask: pd.Series
+    frame: pd.DataFrame, min_interest_coverage: float | None, mask: pd.Series
 ) -> pd.Series:
     """Applies interest coverage ratio screening, skipping debt-free companies."""
     if min_interest_coverage is None:

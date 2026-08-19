@@ -11,13 +11,11 @@ across 3-year, 5-year, and 10-year windows while handling financial edge cases g
 6. Insufficient Data / Years: Returns None with status INSUFFICIENT.
 """
 
-import logging
 import math
-import re
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import pandas as pd
 
@@ -55,7 +53,7 @@ def calculate_cagr(
     precision: int = DEFAULT_CAGR_PRECISION,
     company_id: str = "UNKNOWN",
     metric_name: str = "Metric",
-) -> Tuple[Optional[float], str]:
+) -> tuple[float | None, str]:
     """
     Generic, reusable CAGR engine.
 
@@ -157,7 +155,7 @@ def calculate_cagr(
     return None, FLAG_INVALID_INPUT
 
 
-def classify_growth_cagr(cagr_val: Optional[float], flag: str = FLAG_VALID) -> str:
+def classify_growth_cagr(cagr_val: float | None, flag: str = FLAG_VALID) -> str:
     """
     Classify growth rate into discrete business performance tiers.
 
@@ -200,9 +198,9 @@ class CAGRResult:
     period_years: int
     start_year: str
     end_year: str
-    start_value: Optional[float]
-    end_value: Optional[float]
-    cagr: Optional[float]
+    start_value: float | None
+    end_value: float | None
+    cagr: float | None
     flag: str
     growth_label: str
     formula_version: str = "1.0.0"
@@ -212,7 +210,8 @@ class CAGRResult:
         if not self.timestamp:
             self.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
+        """To dict for CAGRResult."""
         return asdict(self)
 
 
@@ -290,9 +289,9 @@ class CAGREngine(RatioCalculator):
         cls,
         company_id: str,
         df_history: pd.DataFrame,
-        windows: List[int] = CAGR_TIME_WINDOWS,
-        metrics: Dict[str, str] = CAGR_METRICS,
-    ) -> List[CAGRResult]:
+        windows: list[int] = CAGR_TIME_WINDOWS,
+        metrics: dict[str, str] = CAGR_METRICS,
+    ) -> list[CAGRResult]:
         """
         Given historical annual financial records for a company (DataFrame with columns: year, sales, net_profit, eps),
         computes CAGR for all metrics across specified time windows (3Y, 5Y, 10Y).
@@ -306,7 +305,7 @@ class CAGREngine(RatioCalculator):
         Returns:
             List[CAGRResult]: List of calculated CAGR result objects.
         """
-        results: List[CAGRResult] = []
+        results: list[CAGRResult] = []
 
         if df_history is None or df_history.empty:
             ratio_logger.warning(
@@ -386,7 +385,7 @@ class CAGREngine(RatioCalculator):
 
     @classmethod
     def export_growth_reports(
-        cls, results: List[CAGRResult], output_dir: Optional[Path] = None
+        cls, results: list[CAGRResult], output_dir: Path | None = None
     ):
         """
         Generates output/growth_summary.csv and output/cagr_statistics.csv.

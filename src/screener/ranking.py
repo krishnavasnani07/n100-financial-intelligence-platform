@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -22,7 +22,7 @@ from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.utils.helpers import extract_year_int, map_year_to_price_date
 
 
-def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_ranking_master_data(db_path: Path | None = None) -> pd.DataFrame:
     """
     Loads all historical financial ratios joined with sector, sales, interest, and net profit.
     This preserves multi-year history to compute 5-year FCF CAGR and other historical metrics.
@@ -64,7 +64,8 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
     df = pd.merge(df, df_prices, on=["company_id", "price_date"], how="left")
 
     # Compute P/E and P/B dynamically
-    def safe_div(num: Any, denom: Any) -> Optional[float]:
+    def safe_div(num: Any, denom: Any) -> float | None:
+        """Safe div."""
         try:
             n = float(num)
             d = float(denom)
@@ -83,6 +84,7 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     # Compute dividend_yield dynamically
     def calc_div_yield(row: pd.Series) -> float:
+        """Calc div yield."""
         payout = row.get("dividend_payout_ratio_pct")
         eps = row.get("earnings_per_share")
         price = row.get("close_price")
@@ -108,6 +110,7 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
     df["prev_de"] = df.groupby("company_id")["debt_to_equity"].shift(1)
 
     def is_de_declining(row: pd.Series) -> bool:
+        """Is de declining."""
         cur = row.get("debt_to_equity")
         prev = row.get("prev_de")
         if cur is None or prev is None or pd.isnull(cur) or pd.isnull(prev):
@@ -118,7 +121,8 @@ def load_ranking_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     df["sales_3y_ago"] = df.groupby("company_id")["sales"].shift(3)
 
-    def row_cagr_3y(row: pd.Series) -> Optional[float]:
+    def row_cagr_3y(row: pd.Series) -> float | None:
+        """Row cagr 3y."""
         start = row.get("sales_3y_ago")
         end = row.get("sales")
         if pd.isnull(start) or pd.isnull(end) or start is None or end is None:
@@ -178,7 +182,7 @@ def winsorize_and_scale(series: pd.Series, lower_is_better: bool = False) -> pd.
     return scores
 
 
-def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
+def calculate_rankings(db_path: Path | None = None) -> pd.DataFrame:
     """
     Main function to compute composite quality scores and overall ranks.
     Saves scores to SQLite and returns the ranked DataFrame for the latest year.
@@ -216,7 +220,8 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
     df["fcf_cagr_5yr"] = fcf_cagr_vals
 
     # 2. Compute CFO/PAT ratio dynamically
-    def calc_cfo_pat(row: pd.Series) -> Optional[float]:
+    def calc_cfo_pat(row: pd.Series) -> float | None:
+        """Calc cfo pat."""
         cfo = row.get("cash_from_operations_cr")
         pat = row.get("net_profit")
         if cfo is None or pat is None or pd.isnull(cfo) or pd.isnull(pat) or pat <= 0:
@@ -227,6 +232,7 @@ def calculate_rankings(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     # 3. Compute FCF Positive Flag dynamically
     def calc_fcf_flag(row: pd.Series) -> float:
+        """Calc fcf flag."""
         fcf = row.get("free_cash_flow_cr")
         if fcf is None or pd.isnull(fcf):
             return 0.0

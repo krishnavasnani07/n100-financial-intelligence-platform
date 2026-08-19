@@ -1,15 +1,14 @@
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
 
 # Insert project base path to sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
+from src.config.settings import DB_PATH
+from src.reports.generate_sample_reports import count_pdf_pages
 from src.reports.portfolio_summary import generate_portfolio_summary_report
 from src.utils.helpers import extract_year_int
-from src.reports.generate_sample_reports import count_pdf_pages
-from src.config.settings import DB_PATH
 
 
 def test_extract_year_int():

@@ -8,7 +8,6 @@ from datetime import datetime
 from reportlab.pdfgen import canvas
 
 from src.reports.styles import (
-    A4_HEIGHT,
     A4_WIDTH,
     BORDER_LIGHT,
     MARGIN_POINTS,
@@ -28,10 +27,12 @@ class NumberedCanvas(canvas.Canvas):
 
     def showPage(self):
         # Save state for the second pass
+        """Showpage for NumberedCanvas."""
         self._saved_page_states.append(dict(self.__dict__))
         self._startPage()
 
     def save(self):
+        """Save for NumberedCanvas."""
         num_pages = len(self._saved_page_states)
         for state in self._saved_page_states:
             self.__dict__.update(state)
@@ -40,6 +41,7 @@ class NumberedCanvas(canvas.Canvas):
         super().save()
 
     def draw_page_decor(self, page_count):
+        """Draw page decor for NumberedCanvas."""
         self.saveState()
 
         # Draw thin divider line above footer

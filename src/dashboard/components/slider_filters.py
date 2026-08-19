@@ -1,4 +1,3 @@
-from typing import Any, Dict
 
 import streamlit as st
 
@@ -69,7 +68,7 @@ def reset_all_filters():
         st.session_state[key] = val
 
 
-def render_slider_filters() -> Dict[str, float]:
+def render_slider_filters() -> dict[str, float]:
     """
     Renders preset buttons and sliders in the sidebar.
     Returns a dictionary of current slider filter values.

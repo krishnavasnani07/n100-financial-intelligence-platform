@@ -53,6 +53,7 @@ def get_master_data() -> pd.DataFrame:
 
     # 4. Calculate PE and PB dynamically
     def safe_div(num, denom):
+        """Safe div."""
         if pd.isnull(num) or pd.isnull(denom) or denom <= 0:
             return None
         return round(num / denom, 2)

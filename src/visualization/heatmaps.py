@@ -13,7 +13,6 @@ import seaborn as sns
 
 matplotlib.use("Agg")
 from pathlib import Path
-from typing import Optional
 
 import matplotlib.pyplot as plt
 
@@ -22,7 +21,7 @@ from src.utils.helpers import extract_year_int
 
 
 def generate_sector_heatmap(
-    sector_name: str, save_path: Optional[Path] = None, db_path: Optional[Path] = None
+    sector_name: str, save_path: Path | None = None, db_path: Path | None = None
 ) -> Path:
     """
     Generates and saves a sector heatmap.
@@ -105,6 +104,7 @@ def generate_sector_heatmap(
     for col in cols:
 
         def format_val(val, column_name):
+            """Format val."""
             if column_name in ["ROE", "ROCE", "Growth", "Margin"]:
                 return f"{val:.1f}%"
             elif column_name == "D/E":
@@ -121,7 +121,7 @@ def generate_sector_heatmap(
     sns.set_theme(style="white")
 
     # Render Heatmap
-    ax = sns.heatmap(
+    sns.heatmap(
         df_scores,
         annot=df_annot,
         fmt="",

@@ -1,12 +1,11 @@
-import pytest
-import pandas as pd
 import sqlite3
-from pathlib import Path
+
 import openpyxl
+import pandas as pd
 
 from src.config.settings import DB_PATH, OUTPUT_DIR
-from src.screener.ranking import winsorize_and_scale, calculate_rankings
 from src.screener.exporter import generate_reports
+from src.screener.ranking import calculate_rankings, winsorize_and_scale
 
 
 def test_winsorize_and_scale_higher_is_better():

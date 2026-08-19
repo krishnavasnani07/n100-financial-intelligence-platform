@@ -6,7 +6,6 @@ and peer analysis updates. Clears/updates cache signals for the dashboard.
 
 from __future__ import annotations
 
-import os
 import sys
 import time
 from datetime import datetime

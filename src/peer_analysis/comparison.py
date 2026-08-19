@@ -8,7 +8,7 @@ from __future__ import annotations
 import datetime
 import sqlite3
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 # openpyxl for Excel report
 import openpyxl
@@ -33,7 +33,7 @@ from src.utils.helpers import extract_year_int
 from src.visualization.radar_chart import generate_peer_radar
 
 
-def load_raw_ratios_data(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_raw_ratios_data(db_path: Path | None = None) -> pd.DataFrame:
     """
     Loads company details, sector info, and financial ratios from SQLite.
     """
@@ -65,8 +65,8 @@ def load_raw_ratios_data(db_path: Optional[Path] = None) -> pd.DataFrame:
 
 
 def run_peer_analysis(
-    db_path: Optional[Path] = None,
-) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    db_path: Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Executes the peer percentile and ranking analysis.
 
@@ -207,8 +207,8 @@ def run_peer_analysis(
 
 
 def get_raw_company_ratios(
-    company_id: str, db_path: Optional[Path] = None
-) -> Dict[str, Any]:
+    company_id: str, db_path: Path | None = None
+) -> dict[str, Any]:
     """Retrieves raw KPIs for the latest year for the specified company."""
     df_all = load_raw_ratios_data(db_path)
     df_comp = df_all[df_all["Company"] == company_id].copy()
@@ -255,7 +255,7 @@ def determine_winner(
 
 
 def generate_executive_summary(
-    company_a: str, company_b: str, a_data: Dict[str, Any], b_data: Dict[str, Any]
+    company_a: str, company_b: str, a_data: dict[str, Any], b_data: dict[str, Any]
 ) -> str:
     """Generates an algorithmic, professional executive summary of the peer comparison."""
     # Compare growth metrics
@@ -288,15 +288,12 @@ def generate_executive_summary(
     b_score = b_data.get("Composite Quality Score", 0.0)
 
     if a_score > b_score:
-        overall_winner = company_a
-        score_diff = a_score - b_score
+        a_score - b_score
         winner_text = f"{company_a} outperforms {company_b} overall with a stronger Composite Quality Score ({a_score:.1f} vs {b_score:.1f})."
     elif b_score > a_score:
-        overall_winner = company_b
-        score_diff = b_score - a_score
+        b_score - a_score
         winner_text = f"{company_b} outperforms {company_a} overall with a stronger Composite Quality Score ({b_score:.1f} vs {a_score:.1f})."
     else:
-        overall_winner = "Tie"
         winner_text = f"Both {company_a} and {company_b} demonstrate identical Composite Quality Scores ({a_score:.1f})."
 
     summary_parts = [winner_text]
@@ -331,8 +328,8 @@ def generate_executive_summary(
 
 
 def generate_peer_comparison_report(
-    company_a: str, company_b: str, db_path: Optional[Path] = None
-) -> Tuple[Path, Path]:
+    company_a: str, company_b: str, db_path: Path | None = None
+) -> tuple[Path, Path]:
     """
     Generates peer comparison reports:
     1. peer_comparison.xlsx (with openpyxl + embedded radar chart)
@@ -425,7 +422,7 @@ def generate_peer_comparison_report(
 
     # Styling variables
     navy_fill = PatternFill(start_color="1B365D", end_color="1B365D", fill_type="solid")
-    gold_fill = PatternFill(start_color="D4AF37", end_color="D4AF37", fill_type="solid")
+    PatternFill(start_color="D4AF37", end_color="D4AF37", fill_type="solid")
     light_blue_fill = PatternFill(
         start_color="F2F6FA", end_color="F2F6FA", fill_type="solid"
     )
@@ -438,7 +435,7 @@ def generate_peer_comparison_report(
 
     title_font = Font(name="Calibri", size=16, bold=True, color="1B365D")
     header_font = Font(name="Calibri", size=11, bold=True, color="FFFFFF")
-    bold_font = Font(name="Calibri", size=11, bold=True, color="000000")
+    Font(name="Calibri", size=11, bold=True, color="000000")
     regular_font = Font(name="Calibri", size=11, color="000000")
     italic_font = Font(name="Calibri", size=10, italic=True, color="595959")
 
@@ -596,7 +593,7 @@ def generate_peer_comparison_report(
         spaceAfter=15,
     )
 
-    summary_hdr_style = ParagraphStyle(
+    ParagraphStyle(
         "SummaryHeader",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",

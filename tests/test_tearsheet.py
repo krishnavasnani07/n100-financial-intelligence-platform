@@ -1,13 +1,14 @@
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Insert project base path to path
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
-from src.reports.tearsheet import generate_tearsheet
 from src.reports.generate_sample_reports import count_pdf_pages
+from src.reports.tearsheet import generate_tearsheet
 
 
 def test_generate_tearsheet_success():

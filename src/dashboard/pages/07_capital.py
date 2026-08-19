@@ -4,7 +4,6 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from src.config.settings import OUTPUT_DIR
 from src.dashboard.components.treemap import (
     classify_company_capital_allocation,
     render_capital_allocation_treemap,
@@ -26,6 +25,7 @@ st.markdown("---")
 # Load and classify master data
 @st.cache_data(ttl=600)
 def get_classified_capital_data() -> pd.DataFrame:
+    """Get classified capital data."""
     try:
         df = load_screener_master_data()
         df_companies = db.get_companies()
@@ -63,7 +63,7 @@ with tab1:
 
     # Dropdown to filter by category
     categories_list = ["All Categories"] + sorted(
-        list(df_classified["category"].unique())
+        df_classified["category"].unique()
     )
     selected_category = st.selectbox(
         "Select Capital Allocation Category to View constituents:",
@@ -159,9 +159,9 @@ with tab2:
         )
         fig_summary.update_layout(
             showlegend=False,
-            margin=dict(t=40, l=10, r=10, b=10),
+            margin={"t": 40, "l": 10, "r": 10, "b": 10},
             paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#ffffff", family="Inter"),
+            font={"color": "#ffffff", "family": "Inter"},
             height=350,
         )
         st.plotly_chart(fig_summary, use_container_width=True)
@@ -180,12 +180,12 @@ with tab2:
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
             cats = ["All Changes"] + sorted(
-                list(df_changes["change_category"].unique())
+                df_changes["change_category"].unique()
             )
             sel_cat = st.selectbox("Filter by Transition Type:", cats)
         with col_f2:
             years = ["All Years"] + sorted(
-                list(df_changes["year"].astype(str).unique()), reverse=True
+                df_changes["year"].astype(str).unique(), reverse=True
             )
             sel_yr = st.selectbox("Filter by Transition Year:", years)
         with col_f3:

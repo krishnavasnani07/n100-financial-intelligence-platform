@@ -5,14 +5,12 @@ ensures full coverage, and exports the results to output/pros_cons_generated.csv
 """
 
 import logging
-import os
 import sqlite3
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
-import numpy as np
 import pandas as pd
 
 from src.config import settings
@@ -47,10 +45,10 @@ def setup_generator_logging() -> logging.Logger:
 
 
 def load_generator_data(
-    db_path: Optional[Path] = None,
-    raw_dir: Optional[Path] = None,
-    out_dir: Optional[Path] = None,
-) -> Tuple[
+    db_path: Path | None = None,
+    raw_dir: Path | None = None,
+    out_dir: Path | None = None,
+) -> tuple[
     pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame
 ]:
     """
@@ -120,7 +118,7 @@ def load_generator_data(
     if analysis_parsed_file.exists():
         df_analysis = pd.read_csv(analysis_parsed_file)
     else:
-        logger.warning(f"analysis_parsed.csv not found. Using empty template.")
+        logger.warning("analysis_parsed.csv not found. Using empty template.")
         df_analysis = pd.DataFrame(
             columns=["company_id", "metric_type", "period_years", "value_pct"]
         )
@@ -128,10 +126,10 @@ def load_generator_data(
     # 6. Load capital_allocation.csv (for validation step)
     cap_alloc_file = out_path / "capital_allocation.csv"
     if cap_alloc_file.exists():
-        df_cap = pd.read_csv(cap_alloc_file)
+        pd.read_csv(cap_alloc_file)
     else:
-        logger.warning(f"capital_allocation.csv not found. Using empty template.")
-        df_cap = pd.DataFrame(columns=["company_id", "year", "pattern_label"])
+        logger.warning("capital_allocation.csv not found. Using empty template.")
+        pd.DataFrame(columns=["company_id", "year", "pattern_label"])
 
     # 7. Load dividend yield from market_cap.xlsx
     mcap_file = raw_path / "market_cap.xlsx"
@@ -178,7 +176,7 @@ def df_div_yield(df_mcap: pd.DataFrame) -> pd.DataFrame:
 
 def compile_company_histories(
     df_financials: pd.DataFrame, df_cf: pd.DataFrame, df_div: pd.DataFrame
-) -> Dict[str, List[Dict[str, Any]]]:
+) -> dict[str, list[dict[str, Any]]]:
     """
     Compiles database and CSV metrics into a dictionary mapping company_id -> list of annual records.
     Records are sorted chronologically by year integer.
@@ -217,7 +215,7 @@ def compile_company_histories(
         df_merged["dividend_yield_pct"] = None
 
     # Group by company_id and build histories
-    histories: Dict[str, List[Dict[str, Any]]] = {}
+    histories: dict[str, list[dict[str, Any]]] = {}
     for cid, group in df_merged.groupby("company_id"):
         # Sort chronologically by year_int ascending
         group_sorted = group.sort_values(by="year_int")
@@ -237,7 +235,7 @@ def run_pros_cons_pipeline():
 
     try:
         # Load required datasets
-        df_companies, df_sectors, df_financials, df_cf, df_div, df_analysis = (
+        df_companies, df_sectors, df_financials, df_cf, df_div, _df_analysis = (
             load_generator_data()
         )
 

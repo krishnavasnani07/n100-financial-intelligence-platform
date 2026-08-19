@@ -6,12 +6,10 @@ Computes FCF Yield, Sector Median PE, comparisons, valuation flags, and exports 
 from __future__ import annotations
 
 import logging
-import os
 import sqlite3
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -51,7 +49,7 @@ except Exception as e:
 from src.utils.helpers import extract_year_int
 
 
-def load_market_cap(filepath: Optional[Path] = None) -> pd.DataFrame:
+def load_market_cap(filepath: Path | None = None) -> pd.DataFrame:
     """
     Loads raw market cap data from Excel, filters to the latest year for each company,
     computes the 5-year median PE across historical records, and performs validations.
@@ -132,7 +130,7 @@ def load_market_cap(filepath: Optional[Path] = None) -> pd.DataFrame:
     return df_merged
 
 
-def load_company_master(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_company_master(db_path: Path | None = None) -> pd.DataFrame:
     """Loads id and company_name from companies table in SQLite DB."""
     path = db_path or DB_PATH
     logger.info(f"Connecting to database at {path} for company master...")
@@ -151,7 +149,7 @@ def load_company_master(db_path: Optional[Path] = None) -> pd.DataFrame:
         conn.close()
 
 
-def load_latest_ratios(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_latest_ratios(db_path: Path | None = None) -> pd.DataFrame:
     """Loads latest-year financial ratios from SQLite DB."""
     path = db_path or DB_PATH
     conn = sqlite3.connect(str(path))
@@ -177,7 +175,7 @@ def load_latest_ratios(db_path: Optional[Path] = None) -> pd.DataFrame:
         conn.close()
 
 
-def load_latest_financials(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_latest_financials(db_path: Path | None = None) -> pd.DataFrame:
     """Loads latest-year financial metrics (FCF) from SQLite DB."""
     # Since free_cash_flow_cr is inside financial_ratios, we can load it from load_latest_ratios
     df_ratios = load_latest_ratios(db_path)
@@ -189,7 +187,7 @@ def load_latest_financials(db_path: Optional[Path] = None) -> pd.DataFrame:
     return df_ratios[cols_to_keep].copy()
 
 
-def load_sector_data(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_sector_data(db_path: Path | None = None) -> pd.DataFrame:
     """Loads company-sector mapping from SQLite DB."""
     path = db_path or DB_PATH
     conn = sqlite3.connect(str(path))
@@ -230,6 +228,7 @@ def compute_valuation_metrics(
 
     # Step 3: FCF Yield % = Free Cash Flow / Market Cap * 100
     def calc_fcf_yield(row: pd.Series) -> float:
+        """Calc fcf yield."""
         fcf = row.get("free_cash_flow_cr")
         mcap = row.get("market_cap_crore")
         if pd.isnull(fcf) or pd.isnull(mcap) or mcap <= 0:
@@ -249,7 +248,8 @@ def compute_valuation_metrics(
     logger.info("Comparing Company PE against Sector Median...")
 
     # Step 5: PE vs Sector Median % = Company PE / Sector Median PE * 100
-    def calc_pe_comparison(row: pd.Series) -> Optional[float]:
+    def calc_pe_comparison(row: pd.Series) -> float | None:
+        """Calc pe comparison."""
         pe = row.get("pe_ratio")
         sec_median = row.get("sector_median_pe")
         if pd.isnull(pe) or pd.isnull(sec_median) or sec_median <= 0:
@@ -262,6 +262,7 @@ def compute_valuation_metrics(
 
     # Step 6: Valuation Flags
     def get_valuation_flag(row: pd.Series) -> str:
+        """Get valuation flag."""
         pe = row.get("pe_ratio")
         sec_median = row.get("sector_median_pe")
         if pd.isnull(pe) or pd.isnull(sec_median) or sec_median <= 0:
@@ -354,14 +355,12 @@ def export_excel_report(df: pd.DataFrame, output_path: Path):
     ]
 
     try:
-        import openpyxl
         from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
         from openpyxl.utils import get_column_letter
 
         writer = pd.ExcelWriter(output_path, engine="openpyxl")
         df_excel.to_excel(writer, sheet_name="Valuation Analysis", index=False)
 
-        workbook = writer.book
         worksheet = writer.sheets["Valuation Analysis"]
 
         # Design system styles
@@ -457,8 +456,7 @@ def export_excel_report(df: pd.DataFrame, output_path: Path):
             max_len = 0
             for cell in col:
                 val = str(cell.value or "")
-                if len(val) > max_len:
-                    max_len = len(val)
+                max_len = max(max_len, len(val))
             col_letter = get_column_letter(col[0].column)
             worksheet.column_dimensions[col_letter].width = max(max_len + 4, 12)
 
@@ -502,7 +500,7 @@ def export_csv_flags_report(df: pd.DataFrame, output_path: Path):
 
 
 def run_valuation_pipeline(
-    db_path: Optional[Path] = None, raw_dir: Optional[Path] = None
+    db_path: Path | None = None, raw_dir: Path | None = None
 ) -> pd.DataFrame:
     """Executes the complete valuation pipeline and exports reports."""
     start_time = time.time()

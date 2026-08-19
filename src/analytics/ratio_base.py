@@ -3,11 +3,10 @@ Generic Ratio Base Class & Data Models.
 Provides reusable division, validation, benchmarking, and structured RatioResult models.
 """
 
-import logging
 import math
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from src.config.ratio_config import DEFAULT_PRECISION, FORMULA_VERSION
 
@@ -19,7 +18,7 @@ class RatioResult:
     company_id: str
     year: str
     ratio_name: str
-    value: Optional[float]
+    value: float | None
     status: str  # VALID, NULL_DENOMINATOR, NEGATIVE_DENOMINATOR, INVALID_INPUT
     formula: str
     source_tables: str
@@ -31,7 +30,8 @@ class RatioResult:
         if not self.timestamp:
             self.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
+        """To dict for RatioResult."""
         return asdict(self)
 
 
@@ -46,7 +46,7 @@ class RatioCalculator:
         denominator: Any,
         multiplier: float = 1.0,
         precision: int = DEFAULT_PRECISION,
-    ) -> tuple[Optional[float], str]:
+    ) -> tuple[float | None, str]:
         """
         Safely divide two values with multiplier and return (value, status_code).
         """
@@ -73,7 +73,7 @@ class RatioCalculator:
             return None, "TYPE_ERROR"
 
     @staticmethod
-    def classify_benchmark(value: Optional[float], benchmarks: Dict[str, float]) -> str:
+    def classify_benchmark(value: float | None, benchmarks: dict[str, float]) -> str:
         """Classify ratio value into performance buckets."""
         if value is None:
             return "N/A"
@@ -93,12 +93,13 @@ class RatioCalculator:
         company_id: str,
         year: str,
         ratio_name: str,
-        value: Optional[float],
+        value: float | None,
         status: str,
         formula: str,
         source_tables: str,
-        benchmarks: Optional[Dict[str, float]] = None,
+        benchmarks: dict[str, float] | None = None,
     ) -> RatioResult:
+        """Create result for RatioCalculator."""
         classification = (
             cls.classify_benchmark(value, benchmarks) if benchmarks else "N/A"
         )

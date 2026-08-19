@@ -1,0 +1,17 @@
+rule_id,rule_name,severity,passed,failed
+DQ-01,Company PK Uniqueness,CRITICAL,92,0
+DQ-02,No Duplicate Company-Year,CRITICAL,3565,210
+DQ-03,Foreign Key Integrity,CRITICAL,12362,438
+DQ-04,Balance Sheet Balance,WARNING,1312,0
+DQ-05,OPM Cross-Check,WARNING,1044,232
+DQ-06,Positive Sales,WARNING,1275,1
+DQ-07,Year Format,CRITICAL,6988,108
+DQ-08,Ticker Format,CRITICAL,12892,0
+DQ-09,Net Cash Flow Check,WARNING,1186,1
+DQ-10,Fixed Assets Range,WARNING,1312,0
+DQ-11,Tax Rate Bounds,WARNING,1208,68
+DQ-12,Dividend Payout Bounds,WARNING,1226,50
+DQ-13,URL Format Validation,WARNING,1714,331
+DQ-14,EPS Sign Alignment,WARNING,1273,3
+DQ-15,Balance Sheet Sum Check,WARNING,2609,15
+DQ-16,Historical Coverage,WARNING,91,1

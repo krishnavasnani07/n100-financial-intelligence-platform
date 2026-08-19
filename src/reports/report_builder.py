@@ -12,7 +12,6 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
 
 from src.reports.report_styles import (
-    A4_HEIGHT,
     A4_WIDTH,
     BORDER_LIGHT,
     CON_RED,
@@ -22,7 +21,6 @@ from src.reports.report_styles import (
     PRINTABLE_WIDTH,
     PRO_GREEN,
     TEXT_LIGHT,
-    TEXT_NEUTRAL,
     badge_style,
     bullet_heading_con,
     bullet_heading_pro,
@@ -35,7 +33,6 @@ from src.reports.report_styles import (
     section_heading_style,
     subtitle_style,
     title_style,
-    trend_arrow_style,
     trend_label_style,
     val_label_style,
     val_value_style,
@@ -72,10 +69,12 @@ class NumberedCanvas(canvas.Canvas):
 
     def showPage(self):
         # Save state for the second pass
+        """Showpage for NumberedCanvas."""
         self._saved_page_states.append(dict(self.__dict__))
         self._startPage()
 
     def save(self):
+        """Save for NumberedCanvas."""
         num_pages = len(self._saved_page_states)
         for state in self._saved_page_states:
             self.__dict__.update(state)
@@ -84,6 +83,7 @@ class NumberedCanvas(canvas.Canvas):
         super().save()
 
     def draw_page_decor(self, page_count):
+        """Draw page decor for NumberedCanvas."""
         self.saveState()
 
         # Draw thin divider line above footer
@@ -164,6 +164,7 @@ def build_kpi_table(latest_ratios: pd.Series) -> Table:
 
     # Helper to check null
     def is_null(val):
+        """Is null."""
         return pd.isnull(val) or val is None
 
     # 1. ROE
@@ -312,6 +313,7 @@ def make_trend_cell(
     """Builds a formatted Paragraph with YoY trend information."""
 
     def fmt(val):
+        """Fmt."""
         if pd.isnull(val) or val is None:
             return "N/A"
         if is_curr:

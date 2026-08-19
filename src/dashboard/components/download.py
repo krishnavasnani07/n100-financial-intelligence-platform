@@ -25,7 +25,7 @@ def render_download_button(df: pd.DataFrame, filename: str = "screener_results.c
         "dividend_yield": "Dividend Yield",
     }
 
-    available_cols = [c for c in col_mapping.keys() if c in df.columns]
+    available_cols = [c for c in col_mapping if c in df.columns]
     export_df = df[available_cols].copy()
     export_df = export_df.rename(columns=col_mapping)
 

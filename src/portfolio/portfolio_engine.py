@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -17,8 +16,8 @@ from src.config.settings import DB_PATH
 
 
 def load_stock_returns(
-    company_ids: List[str], db_path: Optional[Path] = None
-) -> Tuple[pd.DataFrame, pd.Series]:
+    company_ids: list[str], db_path: Path | None = None
+) -> tuple[pd.DataFrame, pd.Series]:
     """
     Loads daily closing prices for selected companies and calculates daily returns.
     Also calculates the equal-weighted index returns of all stocks as the benchmark returns.
@@ -80,10 +79,10 @@ def load_stock_returns(
 
 
 def calculate_portfolio_metrics(
-    allocations: Dict[str, float],
+    allocations: dict[str, float],
     risk_free_rate: float = 7.0,
-    db_path: Optional[Path] = None,
-) -> Dict[str, float]:
+    db_path: Path | None = None,
+) -> dict[str, float]:
     """
     Computes portfolio analytics: Expected Return, Volatility, Sharpe Ratio, Beta, and Diversification.
 

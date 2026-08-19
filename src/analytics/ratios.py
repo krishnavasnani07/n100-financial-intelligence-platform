@@ -4,12 +4,9 @@ Calculates NPM, OPM, ROE, ROCE, and ROA utilizing RatioCalculator base, ratio_co
 Outputs detailed calculation logs (output/ratio_calculation_log.csv), ratio summaries, and performance metrics.
 """
 
-import csv
-import logging
 import math
-import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -40,7 +37,7 @@ def safe_divide(
     denominator: Any,
     multiplier: float = 1.0,
     precision: int = DEFAULT_PRECISION,
-) -> Optional[float]:
+) -> float | None:
     """
     Safely divides numerator by denominator, handling exceptions and rounding.
 
@@ -61,7 +58,7 @@ def safe_divide(
 
 def calculate_net_profit_margin(
     net_profit: Any, sales: Any, precision: int = DEFAULT_PRECISION
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Net Profit Margin percentage.
 
@@ -84,12 +81,12 @@ def calculate_net_profit_margin(
 def calculate_operating_profit_margin(
     operating_profit: Any,
     sales: Any,
-    reported_opm: Optional[Any] = None,
+    reported_opm: Any | None = None,
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
     tolerance: float = OPM_TOLERANCE,
     precision: int = DEFAULT_PRECISION,
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Operating Profit Margin and validates against reported OPM.
 
@@ -139,7 +136,7 @@ def calculate_roe(
     equity_capital: Any,
     reserves: Any,
     precision: int = DEFAULT_PRECISION,
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Return on Equity percentage.
 
@@ -173,7 +170,7 @@ def calculate_roce(
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
     precision: int = DEFAULT_PRECISION,
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Return on Capital Employed percentage.
 
@@ -213,7 +210,7 @@ def calculate_roce(
 
 def calculate_roa(
     net_profit: Any, total_assets: Any, precision: int = DEFAULT_PRECISION
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Return on Assets percentage.
 
@@ -241,7 +238,7 @@ def calculate_debt_to_equity(
     company_id: str = "UNKNOWN",
     year: str = "UNKNOWN",
     precision: int = DEFAULT_PRECISION,
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Debt-to-Equity ratio.
 
@@ -279,7 +276,7 @@ def calculate_debt_to_equity(
 
 
 def calculate_high_leverage_flag(
-    de_ratio: Optional[float],
+    de_ratio: float | None,
     is_financial: bool = False,
     threshold: float = HIGH_LEVERAGE_THRESHOLD,
     company_id: str = "UNKNOWN",
@@ -309,7 +306,7 @@ def calculate_interest_coverage(
     interest: Any,
     other_income: Any = 0,
     precision: int = DEFAULT_PRECISION,
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Interest Coverage Ratio.
 
@@ -339,7 +336,7 @@ def calculate_interest_coverage(
 
 
 def calculate_icr_warning(
-    icr_ratio: Optional[float], threshold: float = ICR_WARNING_THRESHOLD
+    icr_ratio: float | None, threshold: float = ICR_WARNING_THRESHOLD
 ) -> bool:
     """
     Checks if Interest Coverage Ratio triggers warning threshold.
@@ -357,8 +354,8 @@ def calculate_icr_warning(
 
 
 def calculate_icr_label(
-    interest: Any, icr_ratio: Optional[float] = None
-) -> Optional[str]:
+    interest: Any, icr_ratio: float | None = None
+) -> str | None:
     """
     Determines qualitative status label for Interest Coverage Ratio.
 
@@ -389,7 +386,7 @@ def calculate_icr_label(
 
 def calculate_net_debt(
     borrowings: Any, investments: Any, precision: int = DEFAULT_PRECISION
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Net Debt.
 
@@ -411,7 +408,7 @@ def calculate_net_debt(
 
 def calculate_asset_turnover(
     sales: Any, total_assets: Any, precision: int = DEFAULT_PRECISION
-) -> Optional[float]:
+) -> float | None:
     """
     Computes Asset Turnover Ratio.
 
@@ -451,10 +448,11 @@ class ProfitabilityEngine(RatioCalculator):
         reserves: Any,
         borrowings: Any,
         total_assets: Any,
-        reported_opm: Optional[Any] = None,
+        reported_opm: Any | None = None,
         is_financial: bool = False,
-    ) -> List[RatioResult]:
-        results: List[RatioResult] = []
+    ) -> list[RatioResult]:
+        """Compute period ratios for ProfitabilityEngine."""
+        results: list[RatioResult] = []
 
         # 1. NPM
         val_npm, status_npm = cls.safe_divide(net_profit, sales, multiplier=100.0)
@@ -583,9 +581,9 @@ class ProfitabilityEngine(RatioCalculator):
         reserves: Any,
         borrowings: Any,
         total_assets: Any,
-        reported_opm: Optional[Any] = None,
+        reported_opm: Any | None = None,
         is_financial: bool = False,
-    ) -> Dict[str, Optional[float]]:
+    ) -> dict[str, float | None]:
         """Legacy compatibility wrapper returning dictionary of ratio values."""
         rlist = cls.compute_period_ratios(
             company_id,
@@ -607,7 +605,7 @@ class ProfitabilityEngine(RatioCalculator):
 
     @classmethod
     def export_ratio_audit_and_summary(
-        cls, results: List[RatioResult], output_dir: Optional[Path] = None
+        cls, results: list[RatioResult], output_dir: Path | None = None
     ):
         """Export calculation audit log CSV and summary statistics CSV."""
         out_dir = output_dir or (BASE_DIR / "output")
@@ -662,8 +660,9 @@ class LeverageEngine(RatioCalculator):
         total_assets: Any,
         other_income: Any = 0,
         is_financial: bool = False,
-    ) -> List[RatioResult]:
-        results: List[RatioResult] = []
+    ) -> list[RatioResult]:
+        """Compute period ratios for LeverageEngine."""
+        results: list[RatioResult] = []
 
         # 1. Debt-to-Equity
         de_val = calculate_debt_to_equity(
@@ -769,7 +768,8 @@ class LeverageEngine(RatioCalculator):
         total_assets: Any,
         other_income: Any = 0,
         is_financial: bool = False,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
+        """Compute all ratios for LeverageEngine."""
         rlist = cls.compute_period_ratios(
             company_id,
             year,
@@ -800,7 +800,7 @@ class LeverageEngine(RatioCalculator):
 
     @classmethod
     def export_ratio_audit_and_summary(
-        cls, results: List[RatioResult], output_dir: Optional[Path] = None
+        cls, results: list[RatioResult], output_dir: Path | None = None
     ):
         """Export calculation audit log CSV and summary statistics CSV for leverage engine."""
         out_dir = output_dir or (BASE_DIR / "output")

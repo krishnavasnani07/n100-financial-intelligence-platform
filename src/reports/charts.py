@@ -81,7 +81,7 @@ def generate_revenue_net_profit_charts(
     plt.close()
 
     # 2. Net Profit Chart
-    fig, ax = plt.subplots(figsize=(3.8, 2.2))
+    _fig, ax = plt.subplots(figsize=(3.8, 2.2))
     # Green fill for profit
     bars = ax.bar(
         years,
@@ -141,7 +141,7 @@ def generate_roe_roce_chart(df: pd.DataFrame, company_id: str, out_dir: Path) ->
     roe = df_last_10["return_on_equity_pct"].tolist()
     roce = df_last_10["return_on_capital_employed_pct"].tolist()
 
-    fig, ax = plt.subplots(figsize=(7.8, 2.2))
+    _fig, ax = plt.subplots(figsize=(7.8, 2.2))
 
     # Plot lines with markers
     ax.plot(
@@ -231,10 +231,10 @@ def generate_balancesheet_composition_chart(
     borrowings = df_last_10["borrowings"].fillna(0).tolist()
     other_liab = df_last_10["other_liabilities"].fillna(0).tolist()
 
-    fig, ax = plt.subplots(figsize=(3.8, 2.2))
+    _fig, ax = plt.subplots(figsize=(3.8, 2.2))
 
     # Stacked bars
-    b1 = ax.bar(
+    ax.bar(
         years,
         equity,
         color="#1B365D",
@@ -243,7 +243,7 @@ def generate_balancesheet_composition_chart(
         edgecolor="#0F2038",
         linewidth=0.5,
     )
-    b2 = ax.bar(
+    ax.bar(
         years,
         borrowings,
         bottom=equity,
@@ -254,7 +254,7 @@ def generate_balancesheet_composition_chart(
         linewidth=0.5,
     )
     bottom_3 = np.array(equity) + np.array(borrowings)
-    b3 = ax.bar(
+    ax.bar(
         years,
         other_liab,
         bottom=bottom_3,
@@ -320,7 +320,7 @@ def generate_cashflow_waterfall_chart(
                 "#2E7D32" if h >= 0 else "#C62828"
             )  # Green for positive, Red for negative
 
-    fig, ax = plt.subplots(figsize=(3.8, 2.2))
+    _fig, ax = plt.subplots(figsize=(3.8, 2.2))
 
     # Draw bars
     bars = ax.bar(
@@ -349,7 +349,7 @@ def generate_cashflow_waterfall_chart(
         # Line from top/bottom of bar i to top/bottom of bar i+1
         x1, x2 = i, i + 1
         y1 = bottoms[i] + heights[i]
-        y2 = bottoms[i + 1]
+        bottoms[i + 1]
         ax.plot([x1, x2], [y1, y1], color="black", linestyle="--", linewidth=0.75)
 
     # Annotate values

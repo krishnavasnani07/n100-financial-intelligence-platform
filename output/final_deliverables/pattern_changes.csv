@@ -1,0 +1,557 @@
+company_id,company_name,year,previous_pattern,current_pattern,change_category
+ABB,Abbott India Ltd,Mar 2023,Reinvestor,Shareholder Returns,Mature
+ADANIENSOL,Adani Energy Solutions Ltd,Mar 2015,Pre-Revenue,Growth Funded by Debt,Strategic Shift
+ADANIENSOL,Adani Energy Solutions Ltd,Mar 2016,Growth Funded by Debt,Shareholder Returns,Mature
+ADANIENSOL,Adani Energy Solutions Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+ADANIENSOL,Adani Energy Solutions Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+ADANIENSOL,Adani Energy Solutions Ltd,Mar 2023,Shareholder Returns,Mixed,Negative Shift
+ADANIENSOL,Adani Energy Solutions Ltd,Mar 2024,Mixed,Shareholder Returns,Mature
+ADANIENT,Adani Enterprises Ltd,Mar 2014,Mixed,Shareholder Returns,Mature
+ADANIENT,Adani Enterprises Ltd,Mar 2015,Shareholder Returns,Mixed,Negative Shift
+ADANIENT,Adani Enterprises Ltd,Mar 2016,Mixed,Shareholder Returns,Mature
+ADANIENT,Adani Enterprises Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+ADANIENT,Adani Enterprises Ltd,Mar 2019,Mixed,Liquidating Assets,Strategic Shift
+ADANIENT,Adani Enterprises Ltd,Mar 2020,Liquidating Assets,Shareholder Returns,Mature
+ADANIENT,Adani Enterprises Ltd,Mar 2021,Shareholder Returns,Mixed,Negative Shift
+ADANIENT,Adani Enterprises Ltd,Mar 2023,Mixed,Shareholder Returns,Mature
+ADANIENT,Adani Enterprises Ltd,Mar 2024,Shareholder Returns,Mixed,Negative Shift
+ADANIGREEN,Adani Green Energy Ltd,Mar 2023,Mixed,Shareholder Returns,Mature
+ADANIGREEN,Adani Green Energy Ltd,Mar 2024,Shareholder Returns,Mixed,Negative Shift
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2015,Mixed,Reinvestor,Improving
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2016,Reinvestor,Mixed,Negative Shift
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2017,Mixed,Reinvestor,Improving
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2018,Reinvestor,Shareholder Returns,Mature
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2019,Shareholder Returns,Mixed,Negative Shift
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2020,Mixed,Shareholder Returns,Mature
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2021,Shareholder Returns,Mixed,Negative Shift
+ADANIPORTS,"Adani Ports & Special Economic Zone Ltd
+",Mar 2022,Mixed,Shareholder Returns,Mature
+ADANIPOWER,Adani Power Ltd,Mar 2015,Mixed,Reinvestor,Improving
+ADANIPOWER,Adani Power Ltd,Mar 2016,Reinvestor,Shareholder Returns,Mature
+ADANIPOWER,Adani Power Ltd,Mar 2022,Shareholder Returns,Liquidating Assets,Strategic Shift
+AMBUJACEM,Ambuja Cements Ltd,Mar 2023,Shareholder Returns,Mixed,Negative Shift
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Mar 2014,Mixed,Shareholder Returns,Mature
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Mar 2015,Shareholder Returns,Mixed,Negative Shift
+APOLLOHOSP,"Apollo Hospitals
+Chain of Indian private hospitals",Mar 2018,Mixed,Shareholder Returns,Mature
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Mar 2015,Shareholder Returns,Reinvestor,Strategic Shift
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Mar 2016,Reinvestor,Shareholder Returns,Mature
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Mar 2017,Shareholder Returns,Reinvestor,Strategic Shift
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Mar 2020,Reinvestor,Shareholder Returns,Mature
+ASIANPAINT,"Asian Paints
+Indian Multi-National Paint and Coating Manufacturing Company",Mar 2022,Shareholder Returns,Reinvestor,Strategic Shift
+AXISBANK,Axis Bank Ltd,Mar 2015,Mixed,Growth Funded by Debt,Strategic Shift
+AXISBANK,Axis Bank Ltd,Mar 2016,Growth Funded by Debt,Distress Signal,Negative Shift
+AXISBANK,Axis Bank Ltd,Mar 2017,Distress Signal,Shareholder Returns,Mature
+AXISBANK,Axis Bank Ltd,Mar 2018,Shareholder Returns,Growth Funded by Debt,Negative Shift
+AXISBANK,Axis Bank Ltd,Mar 2019,Growth Funded by Debt,Mixed,Strategic Shift
+AXISBANK,Axis Bank Ltd,Mar 2024,Mixed,Growth Funded by Debt,Strategic Shift
+BAJAJ-AUTO,Bajaj Auto Ltd,Mar 2020,Reinvestor,Liquidating Assets,Strategic Shift
+BAJAJ-AUTO,Bajaj Auto Ltd,Mar 2021,Liquidating Assets,Reinvestor,Improving
+BAJAJ-AUTO,Bajaj Auto Ltd,Mar 2022,Reinvestor,Liquidating Assets,Strategic Shift
+BAJAJ-AUTO,Bajaj Auto Ltd,Mar 2024,Liquidating Assets,Reinvestor,Improving
+BAJAJFINSV,Bajaj Finserv Ltd,Mar 2016,Distress Signal,Growth Funded by Debt,Strategic Shift
+BAJAJFINSV,Bajaj Finserv Ltd,Mar 2017,Growth Funded by Debt,Distress Signal,Negative Shift
+BAJAJFINSV,Bajaj Finserv Ltd,Mar 2018,Distress Signal,Growth Funded by Debt,Strategic Shift
+BAJAJFINSV,Bajaj Finserv Ltd,Mar 2021,Growth Funded by Debt,Mixed,Strategic Shift
+BAJAJFINSV,Bajaj Finserv Ltd,Mar 2022,Mixed,Distress Signal,Negative Shift
+BAJAJFINSV,Bajaj Finserv Ltd,Mar 2023,Distress Signal,Growth Funded by Debt,Strategic Shift
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Mar 2016,Reinvestor,Liquidating Assets,Strategic Shift
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Mar 2017,Liquidating Assets,Pre-Revenue,Strategic Shift
+BAJAJHLDNG,Bajaj Holdings & Investment Ltd,Mar 2018,Pre-Revenue,Reinvestor,Improving
+BAJFINANCE,Bajaj Finance Ltd,Mar 2018,Growth Funded by Debt,Distress Signal,Negative Shift
+BAJFINANCE,Bajaj Finance Ltd,Mar 2019,Distress Signal,Growth Funded by Debt,Strategic Shift
+BAJFINANCE,Bajaj Finance Ltd,Mar 2022,Growth Funded by Debt,Distress Signal,Negative Shift
+BAJFINANCE,Bajaj Finance Ltd,Mar 2023,Distress Signal,Growth Funded by Debt,Strategic Shift
+BANKBARODA,Bank of Baroda,Mar 2014,Shareholder Returns,Mixed,Negative Shift
+BANKBARODA,Bank of Baroda,Mar 2015,Mixed,Shareholder Returns,Mature
+BANKBARODA,Bank of Baroda,Mar 2016,Shareholder Returns,Pre-Revenue,Strategic Shift
+BANKBARODA,Bank of Baroda,Mar 2017,Pre-Revenue,Shareholder Returns,Mature
+BANKBARODA,Bank of Baroda,Mar 2018,Shareholder Returns,Growth Funded by Debt,Negative Shift
+BANKBARODA,Bank of Baroda,Mar 2020,Growth Funded by Debt,Mixed,Strategic Shift
+BANKBARODA,Bank of Baroda,Mar 2021,Mixed,Pre-Revenue,Strategic Shift
+BANKBARODA,Bank of Baroda,Mar 2022,Pre-Revenue,Shareholder Returns,Mature
+BANKBARODA,Bank of Baroda,Mar 2023,Shareholder Returns,Pre-Revenue,Strategic Shift
+BANKBARODA,Bank of Baroda,Mar 2024,Pre-Revenue,Growth Funded by Debt,Strategic Shift
+BEL,Bharat Electronics Ltd,Mar 2015,Distress Signal,Reinvestor,Improving
+BEL,Bharat Electronics Ltd,Mar 2017,Reinvestor,Distress Signal,Negative Shift
+BEL,Bharat Electronics Ltd,Mar 2018,Distress Signal,Pre-Revenue,Strategic Shift
+BEL,Bharat Electronics Ltd,Mar 2019,Pre-Revenue,Reinvestor,Improving
+BEL,Bharat Electronics Ltd,Mar 2022,Reinvestor,Shareholder Returns,Mature
+BEL,Bharat Electronics Ltd,Mar 2023,Shareholder Returns,Liquidating Assets,Strategic Shift
+BEL,Bharat Electronics Ltd,Mar 2024,Liquidating Assets,Shareholder Returns,Mature
+BHARTIARTL,Bharti Airtel Ltd,Mar 2014,Shareholder Returns,Mixed,Negative Shift
+BHARTIARTL,Bharti Airtel Ltd,Mar 2015,Mixed,Shareholder Returns,Mature
+BHARTIARTL,Bharti Airtel Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+BHARTIARTL,Bharti Airtel Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+BHEL,"Bharat Heavy Electricals Limited
+",Mar 2015,Mixed,Liquidating Assets,Strategic Shift
+BHEL,"Bharat Heavy Electricals Limited
+",Mar 2017,Liquidating Assets,Reinvestor,Improving
+BHEL,"Bharat Heavy Electricals Limited
+",Mar 2018,Reinvestor,Liquidating Assets,Strategic Shift
+BHEL,"Bharat Heavy Electricals Limited
+",Mar 2019,Liquidating Assets,Distress Signal,Negative Shift
+BHEL,"Bharat Heavy Electricals Limited
+",Mar 2021,Distress Signal,Reinvestor,Improving
+BHEL,"Bharat Heavy Electricals Limited
+",Mar 2023,Reinvestor,Distress Signal,Negative Shift
+BOSCHLTD,Bosch Ltd,Dec 2013,Reinvestor,Shareholder Returns,Mature
+BOSCHLTD,Bosch Ltd,Mar 2016,Shareholder Returns,Reinvestor,Strategic Shift
+BOSCHLTD,Bosch Ltd,Mar 2017,Reinvestor,Liquidating Assets,Strategic Shift
+BOSCHLTD,Bosch Ltd,Mar 2018,Liquidating Assets,Shareholder Returns,Mature
+BOSCHLTD,Bosch Ltd,Mar 2019,Shareholder Returns,Liquidating Assets,Strategic Shift
+BOSCHLTD,Bosch Ltd,Mar 2020,Liquidating Assets,Shareholder Returns,Mature
+BOSCHLTD,Bosch Ltd,Mar 2023,Shareholder Returns,Liquidating Assets,Strategic Shift
+BPCL,Bharat Petroleum Corporation Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+BPCL,Bharat Petroleum Corporation Ltd,Mar 2018,Mixed,Shareholder Returns,Mature
+BPCL,Bharat Petroleum Corporation Ltd,Mar 2019,Shareholder Returns,Mixed,Negative Shift
+BPCL,Bharat Petroleum Corporation Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+BRITANNIA,Britannia Industries Ltd,Mar 2014,Liquidating Assets,Shareholder Returns,Mature
+BRITANNIA,Britannia Industries Ltd,Mar 2019,Shareholder Returns,Reinvestor,Strategic Shift
+BRITANNIA,Britannia Industries Ltd,Mar 2020,Reinvestor,Mixed,Negative Shift
+BRITANNIA,Britannia Industries Ltd,Mar 2021,Mixed,Liquidating Assets,Strategic Shift
+BRITANNIA,Britannia Industries Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+BRITANNIA,Britannia Industries Ltd,Mar 2024,Shareholder Returns,Liquidating Assets,Strategic Shift
+CANBK,Canara Bank,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+CANBK,Canara Bank,Mar 2018,Mixed,Growth Funded by Debt,Strategic Shift
+CANBK,Canara Bank,Mar 2019,Growth Funded by Debt,Shareholder Returns,Mature
+CANBK,Canara Bank,Mar 2020,Shareholder Returns,Growth Funded by Debt,Negative Shift
+CANBK,Canara Bank,Mar 2021,Growth Funded by Debt,Mixed,Strategic Shift
+CANBK,Canara Bank,Mar 2023,Mixed,Growth Funded by Debt,Strategic Shift
+CANBK,Canara Bank,Mar 2024,Growth Funded by Debt,Shareholder Returns,Mature
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Mar 2014,Distress Signal,Growth Funded by Debt,Strategic Shift
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Mar 2022,Growth Funded by Debt,Distress Signal,Negative Shift
+CHOLAFIN,Cholamandalam Investment & Finance Company Ltd,Mar 2023,Distress Signal,Growth Funded by Debt,Strategic Shift
+CIPLA,"Cipla Ltd
+",Mar 2014,Mixed,Shareholder Returns,Mature
+CIPLA,"Cipla Ltd
+",Mar 2015,Shareholder Returns,Mixed,Negative Shift
+CIPLA,"Cipla Ltd
+",Mar 2017,Mixed,Shareholder Returns,Mature
+CIPLA,"Cipla Ltd
+",Mar 2020,Shareholder Returns,Liquidating Assets,Strategic Shift
+CIPLA,"Cipla Ltd
+",Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+COALINDIA,Coal India Ltd,Mar 2014,Reinvestor,Liquidating Assets,Strategic Shift
+COALINDIA,Coal India Ltd,Mar 2018,Liquidating Assets,Shareholder Returns,Mature
+COALINDIA,Coal India Ltd,Mar 2020,Shareholder Returns,Liquidating Assets,Strategic Shift
+COALINDIA,Coal India Ltd,Mar 2022,Liquidating Assets,Shareholder Returns,Mature
+DABUR,Dabur India Ltd,Mar 2018,Shareholder Returns,Reinvestor,Strategic Shift
+DABUR,Dabur India Ltd,Mar 2019,Reinvestor,Liquidating Assets,Strategic Shift
+DABUR,Dabur India Ltd,Mar 2020,Liquidating Assets,Reinvestor,Improving
+DABUR,Dabur India Ltd,Mar 2021,Reinvestor,Shareholder Returns,Mature
+DIVISLAB,Divis Laboratories Ltd,Mar 2017,Reinvestor,Mixed,Negative Shift
+DIVISLAB,Divis Laboratories Ltd,Mar 2018,Mixed,Reinvestor,Improving
+DIVISLAB,Divis Laboratories Ltd,Mar 2021,Reinvestor,Liquidating Assets,Strategic Shift
+DIVISLAB,Divis Laboratories Ltd,Mar 2022,Liquidating Assets,Reinvestor,Improving
+DLF,DLF Ltd,Mar 2016,Liquidating Assets,Shareholder Returns,Mature
+DLF,DLF Ltd,Mar 2017,Shareholder Returns,Distress Signal,Negative Shift
+DLF,DLF Ltd,Mar 2018,Distress Signal,Shareholder Returns,Mature
+DLF,DLF Ltd,Mar 2019,Shareholder Returns,Cash Accumulator,Strategic Shift
+DLF,DLF Ltd,Mar 2020,Cash Accumulator,Liquidating Assets,Strategic Shift
+DLF,DLF Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+DLF,DLF Ltd,Mar 2024,Shareholder Returns,Mixed,Negative Shift
+DMART,Avenue Supermarts Ltd,Mar 2018,Mixed,Liquidating Assets,Strategic Shift
+DMART,Avenue Supermarts Ltd,Mar 2019,Liquidating Assets,Mixed,Strategic Shift
+DMART,Avenue Supermarts Ltd,Mar 2021,Mixed,Reinvestor,Improving
+DMART,Avenue Supermarts Ltd,Mar 2023,Reinvestor,Shareholder Returns,Mature
+DRREDDY,Dr Reddys Laboratories Ltd,Mar 2016,Reinvestor,Shareholder Returns,Mature
+EICHERMOT,Eicher Motors Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+EICHERMOT,Eicher Motors Ltd,Mar 2018,Mixed,Shareholder Returns,Mature
+EICHERMOT,Eicher Motors Ltd,Mar 2020,Shareholder Returns,Reinvestor,Strategic Shift
+EICHERMOT,Eicher Motors Ltd,Mar 2021,Reinvestor,Shareholder Returns,Mature
+EICHERMOT,Eicher Motors Ltd,Mar 2023,Shareholder Returns,Reinvestor,Strategic Shift
+GAIL,GAIL (India) Ltd,Mar 2014,Mixed,Shareholder Returns,Mature
+GAIL,GAIL (India) Ltd,Mar 2020,Shareholder Returns,Mixed,Negative Shift
+GAIL,GAIL (India) Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+GAIL,GAIL (India) Ltd,Mar 2023,Shareholder Returns,Mixed,Negative Shift
+GAIL,GAIL (India) Ltd,Mar 2024,Mixed,Reinvestor,Improving
+GODREJCP,Godrej Consumer Products Ltd,Mar 2014,Mixed,Shareholder Returns,Mature
+GODREJCP,Godrej Consumer Products Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+GODREJCP,Godrej Consumer Products Ltd,Mar 2018,Mixed,Shareholder Returns,Mature
+GODREJCP,Godrej Consumer Products Ltd,Mar 2019,Shareholder Returns,Liquidating Assets,Strategic Shift
+GODREJCP,Godrej Consumer Products Ltd,Mar 2020,Liquidating Assets,Shareholder Returns,Mature
+GODREJCP,Godrej Consumer Products Ltd,Mar 2022,Shareholder Returns,Reinvestor,Strategic Shift
+GODREJCP,Godrej Consumer Products Ltd,Mar 2023,Reinvestor,Shareholder Returns,Mature
+GODREJCP,Godrej Consumer Products Ltd,Mar 2024,Shareholder Returns,Mixed,Negative Shift
+GRASIM,Grasim Industries Ltd,Mar 2014,Mixed,Shareholder Returns,Mature
+GRASIM,Grasim Industries Ltd,Mar 2018,Shareholder Returns,Distress Signal,Negative Shift
+GRASIM,Grasim Industries Ltd,Mar 2019,Distress Signal,Growth Funded by Debt,Strategic Shift
+GRASIM,Grasim Industries Ltd,Mar 2020,Growth Funded by Debt,Reinvestor,Improving
+GRASIM,Grasim Industries Ltd,Mar 2023,Reinvestor,Growth Funded by Debt,Negative Shift
+HAL,Hindustan Aeronautics Ltd,Mar 2020,Distress Signal,Mixed,Strategic Shift
+HAL,Hindustan Aeronautics Ltd,Mar 2021,Mixed,Reinvestor,Improving
+HAL,Hindustan Aeronautics Ltd,Mar 2023,Reinvestor,Shareholder Returns,Mature
+HAVELLS,Havells India Ltd,Mar 2019,Shareholder Returns,Liquidating Assets,Strategic Shift
+HAVELLS,Havells India Ltd,Mar 2020,Liquidating Assets,Shareholder Returns,Mature
+HAVELLS,Havells India Ltd,Mar 2021,Shareholder Returns,Mixed,Negative Shift
+HAVELLS,Havells India Ltd,Mar 2022,Mixed,Shareholder Returns,Mature
+HAVELLS,Havells India Ltd,Mar 2023,Shareholder Returns,Liquidating Assets,Strategic Shift
+HAVELLS,Havells India Ltd,Mar 2024,Liquidating Assets,Shareholder Returns,Mature
+HCLTECH,HCL Technologies Ltd,Jun 2015,Shareholder Returns,Reinvestor,Strategic Shift
+HCLTECH,HCL Technologies Ltd,Mar 2020,Reinvestor,Shareholder Returns,Mature
+HCLTECH,HCL Technologies Ltd,Mar 2022,Shareholder Returns,Liquidating Assets,Strategic Shift
+HCLTECH,HCL Technologies Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+HDFCBANK,HDFC Bank Ltd,Mar 2014,Growth Funded by Debt,Mixed,Strategic Shift
+HDFCBANK,HDFC Bank Ltd,Mar 2015,Mixed,Growth Funded by Debt,Strategic Shift
+HDFCBANK,HDFC Bank Ltd,Mar 2017,Growth Funded by Debt,Reinvestor,Improving
+HDFCBANK,HDFC Bank Ltd,Mar 2018,Reinvestor,Mixed,Negative Shift
+HDFCBANK,HDFC Bank Ltd,Mar 2019,Mixed,Growth Funded by Debt,Strategic Shift
+HDFCBANK,HDFC Bank Ltd,Mar 2021,Growth Funded by Debt,Reinvestor,Improving
+HDFCBANK,HDFC Bank Ltd,Mar 2022,Reinvestor,Growth Funded by Debt,Negative Shift
+HDFCBANK,HDFC Bank Ltd,Mar 2023,Growth Funded by Debt,Mixed,Strategic Shift
+HDFCBANK,HDFC Bank Ltd,Mar 2024,Mixed,Liquidating Assets,Strategic Shift
+HDFCLIFE,HDFC Life Insurance Company Ltd,Mar 2015,Pre-Revenue,Shareholder Returns,Mature
+HDFCLIFE,HDFC Life Insurance Company Ltd,Mar 2020,Shareholder Returns,Mixed,Negative Shift
+HDFCLIFE,HDFC Life Insurance Company Ltd,Mar 2022,Mixed,Shareholder Returns,Mature
+HDFCLIFE,HDFC Life Insurance Company Ltd,Mar 2023,Shareholder Returns,Mixed,Negative Shift
+HDFCLIFE,HDFC Life Insurance Company Ltd,Mar 2024,Mixed,Shareholder Returns,Mature
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Mar 2015,Shareholder Returns,Liquidating Assets,Strategic Shift
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Mar 2016,Liquidating Assets,Shareholder Returns,Mature
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Mar 2019,Shareholder Returns,Liquidating Assets,Strategic Shift
+HEROMOTOCO,"Hero MotoCorp Ltd
+",Mar 2020,Liquidating Assets,Shareholder Returns,Mature
+HINDALCO,Hindalco Industries Ltd,Mar 2015,Mixed,Shareholder Returns,Mature
+HINDALCO,Hindalco Industries Ltd,Mar 2018,Shareholder Returns,Liquidating Assets,Strategic Shift
+HINDALCO,Hindalco Industries Ltd,Mar 2019,Liquidating Assets,Shareholder Returns,Mature
+HINDALCO,Hindalco Industries Ltd,Mar 2020,Shareholder Returns,Mixed,Negative Shift
+HINDALCO,Hindalco Industries Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+HINDUNILVR,"Hindustan Unilever Ltd
+",Mar 2014,Liquidating Assets,Reinvestor,Improving
+HINDUNILVR,"Hindustan Unilever Ltd
+",Mar 2015,Reinvestor,Liquidating Assets,Strategic Shift
+HINDUNILVR,"Hindustan Unilever Ltd
+",Mar 2016,Liquidating Assets,Reinvestor,Improving
+HINDUNILVR,"Hindustan Unilever Ltd
+",Mar 2018,Reinvestor,Shareholder Returns,Mature
+HINDUNILVR,"Hindustan Unilever Ltd
+",Mar 2019,Shareholder Returns,Reinvestor,Strategic Shift
+HINDUNILVR,"Hindustan Unilever Ltd
+",Mar 2020,Reinvestor,Liquidating Assets,Strategic Shift
+HINDUNILVR,"Hindustan Unilever Ltd
+",Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+ICICIBANK,ICICI Bank Ltd,Mar 2015,Mixed,Growth Funded by Debt,Strategic Shift
+ICICIBANK,ICICI Bank Ltd,Mar 2016,Growth Funded by Debt,Mixed,Strategic Shift
+ICICIBANK,ICICI Bank Ltd,Mar 2017,Mixed,Shareholder Returns,Mature
+ICICIBANK,ICICI Bank Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+ICICIBANK,ICICI Bank Ltd,Mar 2019,Mixed,Shareholder Returns,Mature
+ICICIBANK,ICICI Bank Ltd,Mar 2020,Shareholder Returns,Mixed,Negative Shift
+ICICIBANK,ICICI Bank Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+ICICIBANK,ICICI Bank Ltd,Mar 2022,Shareholder Returns,Mixed,Negative Shift
+ICICIBANK,ICICI Bank Ltd,Mar 2023,Mixed,Growth Funded by Debt,Strategic Shift
+ICICIBANK,ICICI Bank Ltd,Mar 2024,Growth Funded by Debt,Mixed,Strategic Shift
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Mar 2015,Mixed,Distress Signal,Negative Shift
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Mar 2016,Distress Signal,Shareholder Returns,Mature
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Mar 2018,Mixed,Shareholder Returns,Mature
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Mar 2022,Shareholder Returns,Liquidating Assets,Strategic Shift
+ICICIGI,ICICI Lombard General Insurance Company Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Mar 2015,Distress Signal,Reinvestor,Improving
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Mar 2016,Reinvestor,Liquidating Assets,Strategic Shift
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Mar 2017,Liquidating Assets,Reinvestor,Improving
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Mar 2018,Reinvestor,Shareholder Returns,Mature
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Mar 2021,Shareholder Returns,Mixed,Negative Shift
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Mar 2022,Mixed,Shareholder Returns,Mature
+ICICIPRULI,ICICI Prudential Life Insurance Company Ltd,Mar 2024,Shareholder Returns,Distress Signal,Negative Shift
+INDIGO,Interglobe Aviation Ltd,Mar 2015,Mixed,Shareholder Returns,Mature
+INDIGO,Interglobe Aviation Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+INDIGO,Interglobe Aviation Ltd,Mar 2019,Mixed,Shareholder Returns,Mature
+INDIGO,Interglobe Aviation Ltd,Mar 2021,Shareholder Returns,Distress Signal,Negative Shift
+INDIGO,Interglobe Aviation Ltd,Mar 2022,Distress Signal,Liquidating Assets,Strategic Shift
+INDIGO,Interglobe Aviation Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+INDUSINDBK,IndusInd Bank Ltd,Mar 2017,Growth Funded by Debt,Reinvestor,Improving
+INDUSINDBK,IndusInd Bank Ltd,Mar 2018,Reinvestor,Growth Funded by Debt,Negative Shift
+INDUSINDBK,IndusInd Bank Ltd,Mar 2020,Growth Funded by Debt,Distress Signal,Negative Shift
+INDUSINDBK,IndusInd Bank Ltd,Mar 2021,Distress Signal,Shareholder Returns,Mature
+INDUSINDBK,IndusInd Bank Ltd,Mar 2023,Shareholder Returns,Growth Funded by Debt,Negative Shift
+INDUSINDBK,IndusInd Bank Ltd,Mar 2024,Growth Funded by Debt,Pre-Revenue,Strategic Shift
+INFY,Infosys Ltd,Mar 2015,Reinvestor,Liquidating Assets,Strategic Shift
+INFY,Infosys Ltd,Mar 2016,Liquidating Assets,Reinvestor,Improving
+INFY,Infosys Ltd,Mar 2018,Reinvestor,Liquidating Assets,Strategic Shift
+INFY,Infosys Ltd,Mar 2019,Liquidating Assets,Reinvestor,Improving
+INFY,Infosys Ltd,Mar 2022,Reinvestor,Shareholder Returns,Mature
+IOC,"Indian Oil Corporation
+",Mar 2014,Mixed,Shareholder Returns,Mature
+IOC,"Indian Oil Corporation
+",Mar 2019,Shareholder Returns,Mixed,Negative Shift
+IOC,"Indian Oil Corporation
+",Mar 2021,Mixed,Shareholder Returns,Mature
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Mar 2016,Reinvestor,Liquidating Assets,Strategic Shift
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Mar 2019,Liquidating Assets,Shareholder Returns,Mature
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Mar 2020,Shareholder Returns,Liquidating Assets,Strategic Shift
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Mar 2022,Shareholder Returns,Reinvestor,Strategic Shift
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Mar 2023,Reinvestor,Shareholder Returns,Mature
+IRCTC,Indian Railway Catering & Tourism Corporation Ltd,Mar 2024,Shareholder Returns,Reinvestor,Strategic Shift
+IRFC,Indian Railway Finance Corporation Ltd,Mar 2021,Distress Signal,Growth Funded by Debt,Strategic Shift
+IRFC,Indian Railway Finance Corporation Ltd,Mar 2024,Growth Funded by Debt,Reinvestor,Improving
+ITC,"ITC Ltd
+",Mar 2019,Reinvestor,Shareholder Returns,Mature
+ITC,"ITC Ltd
+",Mar 2021,Shareholder Returns,Liquidating Assets,Strategic Shift
+ITC,"ITC Ltd
+",Mar 2022,Liquidating Assets,Shareholder Returns,Mature
+ITC,"ITC Ltd
+",Mar 2023,Shareholder Returns,Reinvestor,Strategic Shift
+ITC,"ITC Ltd
+",Mar 2024,Reinvestor,Liquidating Assets,Strategic Shift
+JINDALSTEL,Jindal Steel & Power Ltd,Mar 2016,Mixed,Shareholder Returns,Mature
+JINDALSTEL,Jindal Steel & Power Ltd,Mar 2019,Shareholder Returns,Reinvestor,Strategic Shift
+JINDALSTEL,Jindal Steel & Power Ltd,Mar 2021,Reinvestor,Shareholder Returns,Mature
+JINDALSTEL,Jindal Steel & Power Ltd,Mar 2024,Shareholder Returns,Mixed,Negative Shift
+JIOFIN,Jio Financial Services Ltd,Mar 2024,Shareholder Returns,Distress Signal,Negative Shift
+JSWENERGY,JSW Energy Ltd,Mar 2020,Shareholder Returns,Liquidating Assets,Strategic Shift
+JSWENERGY,JSW Energy Ltd,Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+JSWENERGY,JSW Energy Ltd,Mar 2023,Shareholder Returns,Mixed,Negative Shift
+JSWSTEEL,JSW Steel Ltd,Mar 2014,Shareholder Returns,Mixed,Negative Shift
+JSWSTEEL,JSW Steel Ltd,Mar 2015,Mixed,Shareholder Returns,Mature
+JSWSTEEL,JSW Steel Ltd,Mar 2019,Shareholder Returns,Mixed,Negative Shift
+JSWSTEEL,JSW Steel Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2014,Mixed,Shareholder Returns,Mature
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2015,Shareholder Returns,Mixed,Negative Shift
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2018,Mixed,Growth Funded by Debt,Strategic Shift
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2019,Growth Funded by Debt,Mixed,Strategic Shift
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2020,Mixed,Shareholder Returns,Mature
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2022,Shareholder Returns,Mixed,Negative Shift
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2023,Mixed,Growth Funded by Debt,Strategic Shift
+KOTAKBANK,"Kotak Mahindra Bank Ltd
+",Mar 2024,Growth Funded by Debt,Mixed,Strategic Shift
+LICI,Life Insurance Corporation of India,Mar 2020,Liquidating Assets,Shareholder Returns,Mature
+LICI,Life Insurance Corporation of India,Mar 2021,Shareholder Returns,Liquidating Assets,Strategic Shift
+LICI,Life Insurance Corporation of India,Mar 2022,Liquidating Assets,Distress Signal,Negative Shift
+LICI,Life Insurance Corporation of India,Mar 2023,Distress Signal,Shareholder Returns,Mature
+LODHA,Macrotech Developers Ltd,Mar 2017,Mixed,Shareholder Returns,Mature
+LODHA,Macrotech Developers Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+LODHA,Macrotech Developers Ltd,Mar 2019,Mixed,Growth Funded by Debt,Strategic Shift
+LODHA,Macrotech Developers Ltd,Mar 2020,Growth Funded by Debt,Liquidating Assets,Strategic Shift
+LODHA,Macrotech Developers Ltd,Mar 2024,Liquidating Assets,Mixed,Strategic Shift
+LT,Larsen & Toubro Ltd,Mar 2017,Growth Funded by Debt,Mixed,Strategic Shift
+LT,Larsen & Toubro Ltd,Mar 2018,Mixed,Distress Signal,Negative Shift
+LT,Larsen & Toubro Ltd,Mar 2019,Distress Signal,Growth Funded by Debt,Strategic Shift
+LT,Larsen & Toubro Ltd,Mar 2020,Growth Funded by Debt,Mixed,Strategic Shift
+LT,Larsen & Toubro Ltd,Mar 2021,Mixed,Reinvestor,Improving
+LT,Larsen & Toubro Ltd,Mar 2023,Reinvestor,Shareholder Returns,Mature
+LT,Larsen & Toubro Ltd,Mar 2024,Shareholder Returns,Liquidating Assets,Strategic Shift
+LTIM,LTIMindtree Ltd,Mar 2014,Shareholder Returns,Liquidating Assets,Strategic Shift
+LTIM,LTIMindtree Ltd,Mar 2015,Liquidating Assets,Reinvestor,Improving
+LTIM,LTIMindtree Ltd,Mar 2021,Reinvestor,Shareholder Returns,Mature
+LTIM,LTIMindtree Ltd,Mar 2022,Shareholder Returns,Reinvestor,Strategic Shift
+LTIM,LTIMindtree Ltd,Mar 2024,Reinvestor,Shareholder Returns,Mature
+M&M,"Mahindra & Mahindra Ltd
+",Mar 2015,Growth Funded by Debt,Mixed,Strategic Shift
+M&M,"Mahindra & Mahindra Ltd
+",Mar 2019,Mixed,Growth Funded by Debt,Strategic Shift
+M&M,"Mahindra & Mahindra Ltd
+",Mar 2021,Growth Funded by Debt,Mixed,Strategic Shift
+M&M,"Mahindra & Mahindra Ltd
+",Mar 2022,Mixed,Shareholder Returns,Mature
+M&M,"Mahindra & Mahindra Ltd
+",Mar 2023,Shareholder Returns,Growth Funded by Debt,Negative Shift
+MOTHERSON,Samvardhana Motherson International Ltd,Mar 2015,Shareholder Returns,Mixed,Negative Shift
+MOTHERSON,Samvardhana Motherson International Ltd,Mar 2016,Mixed,Shareholder Returns,Mature
+MOTHERSON,Samvardhana Motherson International Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+MOTHERSON,Samvardhana Motherson International Ltd,Mar 2018,Mixed,Shareholder Returns,Mature
+MOTHERSON,Samvardhana Motherson International Ltd,Mar 2024,Shareholder Returns,Mixed,Negative Shift
+NAUKRI,Info Edge (India) Ltd,Mar 2014,Reinvestor,Mixed,Negative Shift
+NAUKRI,Info Edge (India) Ltd,Mar 2016,Mixed,Reinvestor,Improving
+NAUKRI,Info Edge (India) Ltd,Mar 2020,Reinvestor,Liquidating Assets,Strategic Shift
+NAUKRI,Info Edge (India) Ltd,Mar 2021,Liquidating Assets,Mixed,Strategic Shift
+NESTLEIND,Nestle India Ltd,Dec 2019,Shareholder Returns,Liquidating Assets,Strategic Shift
+NESTLEIND,Nestle India Ltd,Dec 2020,Liquidating Assets,Shareholder Returns,Mature
+NHPC,"NHPC Ltd
+",Mar 2014,Reinvestor,Shareholder Returns,Mature
+NHPC,"NHPC Ltd
+",Mar 2020,Shareholder Returns,Mixed,Negative Shift
+NHPC,"NHPC Ltd
+",Mar 2021,Mixed,Shareholder Returns,Mature
+NTPC,NTPC Ltd,Mar 2014,Mixed,Shareholder Returns,Mature
+NTPC,NTPC Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+NTPC,NTPC Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+ONGC,Oil & Natural Gas Corpn Ltd,Mar 2014,Shareholder Returns,Mixed,Negative Shift
+ONGC,Oil & Natural Gas Corpn Ltd,Mar 2015,Mixed,Shareholder Returns,Mature
+ONGC,Oil & Natural Gas Corpn Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+ONGC,Oil & Natural Gas Corpn Ltd,Mar 2019,Mixed,Shareholder Returns,Mature
+PFC,Power Finance Corporation Ltd,Mar 2015,Distress Signal,Growth Funded by Debt,Strategic Shift
+PFC,Power Finance Corporation Ltd,Mar 2017,Growth Funded by Debt,Mixed,Strategic Shift
+PFC,Power Finance Corporation Ltd,Mar 2018,Mixed,Distress Signal,Negative Shift
+PFC,Power Finance Corporation Ltd,Mar 2019,Distress Signal,Growth Funded by Debt,Strategic Shift
+PFC,Power Finance Corporation Ltd,Mar 2021,Growth Funded by Debt,Distress Signal,Negative Shift
+PFC,Power Finance Corporation Ltd,Mar 2022,Distress Signal,Reinvestor,Improving
+PFC,Power Finance Corporation Ltd,Mar 2023,Reinvestor,Growth Funded by Debt,Negative Shift
+PIDILITIND,Pidilite Industries Ltd,Mar 2014,Shareholder Returns,Reinvestor,Strategic Shift
+PIDILITIND,Pidilite Industries Ltd,Mar 2015,Reinvestor,Shareholder Returns,Mature
+PIDILITIND,Pidilite Industries Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+PIDILITIND,Pidilite Industries Ltd,Mar 2018,Mixed,Liquidating Assets,Strategic Shift
+PIDILITIND,Pidilite Industries Ltd,Mar 2019,Liquidating Assets,Reinvestor,Improving
+PIDILITIND,Pidilite Industries Ltd,Mar 2020,Reinvestor,Liquidating Assets,Strategic Shift
+PIDILITIND,Pidilite Industries Ltd,Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+PIDILITIND,Pidilite Industries Ltd,Mar 2022,Shareholder Returns,Reinvestor,Strategic Shift
+PIDILITIND,Pidilite Industries Ltd,Mar 2023,Reinvestor,Shareholder Returns,Mature
+PNB,Punjab National Bank,Mar 2014,Pre-Revenue,Mixed,Strategic Shift
+PNB,Punjab National Bank,Mar 2017,Mixed,Liquidating Assets,Strategic Shift
+PNB,Punjab National Bank,Mar 2018,Liquidating Assets,Distress Signal,Negative Shift
+PNB,Punjab National Bank,Mar 2019,Distress Signal,Growth Funded by Debt,Strategic Shift
+PNB,Punjab National Bank,Mar 2021,Growth Funded by Debt,Mixed,Strategic Shift
+PNB,Punjab National Bank,Mar 2024,Mixed,Growth Funded by Debt,Strategic Shift
+POWERGRID,Power Grid Corporation of India Ltd,Mar 2019,Mixed,Shareholder Returns,Mature
+POWERGRID,Power Grid Corporation of India Ltd,Mar 2022,Shareholder Returns,Liquidating Assets,Strategic Shift
+POWERGRID,Power Grid Corporation of India Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+RECLTD,REC Ltd,Mar 2016,Distress Signal,Growth Funded by Debt,Strategic Shift
+RECLTD,REC Ltd,Mar 2017,Growth Funded by Debt,Reinvestor,Improving
+RECLTD,REC Ltd,Mar 2018,Reinvestor,Distress Signal,Negative Shift
+RECLTD,REC Ltd,Mar 2022,Distress Signal,Growth Funded by Debt,Strategic Shift
+RELIANCE,"Reliance Industries Ltd
+",Mar 2016,Mixed,Shareholder Returns,Mature
+RELIANCE,"Reliance Industries Ltd
+",Mar 2017,Shareholder Returns,Mixed,Negative Shift
+RELIANCE,"Reliance Industries Ltd
+",Mar 2018,Mixed,Shareholder Returns,Mature
+RELIANCE,"Reliance Industries Ltd
+",Mar 2019,Shareholder Returns,Mixed,Negative Shift
+RELIANCE,"Reliance Industries Ltd
+",Mar 2020,Mixed,Shareholder Returns,Mature
+RELIANCE,"Reliance Industries Ltd
+",Mar 2021,Shareholder Returns,Mixed,Negative Shift
+RELIANCE,"Reliance Industries Ltd
+",Mar 2024,Mixed,Shareholder Returns,Mature
+SBILIFE,SBI Life Insurance Company Ltd,Mar 2021,Shareholder Returns,Mixed,Negative Shift
+SBILIFE,SBI Life Insurance Company Ltd,Mar 2022,Mixed,Shareholder Returns,Mature
+SBIN,State Bank of India,Mar 2014,Shareholder Returns,Mixed,Negative Shift
+SBIN,State Bank of India,Mar 2015,Mixed,Shareholder Returns,Mature
+SBIN,State Bank of India,Mar 2016,Shareholder Returns,Mixed,Negative Shift
+SBIN,State Bank of India,Mar 2017,Mixed,Shareholder Returns,Mature
+SBIN,State Bank of India,Mar 2018,Shareholder Returns,Distress Signal,Negative Shift
+SBIN,State Bank of India,Mar 2019,Distress Signal,Cash Accumulator,Recovery
+SBIN,State Bank of India,Mar 2020,Cash Accumulator,Mixed,Negative Shift
+SBIN,State Bank of India,Mar 2022,Mixed,Shareholder Returns,Mature
+SBIN,State Bank of India,Mar 2023,Shareholder Returns,Growth Funded by Debt,Negative Shift
+SBIN,State Bank of India,Mar 2024,Growth Funded by Debt,Shareholder Returns,Mature
+SHREECEM,Shree Cement Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+SHREECEM,Shree Cement Ltd,Mar 2019,Mixed,Shareholder Returns,Mature
+SHREECEM,Shree Cement Ltd,Mar 2020,Shareholder Returns,Mixed,Negative Shift
+SHREECEM,Shree Cement Ltd,Mar 2021,Mixed,Shareholder Returns,Mature
+SHRIRAMFIN,"Shriram Finance Ltd
+",Mar 2018,Growth Funded by Debt,Distress Signal,Negative Shift
+SHRIRAMFIN,"Shriram Finance Ltd
+",Mar 2019,Distress Signal,Growth Funded by Debt,Strategic Shift
+SHRIRAMFIN,"Shriram Finance Ltd
+",Mar 2023,Growth Funded by Debt,Distress Signal,Negative Shift
+SHRIRAMFIN,"Shriram Finance Ltd
+",Mar 2024,Distress Signal,Growth Funded by Debt,Strategic Shift
+SIEMENS,Siemens Ltd,Sep 2018,Liquidating Assets,Reinvestor,Improving
+SIEMENS,Siemens Ltd,Sep 2020,Reinvestor,Liquidating Assets,Strategic Shift
+SIEMENS,Siemens Ltd,Sep 2021,Liquidating Assets,Reinvestor,Improving
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Mar 2014,Reinvestor,Mixed,Negative Shift
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Mar 2015,Mixed,Shareholder Returns,Mature
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Mar 2021,Shareholder Returns,Liquidating Assets,Strategic Shift
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Mar 2022,Liquidating Assets,Shareholder Returns,Mature
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Mar 2023,Shareholder Returns,Mixed,Negative Shift
+SUNPHARMA,Sun Pharmaceuticals Industries Ltd,Mar 2024,Mixed,Shareholder Returns,Mature
+TATACONSUM,Tata Consumer Products Ltd,Mar 2014,Cash Accumulator,Reinvestor,Strategic Shift
+TATACONSUM,Tata Consumer Products Ltd,Mar 2016,Reinvestor,Liquidating Assets,Strategic Shift
+TATACONSUM,Tata Consumer Products Ltd,Mar 2018,Liquidating Assets,Shareholder Returns,Mature
+TATACONSUM,Tata Consumer Products Ltd,Mar 2019,Shareholder Returns,Liquidating Assets,Strategic Shift
+TATACONSUM,Tata Consumer Products Ltd,Mar 2020,Liquidating Assets,Shareholder Returns,Mature
+TATACONSUM,Tata Consumer Products Ltd,Mar 2024,Shareholder Returns,Mixed,Negative Shift
+TATAMOTORS,Tata Motors Ltd,Mar 2015,Shareholder Returns,Mixed,Negative Shift
+TATAMOTORS,Tata Motors Ltd,Mar 2016,Mixed,Shareholder Returns,Mature
+TATAMOTORS,Tata Motors Ltd,Mar 2017,Shareholder Returns,Mixed,Negative Shift
+TATAMOTORS,Tata Motors Ltd,Mar 2022,Mixed,Shareholder Returns,Mature
+TATAPOWER,"Tata Power Company Ltd
+",Mar 2017,Shareholder Returns,Mixed,Negative Shift
+TATAPOWER,"Tata Power Company Ltd
+",Mar 2018,Mixed,Shareholder Returns,Mature
+TATAPOWER,"Tata Power Company Ltd
+",Mar 2021,Shareholder Returns,Liquidating Assets,Strategic Shift
+TATAPOWER,"Tata Power Company Ltd
+",Mar 2022,Liquidating Assets,Shareholder Returns,Mature
+TATAPOWER,"Tata Power Company Ltd
+",Mar 2023,Shareholder Returns,Mixed,Negative Shift
+TATAPOWER,"Tata Power Company Ltd
+",Mar 2024,Mixed,Shareholder Returns,Mature
+TATASTEEL,"Tata Steel Ltd
+",Mar 2014,Reinvestor,Mixed,Negative Shift
+TATASTEEL,"Tata Steel Ltd
+",Mar 2015,Mixed,Shareholder Returns,Mature
+TATASTEEL,"Tata Steel Ltd
+",Mar 2018,Shareholder Returns,Mixed,Negative Shift
+TATASTEEL,"Tata Steel Ltd
+",Mar 2019,Mixed,Shareholder Returns,Mature
+TCS,Tata Consultancy Services Ltd,Mar 2018,Reinvestor,Liquidating Assets,Strategic Shift
+TCS,Tata Consultancy Services Ltd,Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+TCS,Tata Consultancy Services Ltd,Mar 2023,Shareholder Returns,Liquidating Assets,Strategic Shift
+TCS,Tata Consultancy Services Ltd,Mar-13,Liquidating Assets,Shareholder Returns,Mature
+TCS,Tata Consultancy Services Ltd,Mar-14,Shareholder Returns,Reinvestor,Strategic Shift
+TCS,Tata Consultancy Services Ltd,Mar-18,Reinvestor,Liquidating Assets,Strategic Shift
+TCS,Tata Consultancy Services Ltd,Mar-21,Liquidating Assets,Reinvestor,Improving
+TCS,Tata Consultancy Services Ltd,Mar-23,Reinvestor,Liquidating Assets,Strategic Shift
+TECHM,Tech Mahindra Ltd,Mar 2014,Mixed,Liquidating Assets,Strategic Shift
+TECHM,Tech Mahindra Ltd,Mar 2015,Liquidating Assets,Reinvestor,Improving
+TECHM,Tech Mahindra Ltd,Mar 2019,Reinvestor,Shareholder Returns,Mature
+TECHM,Tech Mahindra Ltd,Mar 2020,Shareholder Returns,Liquidating Assets,Strategic Shift
+TECHM,Tech Mahindra Ltd,Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+TECHM,Tech Mahindra Ltd,Mar 2022,Shareholder Returns,Liquidating Assets,Strategic Shift
+TECHM,Tech Mahindra Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+TITAN,"Titan Company Ltd
+",Mar 2014,Reinvestor,Growth Funded by Debt,Negative Shift
+TITAN,"Titan Company Ltd
+",Mar 2015,Growth Funded by Debt,Reinvestor,Improving
+TITAN,"Titan Company Ltd
+",Mar 2018,Reinvestor,Distress Signal,Negative Shift
+TITAN,"Titan Company Ltd
+",Mar 2019,Distress Signal,Reinvestor,Improving
+TITAN,"Titan Company Ltd
+",Mar 2020,Reinvestor,Distress Signal,Negative Shift
+TITAN,"Titan Company Ltd
+",Mar 2021,Distress Signal,Shareholder Returns,Mature
+TITAN,"Titan Company Ltd
+",Mar 2022,Shareholder Returns,Distress Signal,Negative Shift
+TITAN,"Titan Company Ltd
+",Mar 2023,Distress Signal,Mixed,Strategic Shift
+TITAN,"Titan Company Ltd
+",Mar 2024,Mixed,Reinvestor,Improving
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Mar 2016,Mixed,Reinvestor,Improving
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Mar 2018,Reinvestor,Mixed,Negative Shift
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Mar 2019,Mixed,Shareholder Returns,Mature
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Mar 2020,Shareholder Returns,Liquidating Assets,Strategic Shift
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Mar 2021,Liquidating Assets,Shareholder Returns,Mature
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Mar 2023,Shareholder Returns,Mixed,Negative Shift
+TORNTPHARM,Torrent Pharmaceuticals Ltd,Mar 2024,Mixed,Shareholder Returns,Mature
+TRENT,Trent Ltd,Mar 2014,Mixed,Pre-Revenue,Strategic Shift
+TRENT,Trent Ltd,Mar 2015,Pre-Revenue,Growth Funded by Debt,Strategic Shift
+TRENT,Trent Ltd,Mar 2016,Growth Funded by Debt,Reinvestor,Improving
+TRENT,Trent Ltd,Mar 2017,Reinvestor,Shareholder Returns,Mature
+TRENT,Trent Ltd,Mar 2018,Shareholder Returns,Reinvestor,Strategic Shift
+TRENT,Trent Ltd,Mar 2019,Reinvestor,Mixed,Negative Shift
+TRENT,Trent Ltd,Mar 2021,Mixed,Liquidating Assets,Strategic Shift
+TRENT,Trent Ltd,Mar 2023,Liquidating Assets,Shareholder Returns,Mature
+TVSMOTOR,TVS Motor Company Ltd,Mar 2015,Shareholder Returns,Mixed,Negative Shift
+TVSMOTOR,TVS Motor Company Ltd,Mar 2016,Mixed,Shareholder Returns,Mature
+TVSMOTOR,TVS Motor Company Ltd,Mar 2018,Shareholder Returns,Mixed,Negative Shift
+TVSMOTOR,TVS Motor Company Ltd,Mar 2019,Mixed,Growth Funded by Debt,Strategic Shift
+TVSMOTOR,TVS Motor Company Ltd,Mar 2020,Growth Funded by Debt,Mixed,Strategic Shift
+TVSMOTOR,TVS Motor Company Ltd,Mar 2022,Mixed,Growth Funded by Debt,Strategic Shift

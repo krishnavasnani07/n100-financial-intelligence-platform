@@ -4,20 +4,17 @@ Unit tests for the KMeans Financial Clustering pipeline.
 
 from __future__ import annotations
 
-import os
-from pathlib import Path
-
 import pandas as pd
 import pytest
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
 from src.analytics.clustering import (
+    assign_cluster_names,
     impute_sector_medians,
     load_clustering_data,
     prepare_features,
     run_kmeans,
-    assign_cluster_names,
 )
 from src.config.settings import DB_PATH
 

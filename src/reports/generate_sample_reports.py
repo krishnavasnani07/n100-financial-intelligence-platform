@@ -36,6 +36,7 @@ def count_pdf_pages(pdf_path: Path) -> int:
 
 
 def run_batch():
+    """Run batch."""
     print("=" * 60)
     print("STARTING BATCH TEARSHEET GENERATION")
     print("=" * 60)

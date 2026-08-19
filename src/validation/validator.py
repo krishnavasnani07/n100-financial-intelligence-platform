@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import pandas as pd
 
@@ -19,12 +19,12 @@ class DataValidator:
     aggregate failures, and generate validation reports.
     """
 
-    def __init__(self, raw_data_dir: Path = None):
+    def __init__(self, raw_data_dir: Path | None = None):
         self.raw_data_dir = raw_data_dir or settings.RAW_DATA_DIR
         self.report = ValidationReport()
-        self.datasets: Dict[str, pd.DataFrame] = {}
+        self.datasets: dict[str, pd.DataFrame] = {}
 
-    def load_all_datasets(self) -> Dict[str, pd.DataFrame]:
+    def load_all_datasets(self) -> dict[str, pd.DataFrame]:
         """
         Loads all 12 datasets with their specific sheet names and headers.
         """
@@ -64,7 +64,7 @@ class DataValidator:
 
         return self.datasets
 
-    def run_validation(self) -> Dict[str, Any]:
+    def run_validation(self) -> dict[str, Any]:
         """
         Executes all 16 DQ rules against the loaded datasets.
         Returns a validation summary dictionary.

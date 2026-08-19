@@ -21,6 +21,7 @@ st.markdown("---")
 # Cache data loading for optimal responsiveness
 @st.cache_data(ttl=600)
 def get_cached_screener_data() -> pd.DataFrame:
+    """Get cached screener data."""
     try:
         df = load_screener_master_data()
         df_companies = db.get_companies()

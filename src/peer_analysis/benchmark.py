@@ -5,12 +5,10 @@ Compares individual company KPIs against sector benchmarks (mean, median).
 
 from __future__ import annotations
 
-from typing import List
-
 import pandas as pd
 
 
-def benchmark_against_sector(df: pd.DataFrame, kpis: List[str]) -> pd.DataFrame:
+def benchmark_against_sector(df: pd.DataFrame, kpis: list[str]) -> pd.DataFrame:
     """
     Benchmarks each company's KPIs against its sector's mean and median.
 
@@ -33,6 +31,7 @@ def benchmark_against_sector(df: pd.DataFrame, kpis: List[str]) -> pd.DataFrame:
 
         # Avoid division by zero
         def safe_pct(val, med):
+            """Safe pct."""
             if pd.isna(val) or pd.isna(med) or med == 0:
                 return None
             return round((val / med) * 100.0, 2)

@@ -7,10 +7,8 @@ professional PDF summary reports for constituents.
 from __future__ import annotations
 
 import argparse
-import datetime
 import sqlite3
 from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pandas as pd
@@ -31,19 +29,17 @@ from reportlab.platypus import (
 from src.analytics.valuation import load_market_cap
 
 # Custom imports
-from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
+from src.config.settings import BASE_DIR, DB_PATH
 from src.reports.layouts import NumberedCanvas
 from src.reports.report_utils import check_eligibility, map_sector
 from src.reports.styles import (
     BORDER_LIGHT,
     CON_RED,
-    GOLD_ACCENT,
     GREY_SLATE,
     NAVY_PRIMARY,
     PRINTABLE_WIDTH,
     PRO_GREEN,
     TEXT_LIGHT,
-    TEXT_NEUTRAL,
     kpi_label_style,
     kpi_unit_style,
     kpi_value_style,
@@ -51,7 +47,6 @@ from src.reports.styles import (
     meta_subtitle_style,
     section_heading_style,
     subtitle_style,
-    table_cell_bold_style,
     table_cell_style,
     table_header_style,
     title_style,
@@ -106,7 +101,7 @@ def build_sector_header(
 def generate_sector_pdf(
     sector_name: str,
     df_sector: pd.DataFrame,
-    medians: Dict[str, float],
+    medians: dict[str, float],
     latest_year: str,
     output_path: Path,
 ) -> None:
@@ -353,7 +348,7 @@ def generate_sector_pdf(
 
 
 def generate_all_sector_reports(
-    db_path: Optional[Path] = None, out_dir: Optional[Path] = None
+    db_path: Path | None = None, out_dir: Path | None = None
 ) -> None:
     """Computes sectors stats and builds PDF sector reports for all 11 sectors."""
     db_file = db_path or DB_PATH

@@ -1,13 +1,13 @@
 import re
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Any
 
 import pandas as pd
 
 from src.config import settings
 
 
-def list_raw_excel_files() -> List[Path]:
+def list_raw_excel_files() -> list[Path]:
     """
     Returns a sorted list of all Excel files (.xlsx and .xls) in the raw data directory.
 
@@ -22,7 +22,7 @@ def list_raw_excel_files() -> List[Path]:
     return sorted(files)
 
 
-def extract_year_int(yr_val: Any) -> Optional[int]:
+def extract_year_int(yr_val: Any) -> int | None:
     """
     Extracts a 4-digit calendar year integer from a year string or integer.
     Returns None for TTM or invalid/empty values.
@@ -36,7 +36,7 @@ def extract_year_int(yr_val: Any) -> Optional[int]:
     return int(m.group(1)) if m else None
 
 
-def map_year_to_price_date(year_str: str) -> Optional[str]:
+def map_year_to_price_date(year_str: str) -> str | None:
     """
     Maps financial year strings to stock price date strings.
     E.g. "Mar 2024" -> "2024-03-01", "Dec 2012" -> "2012-12-01".

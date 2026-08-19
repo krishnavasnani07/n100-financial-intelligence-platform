@@ -1,9 +1,9 @@
-import pytest
 from pathlib import Path
-from src.database.database import init_db, get_connection
+
+from src.database.database import get_connection, init_db
 from src.database.queries import (
-    get_table_counts,
     check_foreign_key_violations,
+    get_table_counts,
     query_to_dataframe,
 )
 

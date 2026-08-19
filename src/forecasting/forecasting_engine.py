@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -17,7 +16,7 @@ from src.config.settings import DB_PATH
 from src.peer_analysis.comparison import extract_year_int
 
 
-def load_historical_pl(company_id: str, db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_historical_pl(company_id: str, db_path: Path | None = None) -> pd.DataFrame:
     """
     Loads historical sales (Revenue) and EPS for a company.
     """
@@ -45,7 +44,7 @@ def load_historical_pl(company_id: str, db_path: Optional[Path] = None) -> pd.Da
 
 def forecast_metric(
     years: np.ndarray, values: np.ndarray, forecast_years_ahead: int = 3
-) -> Tuple[np.ndarray, np.ndarray, float, float]:
+) -> tuple[np.ndarray, np.ndarray, float, float]:
     """
     Applies linear regression and moving average to project values.
 
@@ -80,8 +79,8 @@ def forecast_metric(
 
 
 def generate_company_forecasts(
-    company_id: str, db_path: Optional[Path] = None
-) -> Dict[str, any]:
+    company_id: str, db_path: Path | None = None
+) -> dict[str, any]:
     """
     Generates 3-year forecasts for Sales (Revenue) and EPS.
     """

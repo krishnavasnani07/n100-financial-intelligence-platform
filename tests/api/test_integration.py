@@ -1,8 +1,8 @@
-import pytest
 from fastapi.testclient import TestClient
+
 from src.api.main import app
-from src.screener.presets import load_screener_master_data
 from src.screener.engine import filter_companies
+from src.screener.presets import load_screener_master_data
 
 client = TestClient(app)
 
@@ -16,9 +16,7 @@ def test_integration_screener_min_roe():
 
     # 2. Dashboard Logic Results
     df_master = load_screener_master_data()
-    filters_config = {
-        "min_roe": 15.0
-    }
+    filters_config = {"min_roe": 15.0}
     df_filtered = filter_companies(df_master, {"filters": filters_config})
     dashboard_tickers = sorted(df_filtered["company_id"].tolist())
 
@@ -36,9 +34,7 @@ def test_integration_screener_max_debt():
 
     # 2. Dashboard Logic Results
     df_master = load_screener_master_data()
-    filters_config = {
-        "max_debt_to_equity": 0.8
-    }
+    filters_config = {"max_debt_to_equity": 0.8}
     df_filtered = filter_companies(df_master, {"filters": filters_config})
     dashboard_tickers = sorted(df_filtered["company_id"].tolist())
 
@@ -56,9 +52,7 @@ def test_integration_screener_min_fcf():
 
     # 2. Dashboard Logic Results
     df_master = load_screener_master_data()
-    filters_config = {
-        "min_fcf": 200.0
-    }
+    filters_config = {"min_fcf": 200.0}
     df_filtered = filter_companies(df_master, {"filters": filters_config})
     dashboard_tickers = sorted(df_filtered["company_id"].tolist())
 
@@ -76,11 +70,7 @@ def test_integration_screener_combined():
 
     # 2. Dashboard Logic Results
     df_master = load_screener_master_data()
-    filters_config = {
-        "min_roe": 15.0,
-        "max_debt_to_equity": 0.5,
-        "min_fcf": 100.0
-    }
+    filters_config = {"min_roe": 15.0, "max_debt_to_equity": 0.5, "min_fcf": 100.0}
     df_filtered = filter_companies(df_master, {"filters": filters_config})
     dashboard_tickers = sorted(df_filtered["company_id"].tolist())
 

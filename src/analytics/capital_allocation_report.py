@@ -7,23 +7,20 @@ and integrates results into the Cash Flow Intelligence report.
 from __future__ import annotations
 
 import logging
-import os
 import sqlite3
-import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
-import numpy as np
 import pandas as pd
 
 from src.analytics.cashflow_kpis import export_excel_intelligence
 from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
 from src.utils.helpers import extract_year_int
-from src.utils.logger import get_logger
 
 
 def setup_allocation_logging() -> logging.Logger:
+    """Setup allocation logging."""
     log_dir = BASE_DIR / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / "capital_allocation.log"
@@ -89,7 +86,7 @@ def categorize_transition(prev: str, curr: str) -> str:
     return "Strategic Shift"
 
 
-def verify_capital_allocation(df_alloc: pd.DataFrame, db_path: Path) -> List[str]:
+def verify_capital_allocation(df_alloc: pd.DataFrame, db_path: Path) -> list[str]:
     """
     Verifies completeness, coverage, duplicate-free properties and valid pattern labels in capital_allocation.csv.
     """
@@ -146,8 +143,9 @@ def verify_capital_allocation(df_alloc: pd.DataFrame, db_path: Path) -> List[str
 
 
 def run_capital_allocation_report(
-    db_path: Optional[Path] = None, output_dir: Optional[Path] = None
-) -> Dict[str, Any]:
+    db_path: Path | None = None, output_dir: Path | None = None
+) -> dict[str, Any]:
+    """Run capital allocation report."""
     start_time = time.time()
     db_file = db_path or DB_PATH
     out_dir = output_dir or OUTPUT_DIR
@@ -319,7 +317,7 @@ def run_capital_allocation_report(
     print("=" * 80)
     print("             CAPITAL ALLOCATION INTEL & STRATEGY REPORT             ")
     print("=" * 80)
-    print(f"[+] Total Companies Processed  : 92")
+    print("[+] Total Companies Processed  : 92")
     print(f"    Total Strategy Changes     : {change_count}")
     print(f"    Engine Runtime             : {runtime}s")
     print(f"    Summary Distribution Path  : {summary_path}")

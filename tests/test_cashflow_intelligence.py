@@ -3,16 +3,13 @@ Unit tests for the Cash Flow Intelligence & Health Engine.
 Verifies CFO Quality, CapEx Intensity, FCF Conversion, Distress, and Deleveraging signals.
 """
 
-import pytest
-import pandas as pd
-from pathlib import Path
 
 from src.analytics.cashflow_kpis import (
-    calculate_cfo_quality,
-    classify_cfo_quality,
     calculate_capex_intensity,
-    classify_capex_intensity,
+    calculate_cfo_quality,
     calculate_fcf_conversion,
+    classify_capex_intensity,
+    classify_cfo_quality,
     run_cashflow_intelligence_pipeline,
 )
 from src.config.settings import DB_PATH

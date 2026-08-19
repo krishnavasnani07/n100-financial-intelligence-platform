@@ -3,14 +3,14 @@ Unit tests for the Capital Allocation Intelligence & Strategy Evolution module.
 Verifies transition classification, validation checking, and report generation.
 """
 
-import pytest
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 from src.analytics.capital_allocation_report import (
     categorize_transition,
-    verify_capital_allocation,
     run_capital_allocation_report,
+    verify_capital_allocation,
 )
 from src.config.settings import DB_PATH
 

@@ -1,4 +1,3 @@
-import pandas as pd
 import streamlit as st
 
 from src.dashboard.components.peer_table import render_peer_table
@@ -21,6 +20,7 @@ st.markdown("---")
 # Load raw and normalized master data
 @st.cache_data(ttl=600)
 def get_cached_radar_data():
+    """Get cached radar data."""
     df_raw = load_radar_universe_data()
     df_norm = calculate_normalized_radar_metrics(df_raw)
     return df_raw, df_norm
@@ -39,7 +39,7 @@ st.sidebar.markdown(
 )
 
 # Sector selector
-sectors_list = sorted(list(df_raw["sector"].dropna().unique()))
+sectors_list = sorted(df_raw["sector"].dropna().unique())
 selected_sector = st.sidebar.selectbox("Select Broad Sector:", sectors_list)
 
 # Filter companies by sector

@@ -5,8 +5,6 @@ Calculates percentile ranks for KPIs and computes statistical summaries by secto
 
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
-
 import numpy as np
 import pandas as pd
 
@@ -48,7 +46,7 @@ def compute_percentiles(series: pd.Series, lower_is_better: bool = False) -> pd.
     return res
 
 
-def calculate_sector_statistics(df: pd.DataFrame, kpis: List[str]) -> pd.DataFrame:
+def calculate_sector_statistics(df: pd.DataFrame, kpis: list[str]) -> pd.DataFrame:
     """
     Computes sector-wise statistics (Mean, Median, Min, Max, Std Dev) for each KPI.
 

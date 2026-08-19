@@ -2,13 +2,11 @@
 Unit tests for the NLP Text Parser and CAGR Validation module.
 """
 
-import pytest
-import pandas as pd
-import sqlite3
-import numpy as np
 from unittest.mock import MagicMock
 
-from src.nlp.parser import parse_growth_metric, get_computed_value, METRIC_MAPPING
+import pandas as pd
+
+from src.nlp.parser import get_computed_value, parse_growth_metric
 
 
 def test_parse_growth_metric_single():

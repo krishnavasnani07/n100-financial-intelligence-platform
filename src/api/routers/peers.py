@@ -1,5 +1,5 @@
-from typing import Optional, Dict, Any, List
 import sqlite3
+
 import pandas as pd
 from fastapi import APIRouter, HTTPException, Query
 
@@ -7,12 +7,16 @@ from src.api.database import clean_df_nans, clean_dict_nans
 from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.reports.report_utils import map_sector
 from src.screener.ranking import calculate_rankings
-from src.visualization.radar_chart import load_universe_data, calculate_normalized_metrics
+from src.visualization.radar_chart import (
+    calculate_normalized_metrics,
+    load_universe_data,
+)
 
 router = APIRouter(tags=["Peers"])
 
 
-def get_companies_map() -> Dict[str, str]:
+def get_companies_map() -> dict[str, str]:
+    """Get companies map."""
     conn = sqlite3.connect(DB_PATH)
     try:
         rows = conn.execute("SELECT id, company_name FROM companies").fetchall()
@@ -23,7 +27,10 @@ def get_companies_map() -> Dict[str, str]:
         conn.close()
 
 
-def compute_global_percentiles(df: pd.DataFrame, columns_config: Dict[str, bool]) -> pd.DataFrame:
+def compute_global_percentiles(
+    df: pd.DataFrame, columns_config: dict[str, bool]
+) -> pd.DataFrame:
+    """Compute global percentiles."""
     df_pct = df.copy()
     for col, lower_is_better in columns_config.items():
         series = df[col].dropna()
@@ -35,7 +42,9 @@ def compute_global_percentiles(df: pd.DataFrame, columns_config: Dict[str, bool]
         min_rank = ranks.min()
         max_rank = ranks.max()
         if max_rank > min_rank:
-            df_pct[f"{col}_percentile"] = (100.0 * (ranks - min_rank) / (max_rank - min_rank)).round(2)
+            df_pct[f"{col}_percentile"] = (
+                100.0 * (ranks - min_rank) / (max_rank - min_rank)
+            ).round(2)
         else:
             df_pct[f"{col}_percentile"] = 100.0
     return df_pct
@@ -43,7 +52,7 @@ def compute_global_percentiles(df: pd.DataFrame, columns_config: Dict[str, bool]
 
 @router.get("/peer")
 def get_peer_comparison(
-    sector: Optional[str] = Query(None, description="Sector name to filter peers")
+    sector: str | None = Query(None, description="Sector name to filter peers")
 ):
     """
     Legacy route to return peer comparisons, top performers, and sector statistics.
@@ -92,7 +101,7 @@ def get_peer_group(group_name: str):
     try:
         rows = conn.execute(
             "SELECT company_id, is_benchmark FROM peer_groups WHERE LOWER(peer_group_name) = LOWER(?)",
-            [group_name]
+            [group_name],
         ).fetchall()
     finally:
         conn.close()
@@ -125,7 +134,7 @@ def get_peer_group(group_name: str):
             "free_cash_flow_cr": False,
             "revenue_cagr_5yr": False,
             "pat_cagr_5yr": False,
-            "composite_quality_score": False
+            "composite_quality_score": False,
         }
 
         # Calculate percentiles across the whole universe first
@@ -139,38 +148,52 @@ def get_peer_group(group_name: str):
         for _, row in df_group.iterrows():
             cid = str(row["company_id"])
             is_bench = next((r[1] for r in rows if r[0] == cid), 0)
-            
-            results.append(clean_dict_nans({
-                "company_id": cid,
-                "company_name": companies_map.get(cid, ""),
-                "ticker": cid,
-                "is_benchmark": bool(is_bench),
-                "sector": row["sector_standardized"],
-                "metrics": {
-                    "roe_pct": row["return_on_equity_pct"],
-                    "roce_pct": row["return_on_capital_employed_pct"],
-                    "net_profit_margin_pct": row["net_profit_margin_pct"],
-                    "operating_profit_margin_pct": row["operating_profit_margin_pct"],
-                    "debt_to_equity": row["debt_to_equity"],
-                    "interest_coverage": row["interest_coverage"],
-                    "free_cash_flow_cr": row["free_cash_flow_cr"],
-                    "revenue_cagr_5yr": row["revenue_cagr_5yr"],
-                    "pat_cagr_5yr": row["pat_cagr_5yr"],
-                    "composite_quality_score": row["composite_quality_score"]
-                },
-                "percentiles": {
-                    "roe_pct": row["return_on_equity_pct_percentile"],
-                    "roce_pct": row["return_on_capital_employed_pct_percentile"],
-                    "net_profit_margin_pct": row["net_profit_margin_pct_percentile"],
-                    "operating_profit_margin_pct": row["operating_profit_margin_pct_percentile"],
-                    "debt_to_equity": row["debt_to_equity_percentile"],
-                    "interest_coverage": row["interest_coverage_percentile"],
-                    "free_cash_flow_cr": row["free_cash_flow_cr_percentile"],
-                    "revenue_cagr_5yr": row["revenue_cagr_5yr_percentile"],
-                    "pat_cagr_5yr": row["pat_cagr_5yr_percentile"],
-                    "composite_quality_score": row["composite_quality_score_percentile"]
-                }
-            }))
+
+            results.append(
+                clean_dict_nans(
+                    {
+                        "company_id": cid,
+                        "company_name": companies_map.get(cid, ""),
+                        "ticker": cid,
+                        "is_benchmark": bool(is_bench),
+                        "sector": row["sector_standardized"],
+                        "metrics": {
+                            "roe_pct": row["return_on_equity_pct"],
+                            "roce_pct": row["return_on_capital_employed_pct"],
+                            "net_profit_margin_pct": row["net_profit_margin_pct"],
+                            "operating_profit_margin_pct": row[
+                                "operating_profit_margin_pct"
+                            ],
+                            "debt_to_equity": row["debt_to_equity"],
+                            "interest_coverage": row["interest_coverage"],
+                            "free_cash_flow_cr": row["free_cash_flow_cr"],
+                            "revenue_cagr_5yr": row["revenue_cagr_5yr"],
+                            "pat_cagr_5yr": row["pat_cagr_5yr"],
+                            "composite_quality_score": row["composite_quality_score"],
+                        },
+                        "percentiles": {
+                            "roe_pct": row["return_on_equity_pct_percentile"],
+                            "roce_pct": row[
+                                "return_on_capital_employed_pct_percentile"
+                            ],
+                            "net_profit_margin_pct": row[
+                                "net_profit_margin_pct_percentile"
+                            ],
+                            "operating_profit_margin_pct": row[
+                                "operating_profit_margin_pct_percentile"
+                            ],
+                            "debt_to_equity": row["debt_to_equity_percentile"],
+                            "interest_coverage": row["interest_coverage_percentile"],
+                            "free_cash_flow_cr": row["free_cash_flow_cr_percentile"],
+                            "revenue_cagr_5yr": row["revenue_cagr_5yr_percentile"],
+                            "pat_cagr_5yr": row["pat_cagr_5yr_percentile"],
+                            "composite_quality_score": row[
+                                "composite_quality_score_percentile"
+                            ],
+                        },
+                    }
+                )
+            )
         return results
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Peers query error: {e}")
@@ -182,25 +205,30 @@ def compare_peers(ticker: str):
     Returns radar-chart-ready comparison data across 8 axes/metrics.
     """
     ticker = ticker.strip().upper()
-    
+
     conn = sqlite3.connect(DB_PATH)
     try:
         row_group = conn.execute(
             "SELECT peer_group_name FROM peer_groups WHERE UPPER(company_id) = ?",
-            [ticker]
+            [ticker],
         ).fetchone()
         if not row_group:
-            raise HTTPException(status_code=404, detail=f"Peer group not found for company '{ticker}'")
-        
+            raise HTTPException(
+                status_code=404, detail=f"Peer group not found for company '{ticker}'"
+            )
+
         group_name = row_group[0]
-        
+
         row_bench = conn.execute(
             "SELECT company_id FROM peer_groups WHERE peer_group_name = ? AND is_benchmark = 1",
-            [group_name]
+            [group_name],
         ).fetchone()
         if not row_bench:
-            raise HTTPException(status_code=404, detail=f"Benchmark company not found for peer group '{group_name}'")
-        
+            raise HTTPException(
+                status_code=404,
+                detail=f"Benchmark company not found for peer group '{group_name}'",
+            )
+
         benchmark_ticker = row_bench[0]
     finally:
         conn.close()
@@ -208,38 +236,65 @@ def compare_peers(ticker: str):
     try:
         df_raw = load_universe_data(DB_PATH)
         df_norm = calculate_normalized_metrics(df_raw)
-        
+
         if ticker not in df_raw["company_id"].values:
-            raise HTTPException(status_code=404, detail=f"Company '{ticker}' not found in financial data")
+            raise HTTPException(
+                status_code=404,
+                detail=f"Company '{ticker}' not found in financial data",
+            )
         if benchmark_ticker not in df_raw["company_id"].values:
-            raise HTTPException(status_code=404, detail=f"Benchmark company '{benchmark_ticker}' not found in financial data")
-            
+            raise HTTPException(
+                status_code=404,
+                detail=f"Benchmark company '{benchmark_ticker}' not found in financial data",
+            )
+
         row_target_raw = df_raw[df_raw["company_id"] == ticker].iloc[0]
         row_target_norm = df_norm[df_norm["company_id"] == ticker].iloc[0]
-        
+
         row_bench_raw = df_raw[df_raw["company_id"] == benchmark_ticker].iloc[0]
         row_bench_norm = df_norm[df_norm["company_id"] == benchmark_ticker].iloc[0]
-        
+
         axes = [
-            "roe", "roce", "revenue_cagr", "pat_cagr", 
-            "operating_margin", "current_ratio", "debt_to_equity", "composite_score"
+            "roe",
+            "roce",
+            "revenue_cagr",
+            "pat_cagr",
+            "operating_margin",
+            "current_ratio",
+            "debt_to_equity",
+            "composite_score",
         ]
-        
-        return clean_dict_nans({
-            "axes": axes,
-            "company": {
-                "ticker": ticker,
-                "normalized": {ax: float(row_target_norm[ax]) for ax in axes},
-                "raw": {ax: float(row_target_raw[ax]) if pd.notnull(row_target_raw[ax]) else None for ax in axes}
-            },
-            "benchmark": {
-                "ticker": benchmark_ticker,
-                "normalized": {ax: float(row_bench_norm[ax]) for ax in axes},
-                "raw": {ax: float(row_bench_raw[ax]) if pd.notnull(row_bench_raw[ax]) else None for ax in axes}
+
+        return clean_dict_nans(
+            {
+                "axes": axes,
+                "company": {
+                    "ticker": ticker,
+                    "normalized": {ax: float(row_target_norm[ax]) for ax in axes},
+                    "raw": {
+                        ax: (
+                            float(row_target_raw[ax])
+                            if pd.notnull(row_target_raw[ax])
+                            else None
+                        )
+                        for ax in axes
+                    },
+                },
+                "benchmark": {
+                    "ticker": benchmark_ticker,
+                    "normalized": {ax: float(row_bench_norm[ax]) for ax in axes},
+                    "raw": {
+                        ax: (
+                            float(row_bench_raw[ax])
+                            if pd.notnull(row_bench_raw[ax])
+                            else None
+                        )
+                        for ax in axes
+                    },
+                },
             }
-        })
+        )
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Comparison error: {e}")
-

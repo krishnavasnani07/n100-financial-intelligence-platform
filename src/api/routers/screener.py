@@ -1,5 +1,5 @@
-from typing import Optional, List, Dict, Any
 import sqlite3
+
 import pandas as pd
 from fastapi import APIRouter, HTTPException, Query
 
@@ -21,11 +21,12 @@ VALID_SECTORS = [
     "IT Services",
     "Materials",
     "Real Estate",
-    "Utilities"
+    "Utilities",
 ]
 
 
-def normalize_sector_name(sector_name: str) -> Optional[str]:
+def normalize_sector_name(sector_name: str) -> str | None:
+    """Normalize sector name."""
     s = sector_name.strip().upper()
     if s in ["IT", "IT SERVICES", "INFORMATION TECHNOLOGY"]:
         return "IT Services"
@@ -37,7 +38,8 @@ def normalize_sector_name(sector_name: str) -> Optional[str]:
     return None
 
 
-def get_companies_map() -> Dict[str, str]:
+def get_companies_map() -> dict[str, str]:
+    """Get companies map."""
     conn = sqlite3.connect(DB_PATH)
     try:
         rows = conn.execute("SELECT id, company_name FROM companies").fetchall()
@@ -48,7 +50,8 @@ def get_companies_map() -> Dict[str, str]:
         conn.close()
 
 
-def safe_float(val: Optional[str], name: str) -> Optional[float]:
+def safe_float(val: str | None, name: str) -> float | None:
+    """Safe float."""
     if val is None or val == "":
         return None
     try:
@@ -63,7 +66,7 @@ def safe_float(val: Optional[str], name: str) -> Optional[float]:
 
 @router.get("/screen")
 def screen_companies(
-    preset: Optional[str] = Query(
+    preset: str | None = Query(
         None, description="Preset strategy name (e.g. 'Value Pick')"
     )
 ):
@@ -108,13 +111,15 @@ def screen_companies(
 
 @router.get("/screener")
 def get_screener(
-    min_roe: Optional[str] = Query(None, description="Minimum ROE %"),
-    max_de: Optional[str] = Query(None, description="Maximum Debt to Equity ratio"),
-    min_fcf: Optional[str] = Query(None, description="Minimum Free Cash Flow (Cr)"),
-    sector: Optional[str] = Query(None, description="Standardized sector name"),
-    min_rev_cagr_5yr: Optional[str] = Query(None, description="Minimum 5Y Revenue CAGR %"),
-    min_pat_cagr_5yr: Optional[str] = Query(None, description="Minimum 5Y PAT CAGR %"),
-    max_pe: Optional[str] = Query(None, description="Maximum PE ratio"),
+    min_roe: str | None = Query(None, description="Minimum ROE %"),
+    max_de: str | None = Query(None, description="Maximum Debt to Equity ratio"),
+    min_fcf: str | None = Query(None, description="Minimum Free Cash Flow (Cr)"),
+    sector: str | None = Query(None, description="Standardized sector name"),
+    min_rev_cagr_5yr: str | None = Query(
+        None, description="Minimum 5Y Revenue CAGR %"
+    ),
+    min_pat_cagr_5yr: str | None = Query(None, description="Minimum 5Y PAT CAGR %"),
+    max_pe: str | None = Query(None, description="Maximum PE ratio"),
 ):
     """
     Filters and screens companies based on latest-year KPI metrics.
@@ -156,7 +161,10 @@ def get_screener(
         if roe is not None:
             df = df[df["return_on_equity_pct"] >= roe]
         if de is not None:
-            df = df[(df["debt_to_equity"] <= de) | (df["sector"].astype(str).str.lower() == "financials")]
+            df = df[
+                (df["debt_to_equity"] <= de)
+                | (df["sector"].astype(str).str.lower() == "financials")
+            ]
         if fcf is not None:
             df = df[df["free_cash_flow_cr"] >= fcf]
         if rev_cagr is not None:
@@ -171,20 +179,23 @@ def get_screener(
         companies_map = get_companies_map()
         results = []
         for _, row in df.iterrows():
-            results.append(clean_dict_nans({
-                "company_id": str(row["company_id"]),
-                "company_name": companies_map.get(str(row["company_id"]), ""),
-                "ticker": str(row["company_id"]),
-                "sector": row["sector_standardized"],
-                "roe_pct": row["return_on_equity_pct"],
-                "debt_to_equity": row["debt_to_equity"],
-                "fcf": row["free_cash_flow_cr"],
-                "revenue_cagr_5yr": row["revenue_cagr_5yr"],
-                "pat_cagr_5yr": row["pat_cagr_5yr"],
-                "pe": row.get("pe"),
-            }))
+            results.append(
+                clean_dict_nans(
+                    {
+                        "company_id": str(row["company_id"]),
+                        "company_name": companies_map.get(str(row["company_id"]), ""),
+                        "ticker": str(row["company_id"]),
+                        "sector": row["sector_standardized"],
+                        "roe_pct": row["return_on_equity_pct"],
+                        "debt_to_equity": row["debt_to_equity"],
+                        "fcf": row["free_cash_flow_cr"],
+                        "revenue_cagr_5yr": row["revenue_cagr_5yr"],
+                        "pat_cagr_5yr": row["pat_cagr_5yr"],
+                        "pe": row.get("pe"),
+                    }
+                )
+            )
 
         return results
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Screener query error: {e}")
-

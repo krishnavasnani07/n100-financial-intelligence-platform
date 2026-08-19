@@ -3,7 +3,7 @@ import datetime
 import shutil
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import pandas as pd
 
@@ -29,14 +29,14 @@ LOAD_ORDER = [
 
 
 class DatabaseLoader:
-    def __init__(self, db_path: Path | str = None, audit_dir: Path | str = None):
+    def __init__(self, db_path: Path | str | None = None, audit_dir: Path | str | None = None):
         self.db_path = Path(db_path) if db_path else settings.DB_PATH
         self.audit_dir = Path(audit_dir) if audit_dir else settings.AUDIT_DIR
-        self.audit_records: List[Dict[str, Any]] = []
+        self.audit_records: list[dict[str, Any]] = []
 
     def prepare_data_for_loading(
         self, table_name: str, df: pd.DataFrame, valid_company_ids: set
-    ) -> Tuple[pd.DataFrame, int]:
+    ) -> tuple[pd.DataFrame, int]:
         """
         Cleans and filters DataFrame to ensure strict PK and FK compliance before insertion.
         Returns (df_to_insert, rejected_count).
@@ -76,9 +76,8 @@ class DatabaseLoader:
             "prosandcons",
             "documents",
             "peer_groups",
-        ]:
-            if "id" in df_clean.columns:
-                df_clean = df_clean.drop(columns=["id"])
+        ] and "id" in df_clean.columns:
+            df_clean = df_clean.drop(columns=["id"])
 
         rows_inserted = len(df_clean)
         rows_rejected = rows_read - rows_inserted
@@ -176,7 +175,7 @@ class DatabaseLoader:
         logger.info(f"Database backup created successfully at {backup_path}")
         return backup_path
 
-    def compute_performance_metrics(self) -> Dict[str, Any]:
+    def compute_performance_metrics(self) -> dict[str, Any]:
         """
         Calculates execution metrics: totals, averages, largest, fastest, slowest tables.
         """
@@ -216,7 +215,7 @@ class DatabaseLoader:
 
         return metrics
 
-    def load_all(self, normalized_dfs: Dict[str, pd.DataFrame]) -> Dict[str, Any]:
+    def load_all(self, normalized_dfs: dict[str, pd.DataFrame]) -> dict[str, Any]:
         """
         Executes the end-to-end database loading process in strict topological order.
         """

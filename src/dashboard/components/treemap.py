@@ -97,9 +97,9 @@ def render_capital_allocation_treemap(df: pd.DataFrame):
     )
 
     fig.update_layout(
-        margin=dict(t=40, l=10, r=10, b=10),
+        margin={"t": 40, "l": 10, "r": 10, "b": 10},
         paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#ffffff", family="Inter"),
+        font={"color": "#ffffff", "family": "Inter"},
         height=550,
     )
 

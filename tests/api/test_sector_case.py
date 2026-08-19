@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+
 from src.api.main import app
 from src.api.routers.sectors import normalize_sector_name
 
@@ -13,7 +14,7 @@ def test_normalize_sector_name():
     assert normalize_sector_name("banking") == "Banking"
     assert normalize_sector_name("Financials") == "Banking"
     assert normalize_sector_name("  Utilities  ") == "Utilities"
-    
+
     # Test invalid mapping
     assert normalize_sector_name("NonExistentSector") is None
 

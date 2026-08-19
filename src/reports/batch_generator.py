@@ -10,9 +10,8 @@ import argparse
 import sqlite3
 import time
 from pathlib import Path
-from typing import List, Optional
 
-from src.config.settings import BASE_DIR, DB_PATH, OUTPUT_DIR
+from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.reports.report_utils import (
     check_eligibility,
     map_sector,
@@ -26,9 +25,9 @@ logger = get_logger("batch_generator")
 
 
 def run_batch_generation(
-    ticker_list: Optional[List[str]] = None,
-    db_path: Optional[Path] = None,
-    out_dir: Optional[Path] = None,
+    ticker_list: list[str] | None = None,
+    db_path: Path | None = None,
+    out_dir: Path | None = None,
 ) -> None:
     """
     Runs batch generation for the specified list of tickers (or all if None).

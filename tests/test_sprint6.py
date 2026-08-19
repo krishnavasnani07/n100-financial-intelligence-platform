@@ -1,12 +1,9 @@
-import pytest
-import numpy as np
-import pandas as pd
 from fastapi.testclient import TestClient
 
-from src.portfolio.portfolio_engine import calculate_portfolio_metrics
-from src.forecasting.forecasting_engine import generate_company_forecasts
-from src.utils.ai_engine import get_company_insights_data
 from src.api.main import app
+from src.forecasting.forecasting_engine import generate_company_forecasts
+from src.portfolio.portfolio_engine import calculate_portfolio_metrics
+from src.utils.ai_engine import get_company_insights_data
 
 
 def test_api_endpoints():

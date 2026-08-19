@@ -46,8 +46,8 @@ def render_trend_charts(df: pd.DataFrame, selected_metrics: list, metric_map: di
                 y=df_sorted[col],
                 name=metric_name,
                 mode="lines+markers",
-                line=dict(color=color, width=3),
-                marker=dict(size=8, symbol="circle"),
+                line={"color": color, "width": 3},
+                marker={"size": 8, "symbol": "circle"},
                 text=hover_texts,
                 hovertemplate="<b>%{x}</b><br>%{text}<extra></extra>",
             )
@@ -55,17 +55,17 @@ def render_trend_charts(df: pd.DataFrame, selected_metrics: list, metric_map: di
 
         # Layout customization
         fig.update_layout(
-            title=dict(
-                text=f"10-Year Trend: {metric_name}",
-                font=dict(size=14, color="#ffffff", family="Inter"),
-            ),
-            margin=dict(t=40, b=10, l=10, r=10),
+            title={
+                "text": f"10-Year Trend: {metric_name}",
+                "font": {"size": 14, "color": "#ffffff", "family": "Inter"},
+            },
+            margin={"t": 40, "b": 10, "l": 10, "r": 10},
             height=300,
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#ffffff"),
-            xaxis=dict(showgrid=False, title="", tickangle=0),
-            yaxis=dict(showgrid=True, gridcolor="rgba(255, 255, 255, 0.1)", title=""),
+            font={"color": "#ffffff"},
+            xaxis={"showgrid": False, "title": "", "tickangle": 0},
+            yaxis={"showgrid": True, "gridcolor": "rgba(255, 255, 255, 0.1)", "title": ""},
             showlegend=False,
         )
 

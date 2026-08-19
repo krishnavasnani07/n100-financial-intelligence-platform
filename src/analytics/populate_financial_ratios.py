@@ -7,12 +7,11 @@ to populate the `financial_ratios` SQLite database table and generate `output/fi
 
 import logging
 import math
-import re
 import sqlite3
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import pandas as pd
 
@@ -69,14 +68,14 @@ from src.utils.helpers import extract_year_int
 
 
 def calculate_composite_quality_score(
-    roe: Optional[float],
-    roce: Optional[float],
-    rev_cagr: Optional[float],
-    pat_cagr: Optional[float],
-    de_ratio: Optional[float],
-    icr: Optional[float],
-    cfo_quality: Optional[float],
-) -> Optional[float]:
+    roe: float | None,
+    roce: float | None,
+    rev_cagr: float | None,
+    pat_cagr: float | None,
+    de_ratio: float | None,
+    icr: float | None,
+    cfo_quality: float | None,
+) -> float | None:
     """
     Computes a weighted Composite Quality Score (0 - 100).
     Weight distribution:
@@ -89,7 +88,7 @@ def calculate_composite_quality_score(
       - CFO Quality (10%)
     Re-normalizes weights for valid components if any input metric is missing.
     """
-    components: List[Tuple[float, float]] = []
+    components: list[tuple[float, float]] = []
 
     # 1. ROE Score (Target: >=20%)
     if roe is not None and not math.isnan(roe):
@@ -202,7 +201,7 @@ def load_master_dataframe(db_path: Path) -> pd.DataFrame:
     return df_master
 
 
-def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
+def populate_ratios_pipeline(db_path: Path | None = None) -> pd.DataFrame:
     """
     Executes the end-to-end Financial Ratio population pipeline.
     """
@@ -219,7 +218,7 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     # 2. Build Historical Lookup for 5-Year CAGR
     # Map (company_id, year_int) -> row dict
-    cagr_lookup: Dict[Tuple[str, int], Dict[str, Any]] = {}
+    cagr_lookup: dict[tuple[str, int], dict[str, Any]] = {}
     for _, row in df_master.iterrows():
         cid = str(row["company_id"])
         yint = row["year_int"]
@@ -230,8 +229,7 @@ def populate_ratios_pipeline(db_path: Optional[Path] = None) -> pd.DataFrame:
                 "eps": row.get("eps"),
             }
 
-    records: List[Dict[str, Any]] = []
-    warnings_count = 0
+    records: list[dict[str, Any]] = []
     errors_count = 0
 
     # 3. Iterate row-by-row and compute all KPIs

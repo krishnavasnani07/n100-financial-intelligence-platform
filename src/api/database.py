@@ -1,6 +1,8 @@
 import sqlite3
-from typing import Any, Dict, List
+from typing import Any
+
 import pandas as pd
+
 from src.config.settings import DB_PATH
 from src.database.database import get_connection
 
@@ -15,7 +17,7 @@ def get_db_connection() -> sqlite3.Connection:
     return conn
 
 
-def clean_dict_nans(d: Dict[str, Any]) -> Dict[str, Any]:
+def clean_dict_nans(d: dict[str, Any]) -> dict[str, Any]:
     """Replaces any NaN values in a dictionary with None (JSON null)."""
     cleaned = {}
     for k, v in d.items():
@@ -28,7 +30,7 @@ def clean_dict_nans(d: Dict[str, Any]) -> Dict[str, Any]:
     return cleaned
 
 
-def clean_df_nans(df: pd.DataFrame) -> List[Dict[str, Any]]:
+def clean_df_nans(df: pd.DataFrame) -> list[dict[str, Any]]:
     """Replaces any NaN values in a DataFrame with None and returns record dictionaries."""
     if df.empty:
         return []

@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
@@ -46,6 +45,7 @@ def load_radar_universe_data() -> pd.DataFrame:
 
     # Calculate Current Ratio (other_asset / other_liabilities)
     def calc_cr(row):
+        """Calc cr."""
         ca = row.get("other_asset")
         cl = row.get("other_liabilities")
         if pd.isnull(ca) or pd.isnull(cl) or cl <= 0:
@@ -200,21 +200,21 @@ def render_peer_radar(
     )
 
     fig.update_layout(
-        polar=dict(
-            radialaxis=dict(
-                visible=True,
-                range=[0, 100],
-                gridcolor="rgba(255, 255, 255, 0.15)",
-                color="#a0aec0",
-            ),
-            angularaxis=dict(gridcolor="rgba(255, 255, 255, 0.15)", color="#a0aec0"),
-            bgcolor="rgba(0,0,0,0)",
-        ),
+        polar={
+            "radialaxis": {
+                "visible": True,
+                "range": [0, 100],
+                "gridcolor": "rgba(255, 255, 255, 0.15)",
+                "color": "#a0aec0",
+            },
+            "angularaxis": {"gridcolor": "rgba(255, 255, 255, 0.15)", "color": "#a0aec0"},
+            "bgcolor": "rgba(0,0,0,0)",
+        },
         showlegend=True,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#ffffff", size=11),
-        margin=dict(t=50, b=50, l=50, r=50),
+        font={"color": "#ffffff", "size": 11},
+        margin={"t": 50, "b": 50, "l": 50, "r": 50},
         height=450,
     )
 

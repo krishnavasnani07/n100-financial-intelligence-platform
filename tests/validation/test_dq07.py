@@ -1,6 +1,7 @@
 import pandas as pd
-from src.validation.report import ValidationReport
+
 from src.validation.dq_rules import validate_dq07_year_format
+from src.validation.report import ValidationReport
 
 
 def test_dq07_valid_year():

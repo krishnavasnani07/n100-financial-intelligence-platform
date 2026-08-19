@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
-from typing import Optional
 
 from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.utils.logger import get_logger
@@ -19,7 +18,7 @@ logger = get_logger("chart_exporter")
 
 
 def export_all_charts(
-    db_path: Optional[Path] = None, output_dir: Optional[Path] = None
+    db_path: Path | None = None, output_dir: Path | None = None
 ) -> None:
     """
     Creates chart output directories and exports standard charts for key companies and sectors.

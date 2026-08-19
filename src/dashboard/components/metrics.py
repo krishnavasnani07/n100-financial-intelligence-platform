@@ -10,7 +10,7 @@ def render_financial_metric(
     name: str,
     value: float,
     format_type: str,
-    delta: str = None,
+    delta: str | None = None,
     delta_type: str = "neutral",
 ):
     """

@@ -6,17 +6,14 @@ Generates output/reports/screener_output.xlsx with professional styling and cond
 from __future__ import annotations
 
 import datetime
-import shutil
-import sqlite3
-from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import openpyxl
 import pandas as pd
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
-from src.config.settings import DB_PATH, OUTPUT_DIR
+from src.config.settings import OUTPUT_DIR
 from src.screener.presets import run_preset
 from src.screener.ranking import calculate_rankings
 
@@ -203,7 +200,7 @@ def apply_conditional_coloring(ws: Any, df: pd.DataFrame, preset_name: str) -> N
             )
 
 
-def format_data_sheet(ws: Any, col_definitions: List[Dict[str, Any]]) -> None:
+def format_data_sheet(ws: Any, col_definitions: list[dict[str, Any]]) -> None:
     """Applies premium formatting (navy headers, alternating borders, alignment, etc.) to worksheets."""
     header_fill = PatternFill(
         start_color="1B365D", end_color="1B365D", fill_type="solid"
@@ -280,7 +277,7 @@ def format_data_sheet(ws: Any, col_definitions: List[Dict[str, Any]]) -> None:
 
 
 def populate_data_sheet(
-    ws: Any, df: pd.DataFrame, col_definitions: List[Dict[str, Any]]
+    ws: Any, df: pd.DataFrame, col_definitions: list[dict[str, Any]]
 ) -> None:
     """Populates rows of a sheet with data based on column field names."""
     # Write headers
@@ -301,7 +298,7 @@ def populate_data_sheet(
 def create_summary_sheet(
     wb: openpyxl.Workbook,
     rankings_df: pd.DataFrame,
-    preset_results: Dict[str, pd.DataFrame],
+    preset_results: dict[str, pd.DataFrame],
 ) -> None:
     """Creates a beautiful, dashboard-like Summary sheet as the first tab in the workbook."""
     ws = wb.active

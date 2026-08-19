@@ -1,7 +1,7 @@
-import pytest
 from pathlib import Path
+
 from src.config.settings import DB_PATH
-from src.reports.report_utils import map_sector, check_eligibility, validate_pdf
+from src.reports.report_utils import check_eligibility, map_sector, validate_pdf
 
 
 def test_sector_mapping():

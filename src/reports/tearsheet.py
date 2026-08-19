@@ -6,7 +6,7 @@ Loads data, invokes chart routines, builds ReportLab flowables, and compiles the
 import sqlite3
 import time
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 import pandas as pd
 from reportlab.lib import colors
@@ -73,7 +73,8 @@ BADGE_COLORS = {
 # --- STEP 3: Loaders ---
 
 
-def load_company(company_id: str, db_path: Optional[Path] = None) -> Dict[str, Any]:
+def load_company(company_id: str, db_path: Path | None = None) -> dict[str, Any]:
+    """Load company."""
     db_file = db_path or DB_PATH
     conn = sqlite3.connect(str(db_file))
     conn.row_factory = sqlite3.Row
@@ -96,7 +97,8 @@ def load_company(company_id: str, db_path: Optional[Path] = None) -> Dict[str, A
         conn.close()
 
 
-def load_ratios(company_id: str, db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_ratios(company_id: str, db_path: Path | None = None) -> pd.DataFrame:
+    """Load ratios."""
     db_file = db_path or DB_PATH
     conn = sqlite3.connect(str(db_file))
     conn.row_factory = sqlite3.Row
@@ -124,7 +126,8 @@ def load_ratios(company_id: str, db_path: Optional[Path] = None) -> pd.DataFrame
         conn.close()
 
 
-def load_profit_loss(company_id: str, db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_profit_loss(company_id: str, db_path: Path | None = None) -> pd.DataFrame:
+    """Load profit loss."""
     db_file = db_path or DB_PATH
     conn = sqlite3.connect(str(db_file))
     conn.row_factory = sqlite3.Row
@@ -148,7 +151,8 @@ def load_profit_loss(company_id: str, db_path: Optional[Path] = None) -> pd.Data
         conn.close()
 
 
-def load_balance_sheet(company_id: str, db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_balance_sheet(company_id: str, db_path: Path | None = None) -> pd.DataFrame:
+    """Load balance sheet."""
     db_file = db_path or DB_PATH
     conn = sqlite3.connect(str(db_file))
     conn.row_factory = sqlite3.Row
@@ -172,7 +176,8 @@ def load_balance_sheet(company_id: str, db_path: Optional[Path] = None) -> pd.Da
         conn.close()
 
 
-def load_cashflow(company_id: str, db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_cashflow(company_id: str, db_path: Path | None = None) -> pd.DataFrame:
+    """Load cashflow."""
     db_file = db_path or DB_PATH
     conn = sqlite3.connect(str(db_file))
     conn.row_factory = sqlite3.Row
@@ -197,8 +202,9 @@ def load_cashflow(company_id: str, db_path: Optional[Path] = None) -> pd.DataFra
 
 
 def load_pros_cons(
-    company_id: str, csv_path: Optional[Path] = None
-) -> Tuple[list[str], list[str]]:
+    company_id: str, csv_path: Path | None = None
+) -> tuple[list[str], list[str]]:
+    """Load pros cons."""
     csv_file = csv_path or BASE_DIR / "output" / "pros_cons_generated.csv"
     if not csv_file.exists():
         logger.warning(f"Pros & Cons CSV not found at {csv_file}")
@@ -227,7 +233,8 @@ def load_pros_cons(
         return [], []
 
 
-def load_capital_allocation(company_id: str, csv_path: Optional[Path] = None) -> str:
+def load_capital_allocation(company_id: str, csv_path: Path | None = None) -> str:
+    """Load capital allocation."""
     csv_file = csv_path or BASE_DIR / "output" / "capital_allocation.csv"
     if not csv_file.exists():
         logger.warning(f"Capital allocation CSV not found at {csv_file}")
@@ -451,7 +458,7 @@ def build_allocation_badge(label: str) -> Table:
 # --- MAIN CONTROLLER ---
 
 
-def generate_tearsheet(company_id: str, db_path: Optional[Path] = None) -> Path:
+def generate_tearsheet(company_id: str, db_path: Path | None = None) -> Path:
     """Generates a professional 2-page tearsheet PDF for the given company."""
     start_time = time.time()
     logger.info(f"[{company_id}] Starting tearsheet generation...")

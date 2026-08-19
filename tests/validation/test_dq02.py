@@ -1,6 +1,7 @@
 import pandas as pd
-from src.validation.report import ValidationReport
+
 from src.validation.dq_rules import validate_dq02_no_duplicate_company_year
+from src.validation.report import ValidationReport
 
 
 def test_dq02_no_duplicates():

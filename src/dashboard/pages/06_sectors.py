@@ -18,6 +18,7 @@ st.markdown("---")
 # Load master screener dataset
 @st.cache_data(ttl=600)
 def get_cached_sector_data() -> pd.DataFrame:
+    """Get cached sector data."""
     try:
         # load_screener_master_data has latest year records joined with prices and sector weight
         df = load_screener_master_data()
@@ -42,7 +43,7 @@ if df_master.empty:
     st.stop()
 
 # Sector selection dropdown
-sectors_list = sorted(list(df_master["sector"].dropna().unique()))
+sectors_list = sorted(df_master["sector"].dropna().unique())
 selected_sector = st.selectbox("Select Broad Sector to Analyze:", sectors_list)
 
 if not selected_sector:

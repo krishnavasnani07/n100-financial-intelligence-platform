@@ -12,7 +12,6 @@ import pandas as pd
 
 matplotlib.use("Agg")
 from pathlib import Path
-from typing import Optional
 
 import matplotlib.pyplot as plt
 
@@ -21,7 +20,7 @@ from src.utils.helpers import extract_year_int
 
 
 def generate_trend_charts(
-    company_id: str, save_path: Optional[Path] = None, db_path: Optional[Path] = None
+    company_id: str, save_path: Path | None = None, db_path: Path | None = None
 ) -> Path:
     """
     Generates a 4-panel line chart showing historical trends for:

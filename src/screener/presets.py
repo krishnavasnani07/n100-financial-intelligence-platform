@@ -6,7 +6,6 @@ Provides 6 predefined analyst screeners and a master runner function.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 
@@ -21,7 +20,7 @@ from src.config.constants import (
 from src.screener.engine import filter_companies
 
 
-def load_screener_master_data(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_screener_master_data(db_path: Path | None = None) -> pd.DataFrame:
     """
     Loads raw database data, joins sectoral and price information,
     performs dynamic calculations (PE, PB, 3Y CAGR, YoY D/E change),
@@ -137,7 +136,7 @@ def screen_turnaround_watch(data: pd.DataFrame) -> pd.DataFrame:
 # Master Runner Function
 
 
-def run_preset(preset_name: str, data: Optional[pd.DataFrame] = None) -> pd.DataFrame:
+def run_preset(preset_name: str, data: pd.DataFrame | None = None) -> pd.DataFrame:
     """
     Executes a preset screener by its name and returns the filtered DataFrame.
 

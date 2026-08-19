@@ -1,11 +1,12 @@
 import sqlite3
-import pytest
-import pandas as pd
 from pathlib import Path
 
-from src.etl.loader import load_excel
-from src.database.database import init_db, get_connection, get_db
+import pandas as pd
+import pytest
+
+from src.database.database import get_connection, get_db, init_db
 from src.database.loader import DatabaseLoader
+from src.etl.loader import load_excel
 from src.validation.exceptions import DataLoadError
 from src.validation.validator import DataValidator
 

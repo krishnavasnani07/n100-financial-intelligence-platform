@@ -1,0 +1,13 @@
+company_id,metric_type,original_text,failure_reason
+SBILIFE,Sales CAGR,TTM:            43%,Invalid format
+SBILIFE,Profit CAGR,TTM:                 18%,Invalid format
+SBILIFE,ROE,Last Year:      12%,Invalid format
+TCS,Sales CAGR,TTM:            5%,Invalid format
+TCS,Profit CAGR,TTM:                 8%,Invalid format
+TCS,ROE,Last Year:       52%,Invalid format
+HDFCBANK,Sales CAGR,TTM:            47%,Invalid format
+HDFCBANK,Profit CAGR,TTM:                27%,Invalid format
+HDFCBANK,ROE,Last Year:    17%,Invalid format
+INFY,Sales CAGR,TTM:            3%,Invalid format
+INFY,Profit CAGR,TTM:                 8%,Invalid format
+INFY,ROE,Last Year:     32%,Invalid format

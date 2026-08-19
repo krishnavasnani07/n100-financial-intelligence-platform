@@ -1,7 +1,9 @@
 import time
+
 from fastapi import APIRouter
-from src.database.queries import get_table_counts
+
 from src.config.settings import DB_PATH
+from src.database.queries import get_table_counts
 
 router = APIRouter(tags=["Health"])
 

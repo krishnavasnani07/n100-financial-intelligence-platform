@@ -3,11 +3,9 @@ Unit tests for the Financial Intelligence Pros & Cons generator.
 Verifies rules logic, registry structure, confidence adjustments, and fallback generation.
 """
 
-import pytest
-from unittest.mock import MagicMock
 
-from src.nlp.rules import RULES_REGISTRY, get_avg_val, FinancialRule
-from src.nlp.confidence import score_sector_adjustment, filter_insights
+from src.nlp.confidence import filter_insights, score_sector_adjustment
+from src.nlp.rules import RULES_REGISTRY, get_avg_val
 
 
 def test_rules_registry_integrity():

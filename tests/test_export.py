@@ -3,15 +3,15 @@ Unit and Integration Tests for Peer Comparison Excel & PDF Report Generation.
 """
 
 from __future__ import annotations
+
 import openpyxl
 import pytest
-from pathlib import Path
-from src.config.settings import DB_PATH, OUTPUT_DIR
+
 from src.peer_analysis.comparison import (
     determine_winner,
     generate_executive_summary,
-    get_raw_company_ratios,
     generate_peer_comparison_report,
+    get_raw_company_ratios,
 )
 
 

@@ -4,10 +4,9 @@ Report utilities for validation, sector mapping, data eligibility checks, and lo
 
 from __future__ import annotations
 
-import re
 import sqlite3
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import pandas as pd
 
@@ -16,7 +15,7 @@ from src.utils.logger import get_logger
 logger = get_logger("report_utils")
 
 
-def map_sector(broad_sector: Optional[str], sub_sector: Optional[str]) -> str:
+def map_sector(broad_sector: str | None, sub_sector: str | None) -> str:
     """
     Maps database sector fields to the 11 standardized sectors:
     1. Communication Services
@@ -48,7 +47,7 @@ def map_sector(broad_sector: Optional[str], sub_sector: Optional[str]) -> str:
         return str(broad_sector).strip() if broad_sector else "Unclassified"
 
 
-def check_eligibility(company_id: str, db_path: Path) -> Tuple[bool, str]:
+def check_eligibility(company_id: str, db_path: Path) -> tuple[bool, str]:
     """
     Verifies if a company has at least 3 years of financial records across:
     - financial_ratios
@@ -100,9 +99,9 @@ def check_eligibility(company_id: str, db_path: Path) -> Tuple[bool, str]:
 
 def validate_pdf(
     file_path: Path,
-    expected_pages: Optional[int] = None,
+    expected_pages: int | None = None,
     min_size_kb: float = 30.0,
-) -> Tuple[bool, str]:
+) -> tuple[bool, str]:
     """
     Validates a generated PDF:
     - File exists
@@ -144,8 +143,8 @@ def validate_pdf(
 
 
 def save_summary_reports(
-    summary_data: List[Dict[str, Any]],
-    skipped_data: List[Dict[str, Any]],
+    summary_data: list[dict[str, Any]],
+    skipped_data: list[dict[str, Any]],
     output_dir: Path,
 ) -> None:
     """

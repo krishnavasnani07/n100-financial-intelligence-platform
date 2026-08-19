@@ -3,7 +3,7 @@ Confidence and filtering engine for financial insights.
 Determines if insights meet the target confidence thresholds (>60%).
 """
 
-from typing import Any, Dict, List
+from typing import Any
 
 # Minimum confidence percentage required to export an insight
 MIN_CONFIDENCE_THRESHOLD = 60.0
@@ -28,7 +28,7 @@ def score_sector_adjustment(base_score: float, rule_id: str, sector: str) -> flo
     return round(score, 2)
 
 
-def filter_insights(insights: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def filter_insights(insights: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Filters out any insights that fall below the minimum confidence threshold (60%)."""
     return [
         insight

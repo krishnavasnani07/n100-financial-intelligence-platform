@@ -5,7 +5,6 @@ Generates single company and peer comparison radar (spider) charts.
 
 from __future__ import annotations
 
-import math
 import sqlite3
 
 import matplotlib
@@ -14,7 +13,6 @@ import pandas as pd
 
 matplotlib.use("Agg")
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 
@@ -22,7 +20,7 @@ from src.config.settings import DB_PATH, OUTPUT_DIR
 from src.utils.helpers import extract_year_int
 
 
-def load_universe_data(db_path: Optional[Path] = None) -> pd.DataFrame:
+def load_universe_data(db_path: Path | None = None) -> pd.DataFrame:
     """
     Loads latest year data for all companies from the database, joins balance sheet
     for Current Assets / Current Liabilities, and calculates Current Ratio.
@@ -53,6 +51,7 @@ def load_universe_data(db_path: Optional[Path] = None) -> pd.DataFrame:
 
     # Calculate Current Ratio (other_asset / other_liabilities)
     def calc_cr(row):
+        """Calc cr."""
         ca = row["current_assets"]
         cl = row["current_liabilities"]
         if pd.isnull(ca) or pd.isnull(cl) or cl <= 0:
@@ -122,7 +121,7 @@ def calculate_normalized_metrics(df_universe: pd.DataFrame) -> pd.DataFrame:
 
 def get_company_metrics(
     company_id: str, df_norm: pd.DataFrame, df_raw: pd.DataFrame
-) -> Tuple[List[float], List[float]]:
+) -> tuple[list[float], list[float]]:
     """Returns (normalized_values, raw_values) for the specified company."""
     norm_row = df_norm[df_norm["company_id"] == company_id]
     raw_row = df_raw[df_raw["company_id"] == company_id]
@@ -152,7 +151,7 @@ def get_company_metrics(
 
 
 def generate_single_radar(
-    company_id: str, save_path: Optional[Path] = None, db_path: Optional[Path] = None
+    company_id: str, save_path: Path | None = None, db_path: Path | None = None
 ) -> Path:
     """
     Generates and saves a radar chart for a single company.
@@ -160,7 +159,7 @@ def generate_single_radar(
     df_raw = load_universe_data(db_path)
     df_norm = calculate_normalized_metrics(df_raw)
 
-    n_vals, r_vals = get_company_metrics(company_id, df_norm, df_raw)
+    n_vals, _r_vals = get_company_metrics(company_id, df_norm, df_raw)
 
     categories = [
         "ROE",
@@ -235,8 +234,8 @@ def generate_single_radar(
 def generate_peer_radar(
     company_a: str,
     company_b: str,
-    save_path: Optional[Path] = None,
-    db_path: Optional[Path] = None,
+    save_path: Path | None = None,
+    db_path: Path | None = None,
 ) -> Path:
     """
     Generates a peer comparison radar chart overlaying Company A and Company B.

@@ -63,20 +63,20 @@ def render_sector_bubble_chart(df: pd.DataFrame, sector_name: str):
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#ffffff"),
-        xaxis=dict(
-            showgrid=True,
-            gridcolor="rgba(255, 255, 255, 0.1)",
-            title="Revenue (INR Cr)",
-        ),
-        yaxis=dict(
-            showgrid=True,
-            gridcolor="rgba(255, 255, 255, 0.1)",
-            title="Return on Equity (ROE %)",
-        ),
-        legend=dict(
-            orientation="h", yanchor="bottom", y=-0.35, xanchor="center", x=0.5
-        ),
+        font={"color": "#ffffff"},
+        xaxis={
+            "showgrid": True,
+            "gridcolor": "rgba(255, 255, 255, 0.1)",
+            "title": "Revenue (INR Cr)",
+        },
+        yaxis={
+            "showgrid": True,
+            "gridcolor": "rgba(255, 255, 255, 0.1)",
+            "title": "Return on Equity (ROE %)",
+        },
+        legend={
+            "orientation": "h", "yanchor": "bottom", "y": -0.35, "xanchor": "center", "x": 0.5
+        },
         height=500,
     )
 

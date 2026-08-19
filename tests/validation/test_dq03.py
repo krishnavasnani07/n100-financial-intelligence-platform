@@ -1,6 +1,7 @@
 import pandas as pd
-from src.validation.report import ValidationReport
+
 from src.validation.dq_rules import validate_dq03_foreign_keys
+from src.validation.report import ValidationReport
 
 
 def test_dq03_valid_fk():

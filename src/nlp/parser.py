@@ -5,12 +5,11 @@ performs cross-validation against ratio engine outputs, and generates validation
 """
 
 import logging
-import os
 import re
 import sqlite3
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -53,7 +52,7 @@ METRIC_MAPPING = {
 }
 
 
-def load_analysis_data(filepath: Optional[Path] = None) -> pd.DataFrame:
+def load_analysis_data(filepath: Path | None = None) -> pd.DataFrame:
     """Loads and validates raw analysis sheet from analysis.xlsx."""
     file_path = Path(filepath) if filepath else settings.RAW_DATA_DIR / "analysis.xlsx"
     if not file_path.exists():
@@ -80,7 +79,7 @@ def load_analysis_data(filepath: Optional[Path] = None) -> pd.DataFrame:
     return df
 
 
-def load_companies(filepath: Optional[Path] = None) -> pd.DataFrame:
+def load_companies(filepath: Path | None = None) -> pd.DataFrame:
     """Loads companies sheet to validate tickers."""
     file_path = Path(filepath) if filepath else settings.RAW_DATA_DIR / "companies.xlsx"
     if not file_path.exists():
@@ -102,7 +101,7 @@ def load_companies(filepath: Optional[Path] = None) -> pd.DataFrame:
     return df
 
 
-def load_ratio_engine_output(db_path: Optional[Path] = None) -> sqlite3.Connection:
+def load_ratio_engine_output(db_path: Path | None = None) -> sqlite3.Connection:
     """Establishes database connection to retrieve computed ratio outputs."""
     db_file = Path(db_path) if db_path else settings.DB_PATH
     if not db_file.exists():
@@ -113,8 +112,8 @@ def load_ratio_engine_output(db_path: Optional[Path] = None) -> sqlite3.Connecti
 
 
 def load_growth_engine_output(
-    filepath: Optional[Path] = None,
-) -> Optional[pd.DataFrame]:
+    filepath: Path | None = None,
+) -> pd.DataFrame | None:
     """Loads precomputed growth engine summaries from output/growth_summary.csv."""
     file_path = (
         Path(filepath)
@@ -130,7 +129,7 @@ def load_growth_engine_output(
     return df
 
 
-def parse_growth_metric(text: Any, metric_type: str) -> Optional[List[Dict[str, Any]]]:
+def parse_growth_metric(text: Any, metric_type: str) -> list[dict[str, Any]] | None:
     """
     Parses a growth metric text string using the regex.
     Extracts period (years) and CAGR value (percentage).
@@ -164,8 +163,8 @@ def get_computed_value(
     metric_type: str,
     period_years: int,
     db_conn: sqlite3.Connection,
-    growth_df: Optional[pd.DataFrame],
-) -> Optional[float]:
+    growth_df: pd.DataFrame | None,
+) -> float | None:
     """Retrieves computed CAGR/ROE values from Ratio Engine results for comparison."""
     if metric_type == "Sales CAGR":
         col = f"Revenue_{period_years}Y"

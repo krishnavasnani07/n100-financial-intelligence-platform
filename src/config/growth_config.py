@@ -4,13 +4,12 @@ Defines supported CAGR time windows, metric keys, edge-case flag constants,
 growth classification thresholds, and output formatting precision.
 """
 
-from typing import Dict, List
 
 # Supported CAGR calculation time windows (in years)
-CAGR_TIME_WINDOWS: List[int] = [3, 5, 10]
+CAGR_TIME_WINDOWS: list[int] = [3, 5, 10]
 
 # Supported growth metrics mapping (Database column -> Display Name)
-CAGR_METRICS: Dict[str, str] = {"sales": "Revenue", "net_profit": "PAT", "eps": "EPS"}
+CAGR_METRICS: dict[str, str] = {"sales": "Revenue", "net_profit": "PAT", "eps": "EPS"}
 
 # CAGR Edge Case Flag Constants
 FLAG_VALID: str = "VALID"
@@ -22,7 +21,7 @@ FLAG_INSUFFICIENT: str = "INSUFFICIENT"
 FLAG_INVALID_INPUT: str = "INVALID_INPUT"
 
 # Growth Classification Labels & Thresholds (CAGR %)
-GROWTH_CLASSIFICATION_THRESHOLDS: Dict[str, float] = {
+GROWTH_CLASSIFICATION_THRESHOLDS: dict[str, float] = {
     "HIGH_GROWTH": 20.0,  # > 20%
     "STRONG_GROWTH": 10.0,  # 10% - 20%
     "MODERATE_GROWTH": 5.0,  # 5% - 10%

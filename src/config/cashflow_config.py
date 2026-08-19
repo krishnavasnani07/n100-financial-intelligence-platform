@@ -3,7 +3,6 @@ Cash Flow Analytics Engine Configuration.
 Defines thresholds for CFO Quality, CapEx Intensity, and Capital Allocation patterns.
 """
 
-from typing import Dict, Tuple
 
 # Numerical Precision
 DEFAULT_CASHFLOW_PRECISION: int = 2
@@ -27,7 +26,7 @@ LABEL_CAPEX_MODERATE: str = "Moderate"
 LABEL_CAPEX_INTENSIVE: str = "Capital Intensive"
 
 # Capital Allocation Pattern Map: (cfo_sign, cfi_sign, cff_sign) -> pattern_label
-PATTERN_MAP: Dict[Tuple[str, str, str], str] = {
+PATTERN_MAP: dict[tuple[str, str, str], str] = {
     ("+", "-", "-"): "Reinvestor",
     ("+", "+", "-"): "Liquidating Assets",
     ("-", "+", "+"): "Distress Signal",

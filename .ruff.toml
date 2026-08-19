@@ -1,0 +1,21 @@
+# N100 Financial Intelligence Platform - Ruff Config
+
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "W", "I"]
+
+ignore = [
+    "BLE001", # Blind except Exception
+    "DTZ005", # Datetime without tz
+    "B023",   # Loop variable binding in closures
+    "SIM117", # Nested with statements
+    "F841",   # Unused variable assignment
+    "S110",   # try-except-pass blocks
+    "RUF013", # PEP 484 implicit Optional
+    "RUF059", # Unused unpacked loop variables
+    "E501",   # Line too long
+    "E402",   # Module level import not at top of file
+    "W291",   # Trailing whitespace
+    "E712",   # Comparison to True/False (Pandas filters require this)
+]

@@ -1,0 +1,53 @@
+Company,Sector,PE,Sector Median,FCF Yield,Flag
+Info Edge (India) Ltd,Communication Services,32.88,48.33,-0.03,Discount
+Avenue Supermarts Ltd,Consumer Discretionary,72.53,38.005,0.01,Caution
+Bosch Ltd,Consumer Discretionary,58.43,38.005,0.06,Caution
+Eicher Motors Ltd,Consumer Discretionary,15.62,38.005,0.4,Discount
+Indian Railway Catering & Tourism Corporation Ltd,Consumer Discretionary,60.44,38.005,0.05,Caution
+Interglobe Aviation Ltd,Consumer Discretionary,76.23,38.005,0.91,Caution
+"Mahindra & Mahindra Ltd
+",Consumer Discretionary,14.22,38.005,-0.27,Discount
+Maruti Suzuki India Ltd,Consumer Discretionary,20.78,38.005,0.33,Discount
+Samvardhana Motherson International Ltd,Consumer Discretionary,9.54,38.005,0.63,Discount
+Tata Motors Ltd,Consumer Discretionary,67.07,38.005,3.0,Caution
+"Titan Company Ltd
+",Consumer Discretionary,10.13,38.005,0.08,Discount
+Trent Ltd,Consumer Discretionary,8.65,38.005,0.15,Discount
+Godrej Consumer Products Ltd,Consumer Staples,33.59,50.95,-0.1,Discount
+"Hindustan Unilever Ltd
+",Consumer Staples,34.51,50.95,1.85,Discount
+Bharat Petroleum Corporation Ltd,Energy,68.15,44.915,5.42,Caution
+GAIL (India) Ltd,Energy,25.84,44.915,0.28,Discount
+"Indian Oil Corporation
+",Energy,28.61,44.915,2.79,Discount
+JSW Energy Ltd,Energy,24.79,44.915,-1.77,Discount
+"NHPC Ltd
+",Energy,71.17,44.915,0.06,Caution
+NTPC Ltd,Energy,30.8,44.915,0.95,Discount
+Oil & Natural Gas Corpn Ltd,Energy,18.15,44.915,10.78,Discount
+"Tata Power Company Ltd
+",Energy,14.5,44.915,0.22,Discount
+Bajaj Finance Ltd,Financials,69.2,34.24,-3.23,Caution
+Bajaj Finserv Ltd,Financials,15.07,34.24,-4.18,Discount
+Bank of Baroda,Financials,16.89,34.24,-1.28,Discount
+Cholamandalam Investment & Finance Company Ltd,Financials,16.79,34.24,-3.97,Discount
+ICICI Prudential Life Insurance Company Ltd,Financials,20.83,34.24,0.01,Discount
+Indian Railway Finance Corporation Ltd,Financials,9.81,34.24,0.3,Discount
+IndusInd Bank Ltd,Financials,8.99,34.24,-0.97,Discount
+Punjab National Bank,Financials,19.29,34.24,-1.61,Discount
+SBI Life Insurance Company Ltd,Financials,69.98,34.24,-0.24,Caution
+"Shriram Finance Ltd
+",Financials,68.53,34.24,-3.61,Caution
+State Bank of India,Financials,54.93,34.24,0.76,Caution
+Dr Reddys Laboratories Ltd,Healthcare,11.73,47.06,0.02,Discount
+Abbott India Ltd,Industrials,75.58,47.155,0.05,Caution
+Bharat Electronics Ltd,Industrials,17.89,47.155,-0.09,Discount
+"Bharat Heavy Electricals Limited
+",Industrials,29.8,47.155,-0.44,Discount
+Grasim Industries Ltd,Industrials,79.35,47.155,-7.06,Caution
+Hindustan Aeronautics Ltd,Industrials,71.89,47.155,0.07,Caution
+Larsen & Toubro Ltd,Industrials,30.8,47.155,1.82,Discount
+Infosys Ltd,Information Technology,35.99,63.63,1.81,Discount
+Coal India Ltd,Materials,34.27,55.62,3.0,Discount
+Pidilite Industries Ltd,Materials,36.12,55.62,0.59,Discount
+Shree Cement Ltd,Materials,25.87,55.62,0.06,Discount

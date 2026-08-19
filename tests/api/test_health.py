@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+
 from src.api.main import app
 
 client = TestClient(app)
@@ -36,11 +37,13 @@ def test_health_database_row_counts():
     response = client.get("/api/v1/health")
     data = response.json()
     assert "db_row_counts" in data
-    
+
     db_counts = data["db_row_counts"]
     for table in EXPECTED_TABLES:
-        assert table in db_counts, f"Expected table '{table}' not found in db_row_counts"
+        assert (
+            table in db_counts
+        ), f"Expected table '{table}' not found in db_row_counts"
         assert db_counts[table] >= 0, f"Table '{table}' has negative row count"
-    
+
     # Specific sanity check
     assert db_counts["companies"] == 92
