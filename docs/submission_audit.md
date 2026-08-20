@@ -66,6 +66,7 @@ The custom presentation and packaging materials have been compiled:
 *   [x] **Final Project Report**: Spans 13 structured sections covering engineering designs and calculations (`docs/final_project_report.pdf`).
 *   [x] **Landscape Slide Deck**: Spans 10 slides detailing the project architecture, metrics, and outcomes (`docs/final_presentation.pdf`).
 *   [x] **Demo Video Guidelines**: Details a storyboard script and narration flow (`docs/demo_video_guidelines.md`).
+*   [x] **Walkthrough Demo Video**: Compiled 281-frame standard MP4 file (`docs/n100_demo_walkthrough.mp4`).
 *   [x] **Polished README**: Configured to present final release information and testing results (`README.md`).
 
 ---
