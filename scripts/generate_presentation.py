@@ -3,7 +3,7 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib import colors
 from reportlab.platypus import (
     BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, 
-    Table, TableStyle, PageBreak, NextPageTemplate
+    Table, TableStyle, PageBreak, NextPageTemplate, Image
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfgen import canvas
@@ -214,6 +214,22 @@ def build_presentation():
         ]))
         return t_card
 
+    def make_screenshot_card(img_path, width=370, height=220):
+        # Create framed screenshot card resembling a browser tab mockup
+        img = Image(img_path, width=width - 10, height=height - 10)
+        t_img = Table([[img]], colWidths=[width])
+        t_img.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,-1), colors.white),
+            ('BOX', (0,0), (-1,-1), 1, border_light),
+            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+            ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            ('TOPPADDING', (0,0), (-1,-1), 5),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 5),
+            ('LEFTPADDING', (0,0), (-1,-1), 5),
+            ('RIGHTPADDING', (0,0), (-1,-1), 5),
+        ]))
+        return t_img
+
     # ================= SLIDE 1: COVER PAGE =================
     story.append(Spacer(1, 100))
     story.append(Paragraph("N100 FINANCIAL INTELLIGENCE PLATFORM", style_cover_title))
@@ -288,58 +304,41 @@ def build_presentation():
     story.append(PageBreak())
 
     # ================= SLIDE 4: TECHNICAL SYSTEM ARCHITECTURE =================
-    story.append(Paragraph("Technical System Architecture & Data Flow", style_slide_title))
+    story.append(Paragraph("Technical System Architecture & Live UI", style_slide_title))
     
-    flow_data = [
-        [Paragraph("Ingestion Layer", style_table_header), Paragraph("Validation Layer", style_table_header), Paragraph("Storage Layer", style_table_header), Paragraph("Access/UI Layer", style_table_header)],
-        [
-            Paragraph("Raw Excel/CSV Filings<br/>⬇️<br/>OpenPyXL Loader<br/>⬇️<br/>String Normalisation", style_table_cell),
-            Paragraph("16 Data Quality Rules<br/>⬇️<br/>Critical Blockers Filter<br/>⬇️<br/>`validation_failures.csv`", style_table_cell),
-            Paragraph("SQLite Database<br/>(WAL Mode, FK Check)<br/>⬇️<br/>Composite Ratio Table<br/>⬇️<br/>Clustering Labels Store", style_table_cell),
-            Paragraph("FastAPI REST Server<br/>(16 Endpoints)<br/>⬇️<br/>Streamlit UI Dashboard<br/>(&lt;50ms render)", style_table_cell)
-        ]
+    p_arch = [
+        "<b>Pipeline Decoupled Ingestion:</b>",
+        "• <b>Data Flow</b>: Raw Excel/CSV filings are loaded via an automated OpenPyXL coordinate locator engine, evaluated against 16 rules, and stored inside SQLite.",
+        "• <b>User Presentation</b>: Streamlit dashboard loads cached calculations, exposing visual KPI tiles, DuPont margin trends, and clustering results instantly.",
+        "The right-hand screenshot displays the active Streamlit Executive Home Dashboard, presenting aggregated Nifty 100 benchmark statistics and cross-sector performance indicators."
     ]
     
-    t_flow = Table(flow_data, colWidths=[180, 185, 185, 180])
-    t_flow.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), navy),
-        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-        ('GRID', (0,0), (-1,-1), 0.75, border_light),
-        ('BACKGROUND', (0,1), (-1,-1), bg_card),
-        ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 10),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 10),
-    ]))
+    col1 = make_card("Architecture & Ingestion Flow", p_arch, width=370, border_color=gold)
+    col2 = make_screenshot_card("docs/images/dashboard_home.png", width=370, height=220)
     
-    story.append(t_flow)
-    story.append(Spacer(1, 15))
-    story.append(Paragraph("<b>Decoupled Pipeline Design:</b> Changes in parsing formats or schema validation criteria do not affect SQLite transactional execution, and Streamlit caches ensure instant rendering speeds.", style_body))
+    t_layout = Table([[col1, col2]], colWidths=[385, 385])
+    t_layout.setStyle(TableStyle([
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
+        ('LEFTPADDING', (0,0), (-1,-1), 0),
+        ('RIGHTPADDING', (0,0), (-1,-1), 0),
+    ]))
+    story.append(t_layout)
     story.append(PageBreak())
 
     # ================= SLIDE 5: WINSORIZED FINANCIAL RATIO ENGINE =================
-    story.append(Paragraph("Winsorized Ratio Calculation & Scoring Engine", style_slide_title))
+    story.append(Paragraph("Winsorized Ratio Calculations & DuPont Analytics", style_slide_title))
     
-    p1 = [
+    p_math = [
         "<b>DuPont Operational Return on Equity (ROE):</b>",
         "<i>ROE = Net Profit Margin × Asset Turnover × Equity Multiplier</i><br/>"
-        "This formula breaks down capital return into operating profitability, asset efficiency, and financial leverage to track performance drivers.",
-        "<b>Growth (CAGR) calculations:</b>",
-        "<i>CAGR = ((End Value / Start Value) ^ (1 / N)) - 1</i><br/>"
-        "Turnaround periods are flagged, and CAGR calculations are suppressed when mathematically invalid, preventing erroneous positive growth spikes."
-    ]
-    
-    p2 = [
+        "Tracks capital performance by decomposing return into operating margins, asset turns, and leverage ratios.",
         "<b>Winsorized Peer Normalisation:</b>",
-        "To compare ratios across different sectors, the engine winsorizes raw ratios, capping values at the 5th and 95th percentiles of their sector group to neutralize outliers.",
-        "<b>Composite Quality Score (Weights):</b>",
-        "• Return on Capital Employed (ROCE) — <b>30%</b>",
-        "• Free Cash Flow (FCF) Margin — <b>30%</b>",
-        "• Debt-to-Equity (D/E) Ratio — <b>20%</b>",
-        "• 5-Year Revenue Growth CAGR — <b>20%</b>"
+        "The engine winsorizes raw ratios at the 5th/95th percentiles of their sector group to neutralize extreme outliers before computing composite quality scores.",
+        "The right-hand screenshot presents the <b>Company Profile Screen (TCS)</b>, displaying calculated Dupont margins and the peer radar chart."
     ]
     
-    col1 = make_card("DuPont ROE & CAGR Growth Math", p1, width=370)
-    col2 = make_card("Winsorized Scoring & Ranks", p2, width=370, border_color=gold)
+    col1 = make_card("DuPont Calculation & Winsorization", p_math, width=370)
+    col2 = make_screenshot_card("docs/images/dashboard_profile.png", width=370, height=220)
     
     t_layout = Table([[col1, col2]], colWidths=[385, 385])
     t_layout.setStyle(TableStyle([
@@ -354,16 +353,14 @@ def build_presentation():
     story.append(Paragraph("Analyst Workflow: Strategy Preset Screeners", style_slide_title))
     
     screener_data = [
-        [Paragraph("Screener Preset Name", style_table_header), Paragraph("Key Filter Threshold Constraints", style_table_header), Paragraph("Matching Stocks Count", style_table_header)],
-        [Paragraph("Quality Compounders", style_table_cell_bold), Paragraph("ROE &gt;= 15%, D/E &lt;= 0.5, positive revenue CAGR over 5 years", style_table_cell), Paragraph("22 Companies", style_table_cell_bold)],
-        [Paragraph("Dividend Champions", style_table_cell_bold), Paragraph("Dividend Yield &gt;= 3%, stable FCF, payout ratio &lt; 80%", style_table_cell), Paragraph("14 Companies", style_table_cell_bold)],
-        [Paragraph("Value Picks", style_table_cell_bold), Paragraph("P/E &lt; Sector Median, positive earnings growth, low leverage", style_table_cell), Paragraph("18 Companies", style_table_cell_bold)],
-        [Paragraph("Cash Flow Leaders", style_table_cell_bold), Paragraph("FCF Yield &gt;= 5%, positive CFO CAGR over 5 years", style_table_cell), Paragraph("19 Companies", style_table_cell_bold)],
-        [Paragraph("High growth Tech", style_table_cell_bold), Paragraph("Revenue CAGR &gt;= 20%, positive ROCE, sector = IT/Services", style_table_cell), Paragraph("11 Companies", style_table_cell_bold)]
+        [Paragraph("Screener Preset Name", style_table_header), Paragraph("Key Filter Threshold Constraints", style_table_header)],
+        [Paragraph("Quality Compounders", style_table_cell_bold), Paragraph("ROE &gt;= 15%, D/E &lt;= 0.5, CAGR &gt;= 0%", style_table_cell)],
+        [Paragraph("Dividend Champions", style_table_cell_bold), Paragraph("Div Yield &gt;= 3%, stable FCF, payout &lt; 80%", style_table_cell)],
+        [Paragraph("Value Picks", style_table_cell_bold), Paragraph("P/E &lt; Sector Med, positive growth, low D/E", style_table_cell)],
+        [Paragraph("Cash Flow Leaders", style_table_cell_bold), Paragraph("FCF Yield &gt;= 5%, positive CFO growth", style_table_cell)]
     ]
-    
-    t_screener = Table(screener_data, colWidths=[150, 430, 150])
-    t_screener.setStyle(TableStyle([
+    t_table = Table(screener_data, colWidths=[140, 230])
+    t_table.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), navy),
         ('GRID', (0,0), (-1,-1), 0.75, border_light),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, grey_zebra]),
@@ -372,9 +369,22 @@ def build_presentation():
         ('BOTTOMPADDING', (0,0), (-1,-1), 6),
     ]))
     
-    story.append(t_screener)
-    story.append(Spacer(1, 15))
-    story.append(Paragraph("<b>Export Integration:</b> The screener displays real-time matching tables and supports a one-click CSV export widget generating well-formed spreadsheets for external research.", style_body))
+    col1 = Table([[t_table]], colWidths=[370])
+    col1.setStyle(TableStyle([
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
+        ('LEFTPADDING', (0,0), (-1,-1), 0),
+        ('RIGHTPADDING', (0,0), (-1,-1), 0),
+    ]))
+    
+    col2 = make_screenshot_card("docs/images/dashboard_screener.png", width=370, height=220)
+    
+    t_layout = Table([[col1, col2]], colWidths=[385, 385])
+    t_layout.setStyle(TableStyle([
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
+        ('LEFTPADDING', (0,0), (-1,-1), 0),
+        ('RIGHTPADDING', (0,0), (-1,-1), 0),
+    ]))
+    story.append(t_layout)
     story.append(PageBreak())
 
     # ================= SLIDE 7: UNSUPERVISED ML CLUSTERING =================
@@ -417,17 +427,8 @@ def build_presentation():
         "• <b>Endpoint performance:</b> In-memory database queries resolve in &lt;18ms (cold) and &lt;3.5ms (warm)."
     ]
     
-    p2 = [
-        "<b>Key REST API Routes:</b>",
-        "• `/api/v1/health` — Status and database row counts.",
-        "• `/api/v1/companies` — Lists all ingested tickers.",
-        "• `/api/v1/companies/{ticker}/ratios` — 10-year KPI tables.",
-        "• `/api/v1/screener` — Multi-factor stock screening route.",
-        "• `/api/v1/sectors/{sector}/companies` — Sector benchmarks."
-    ]
-    
     col1 = make_card("REST API Architecture", p1, width=370, border_color=gold)
-    col2 = make_card("Exposed Endpoints", p2, width=370)
+    col2 = make_screenshot_card("docs/images/api_swagger.png", width=370, height=220)
     
     t_layout = Table([[col1, col2]], colWidths=[385, 385])
     t_layout.setStyle(TableStyle([
