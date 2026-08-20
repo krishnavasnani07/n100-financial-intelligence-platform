@@ -1,0 +1,478 @@
+company_id,type,rule_id,text,confidence_pct
+ABB,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+ABB,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,85.38
+ABB,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+ABB,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,78.6
+ABB,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,78.36
+ABB,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,78.33
+ABB,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,75.37
+ABB,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,73.28
+ABB,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+ADANIENSOL,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,73.7
+ADANIENSOL,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,71.79
+ADANIENSOL,CON,CON-11,Elevated debt relative to asset base limits financial flexibility.,76.66
+ADANIENSOL,CON,CON-01,Debt-to-equity ratio is elevated for a non-financial company and warrants monitoring.,74.3
+ADANIENT,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+ADANIENT,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,91.19
+ADANIENT,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,75.23
+ADANIENT,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,74.98
+ADANIENT,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,100.0
+ADANIGREEN,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,95.97
+ADANIGREEN,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,75.46
+ADANIGREEN,CON,CON-01,Debt-to-equity ratio is elevated for a non-financial company and warrants monitoring.,100.0
+ADANIGREEN,CON,CON-11,Elevated debt relative to asset base limits financial flexibility.,81.82
+ADANIGREEN,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,65.4
+ADANIPORTS,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,81.11
+ADANIPORTS,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,75.95
+ADANIPORTS,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,75.95
+ADANIPORTS,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,72.02
+ADANIPORTS,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+ADANIPOWER,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,100.0
+ADANIPOWER,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+ADANIPOWER,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,98.87
+ADANIPOWER,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+ADANIPOWER,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,78.4
+ADANIPOWER,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,78.3
+ADANIPOWER,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,71.42
+ADANIPOWER,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+AMBUJACEM,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+AMBUJACEM,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,75.5
+AMBUJACEM,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,92.26
+AMBUJACEM,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,69.4
+APOLLOHOSP,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,96.41
+APOLLOHOSP,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,88.69
+APOLLOHOSP,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,76.1
+APOLLOHOSP,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,75.57
+APOLLOHOSP,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,73.63
+APOLLOHOSP,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+ASIANPAINT,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+ASIANPAINT,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,84.79
+ASIANPAINT,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,79.68
+ASIANPAINT,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,77.46
+ASIANPAINT,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,77.17
+ASIANPAINT,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,76.6
+ASIANPAINT,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,74.65
+ASIANPAINT,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,72.1
+ASIANPAINT,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+ATGL,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,81.96
+ATGL,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,81.1
+ATGL,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,80.5
+ATGL,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,80.06
+ATGL,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,77.92
+ATGL,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+AXISBANK,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+AXISBANK,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+AXISBANK,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,95.12
+AXISBANK,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,71.6
+AXISBANK,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,79.78
+BAJAJ-AUTO,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+BAJAJ-AUTO,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,77.95
+BAJAJ-AUTO,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,77.49
+BAJAJ-AUTO,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,72.06
+BAJAJ-AUTO,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,70.27
+BAJAJ-AUTO,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+BAJAJFINSV,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,80.94
+BAJAJFINSV,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,80.91
+BAJAJFINSV,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,77.76
+BAJAJFINSV,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,76.99
+BAJAJFINSV,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,72.8
+BAJAJFINSV,CON,CON-02,Negative free cash flow for 3 consecutive years indicates cash burn and liquidity risks.,80.0
+BAJAJHLDNG,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,91.59
+BAJAJHLDNG,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,85.0
+BAJAJHLDNG,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,76.85
+BAJAJHLDNG,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,75.38
+BAJAJHLDNG,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,74.96
+BAJAJHLDNG,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,72.9
+BAJAJHLDNG,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,79.24
+BAJFINANCE,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,87.9
+BAJFINANCE,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,85.7
+BAJFINANCE,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,82.16
+BAJFINANCE,CON,CON-02,Negative free cash flow for 3 consecutive years indicates cash burn and liquidity risks.,80.0
+BAJFINANCE,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,76.3
+BANKBARODA,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+BANKBARODA,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,100.0
+BANKBARODA,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,79.24
+BANKBARODA,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,73.22
+BANKBARODA,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,73.1
+BANKBARODA,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,70.24
+BANKBARODA,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,79.36
+BEL,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+BEL,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,100.0
+BEL,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+BEL,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,79.58
+BEL,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,71.41
+BEL,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+BHARTIARTL,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,100.0
+BHARTIARTL,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,99.2
+BHARTIARTL,CON,CON-01,Debt-to-equity ratio is elevated for a non-financial company and warrants monitoring.,71.1
+BHEL,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,80.2
+BHEL,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,100.0
+BHEL,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,80.72
+BOSCHLTD,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+BOSCHLTD,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,95.0
+BOSCHLTD,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+BOSCHLTD,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,83.5
+BOSCHLTD,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.15
+BOSCHLTD,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+BOSCHLTD,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,74.69
+BOSCHLTD,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+BPCL,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,86.33
+BPCL,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,83.49
+BPCL,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,81.36
+BPCL,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,77.96
+BRITANNIA,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+BRITANNIA,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,90.6
+BRITANNIA,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+CANBK,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+CANBK,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,100.0
+CANBK,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,80.84
+CANBK,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,79.05
+CANBK,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,74.13
+CANBK,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,73.53
+CANBK,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,78.68
+CHOLAFIN,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,80.45
+CHOLAFIN,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,79.1
+CHOLAFIN,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,79.02
+CHOLAFIN,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,74.15
+CHOLAFIN,CON,CON-02,Negative free cash flow for 3 consecutive years indicates cash burn and liquidity risks.,80.0
+CHOLAFIN,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,78.0
+CIPLA,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+CIPLA,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,86.68
+CIPLA,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+CIPLA,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,79.66
+CIPLA,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,78.54
+CIPLA,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,71.03
+CIPLA,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+COALINDIA,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+COALINDIA,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.9
+COALINDIA,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,81.24
+COALINDIA,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,77.43
+COALINDIA,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,72.31
+COALINDIA,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,71.79
+COALINDIA,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,71.38
+COALINDIA,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+DABUR,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,93.24
+DABUR,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,77.1
+DABUR,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,74.11
+DABUR,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+DIVISLAB,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,95.0
+DIVISLAB,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+DIVISLAB,CON,CON-09,Declining earnings per share indicates shrinking profitability for equity holders.,75.0
+DLF,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,90.9
+DLF,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,80.53
+DLF,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,77.46
+DLF,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,72.9
+DLF,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,70.88
+DLF,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,70.56
+DLF,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,100.0
+DLF,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,75.4
+DMART,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+DMART,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+DMART,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,79.96
+DMART,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,79.67
+DMART,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,77.12
+DMART,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+DRREDDY,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+DRREDDY,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,81.76
+DRREDDY,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,81.05
+DRREDDY,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,80.49
+DRREDDY,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,75.11
+DRREDDY,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,73.5
+DRREDDY,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+EICHERMOT,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+EICHERMOT,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,82.74
+EICHERMOT,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,82.05
+EICHERMOT,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,81.4
+EICHERMOT,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,71.4
+EICHERMOT,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+GAIL,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,93.62
+GAIL,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,82.81
+GODREJCP,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,75.45
+GODREJCP,CON,CON-04,Company reported a net loss in the latest period.,82.5
+GRASIM,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,87.89
+GRASIM,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,85.91
+GRASIM,CON,CON-09,Declining earnings per share indicates shrinking profitability for equity holders.,75.0
+HAL,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+HAL,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+HAL,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,84.55
+HAL,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,84.36
+HAL,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,78.94
+HAL,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,73.85
+HAL,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+HAVELLS,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+HAVELLS,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,74.32
+HAVELLS,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,73.0
+HAVELLS,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+HCLTECH,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+HCLTECH,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,75.9
+HCLTECH,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,70.03
+HCLTECH,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,67.34
+HCLTECH,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+HDFCBANK,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.65
+HDFCBANK,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,81.09
+HDFCBANK,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,79.03
+HDFCBANK,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,70.53
+HDFCBANK,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,75.22
+HDFCLIFE,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,78.02
+HDFCLIFE,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,76.1
+HDFCLIFE,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,69.46
+HDFCLIFE,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+HEROMOTOCO,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+HEROMOTOCO,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,81.51
+HEROMOTOCO,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,77.88
+HEROMOTOCO,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,70.83
+HEROMOTOCO,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,79.25
+HINDALCO,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+HINDALCO,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+HINDALCO,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,74.87
+HINDUNILVR,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+HINDUNILVR,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.6
+HINDUNILVR,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,72.24
+HINDUNILVR,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+ICICIBANK,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+ICICIBANK,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,100.0
+ICICIBANK,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,77.15
+ICICIBANK,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,72.92
+ICICIBANK,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,71.82
+ICICIBANK,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,74.56
+ICICIGI,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,85.0
+ICICIGI,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,77.3
+ICICIGI,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,70.34
+ICICIGI,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+ICICIPRULI,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,72.41
+ICICIPRULI,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+INDIGO,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+INDIGO,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,100.0
+INDIGO,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,100.0
+INDIGO,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,92.61
+INDIGO,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.35
+INDIGO,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,75.6
+INDIGO,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,71.37
+INDIGO,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+INDUSINDBK,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,78.85
+INDUSINDBK,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,74.16
+INDUSINDBK,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,71.12
+INDUSINDBK,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,70.65
+INDUSINDBK,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,77.88
+INFY,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+INFY,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,85.77
+INFY,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,80.5
+INFY,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,76.06
+INFY,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,72.09
+INFY,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+IOC,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,80.28
+IOC,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,76.39
+IOC,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,76.38
+IOC,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,81.65
+IRCTC,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,98.53
+IRCTC,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+IRCTC,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,87.71
+IRCTC,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,86.84
+IRCTC,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+IRCTC,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,73.85
+IRCTC,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+IRFC,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,80.31
+IRFC,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,76.39
+IRFC,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,75.29
+IRFC,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,74.1
+IRFC,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,73.5
+ITC,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,95.0
+ITC,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+ITC,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.3
+ITC,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,78.89
+ITC,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,76.79
+ITC,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,70.11
+JINDALSTEL,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,78.0
+JINDALSTEL,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,83.0
+JINDALSTEL,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,78.06
+JIOFIN,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+JIOFIN,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,85.0
+JIOFIN,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,75.45
+JIOFIN,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,82.76
+JSWENERGY,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,76.65
+JSWENERGY,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,76.39
+JSWENERGY,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,72.69
+JSWENERGY,CON,CON-11,Elevated debt relative to asset base limits financial flexibility.,72.33
+JSWENERGY,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,66.6
+JSWSTEEL,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+JSWSTEEL,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,74.7
+JSWSTEEL,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,70.78
+JSWSTEEL,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+KOTAKBANK,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,76.72
+KOTAKBANK,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,75.42
+KOTAKBANK,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,68.0
+KOTAKBANK,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,70.54
+LICI,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+LICI,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+LICI,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,85.0
+LICI,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,78.85
+LICI,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,72.92
+LICI,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,70.0
+LICI,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+LODHA,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+LODHA,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,80.25
+LODHA,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+LODHA,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,75.63
+LODHA,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,100.0
+LT,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+LT,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,74.5
+LT,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,71.73
+LT,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+LTIM,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+LTIM,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,89.93
+LTIM,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,82.22
+LTIM,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,82.15
+LTIM,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,76.42
+LTIM,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,73.62
+LTIM,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+M&M,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,71.85
+M&M,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,71.47
+M&M,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,70.4
+M&M,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+MARUTI,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,95.0
+MARUTI,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+MARUTI,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,91.71
+MARUTI,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,82.48
+MARUTI,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,72.77
+MARUTI,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+MOTHERSON,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,97.79
+MOTHERSON,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,76.62
+MOTHERSON,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,75.22
+MOTHERSON,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,74.26
+MOTHERSON,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,70.9
+MOTHERSON,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+NAUKRI,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+NAUKRI,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.45
+NAUKRI,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,72.76
+NAUKRI,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,80.34
+NESTLEIND,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+NESTLEIND,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+NESTLEIND,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,79.25
+NESTLEIND,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,74.89
+NESTLEIND,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,71.8
+NESTLEIND,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,70.55
+NESTLEIND,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+NHPC,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,81.24
+NHPC,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,72.64
+NHPC,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,83.79
+NHPC,CON,CON-12,Stagnant or low revenue growth indicates a lack of expansion momentum.,83.0
+NHPC,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,71.5
+NTPC,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,81.65
+NTPC,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+ONGC,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,81.36
+ONGC,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,73.04
+ONGC,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,79.7
+PFC,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,84.34
+PFC,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,73.57
+PFC,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,71.15
+PFC,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,78.02
+PIDILITIND,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+PIDILITIND,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,85.29
+PIDILITIND,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+PIDILITIND,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+PNB,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+PNB,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+PNB,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,71.17
+PNB,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+POWERGRID,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,76.76
+POWERGRID,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,75.45
+POWERGRID,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,70.23
+POWERGRID,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+RECLTD,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,75.95
+RECLTD,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,75.84
+RECLTD,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,73.16
+RECLTD,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,70.9
+RECLTD,CON,CON-02,Negative free cash flow for 3 consecutive years indicates cash burn and liquidity risks.,80.0
+RECLTD,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,66.4
+RELIANCE,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,81.05
+RELIANCE,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,77.73
+RELIANCE,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,72.04
+RELIANCE,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+SBILIFE,PRO,PRO-03,Debt-free balance sheet provides financial flexibility and eliminates interest burden.,85.0
+SBILIFE,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,82.0
+SBILIFE,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,81.7
+SBIN,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+SBIN,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,100.0
+SBIN,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+SHREECEM,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,89.83
+SHREECEM,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,76.0
+SHREECEM,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+SHRIRAMFIN,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,80.61
+SHRIRAMFIN,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,74.63
+SHRIRAMFIN,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,74.38
+SHRIRAMFIN,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,71.79
+SHRIRAMFIN,CON,CON-02,Negative free cash flow for 3 consecutive years indicates cash burn and liquidity risks.,80.0
+SHRIRAMFIN,CON,CON-10,Low return on capital employed indicates suboptimal efficiency in deploying capital.,76.4
+SIEMENS,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+SIEMENS,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,82.4
+SIEMENS,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,78.45
+SIEMENS,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,76.06
+SIEMENS,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,75.8
+SIEMENS,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,73.82
+SIEMENS,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+SUNPHARMA,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+SUNPHARMA,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,88.08
+SUNPHARMA,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,81.92
+SUNPHARMA,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,79.4
+SUNPHARMA,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,71.19
+SUNPHARMA,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TATACONSUM,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+TATACONSUM,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,78.25
+TATACONSUM,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,73.34
+TATACONSUM,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,71.25
+TATACONSUM,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TATAMOTORS,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,100.0
+TATAMOTORS,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+TATAMOTORS,PRO,PRO-12,Growing asset base combined with debt reduction strengthens the balance sheet.,80.0
+TATAMOTORS,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,78.25
+TATAMOTORS,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,76.53
+TATAMOTORS,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TATAPOWER,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,70.66
+TATAPOWER,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,70.42
+TATAPOWER,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TATASTEEL,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,74.81
+TATASTEEL,CON,CON-04,Company reported a net loss in the latest period.,82.5
+TATASTEEL,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,78.74
+TATASTEEL,CON,CON-09,Declining earnings per share indicates shrinking profitability for equity holders.,75.0
+TCS,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,100.0
+TCS,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,95.0
+TCS,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,80.62
+TCS,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,77.77
+TCS,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,71.06
+TCS,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TECHM,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,83.86
+TECHM,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,77.82
+TECHM,CON,CON-07,Dividend payout exceeding 100% of earnings is unsustainable in the long term.,75.0
+TECHM,CON,CON-09,Declining earnings per share indicates shrinking profitability for equity holders.,75.0
+TECHM,CON,CON-05,Declining revenues signal shrinking business activity or market share loss.,73.64
+TITAN,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,92.18
+TITAN,PRO,PRO-01,Consistently high return on equity above 20% demonstrates exceptional capital efficiency.,83.99
+TITAN,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,79.41
+TITAN,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,77.67
+TITAN,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,76.59
+TITAN,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,75.64
+TITAN,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,75.5
+TITAN,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TORNTPHARM,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,89.49
+TORNTPHARM,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,89.24
+TORNTPHARM,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,87.2
+TORNTPHARM,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,80.75
+TORNTPHARM,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,79.93
+TORNTPHARM,PRO,PRO-02,Strong free cash flow generation over 5 years signals healthy business fundamentals.,75.94
+TORNTPHARM,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TRENT,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,100.0
+TRENT,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,100.0
+TRENT,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,100.0
+TRENT,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,100.0
+TRENT,PRO,PRO-04,Robust revenue growth demonstrates strong market demand and business expansion.,97.7
+TRENT,PRO,PRO-07,High interest coverage ratio indicates comfortable debt servicing capability.,78.04
+TRENT,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,77.3
+TRENT,CON,CON-FALLBACK,No major financial concerns identified.,60.0
+TVSMOTOR,PRO,PRO-10,A steadily improving return on equity indicates growing profitability on shareholder capital.,84.22
+TVSMOTOR,PRO,PRO-11,Positive operating leverage leads to disproportionate profit growth as sales expand.,76.74
+TVSMOTOR,PRO,PRO-06,Strong profit growth indicates robust bottom-line performance.,75.84
+TVSMOTOR,PRO,PRO-08,Attractive dividend yield provides stable cash returns to shareholders.,75.35
+TVSMOTOR,PRO,PRO-09,Consistent earnings-per-share growth demonstrates value creation for equity holders.,75.17
+TVSMOTOR,CON,CON-01,Debt-to-equity ratio is elevated for a non-financial company and warrants monitoring.,83.3
+TVSMOTOR,CON,CON-02,Negative free cash flow for 3 consecutive years indicates cash burn and liquidity risks.,80.0
+TVSMOTOR,CON,CON-11,Elevated debt relative to asset base limits financial flexibility.,75.94
