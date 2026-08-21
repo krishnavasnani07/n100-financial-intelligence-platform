@@ -12,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.middleware import RequestLoggingMiddleware
 from src.api.routers import (
     companies,
+    dna,
     documents,
     health,
     peers,
@@ -53,6 +54,9 @@ app.include_router(peers.router, prefix="/api/v1")
 app.include_router(valuation.router, prefix="/api/v1")
 app.include_router(portfolio.router, prefix="/api/v1")
 app.include_router(documents.router, prefix="/api/v1")
+
+# Include V2 routers
+app.include_router(dna.router, prefix="/api/v2")
 
 
 # ==========================================
